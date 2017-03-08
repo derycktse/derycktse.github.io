@@ -151,27 +151,46 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-My-New-Post" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-webpack入门" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/08/My-New-Post/">My New Post</a>
+      <a class="article-title" href="/2016/03/10/webpack入门/">webpack入门</a>
     </h1>
   
 
         
-        <a href="/2017/03/08/My-New-Post/" class="archive-article-date">
-  	<time datetime="2017-03-08T09:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-08</time>
+        <a href="/2016/03/10/webpack入门/" class="archive-article-date">
+  	<time datetime="2016-03-10T14:34:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>##什么是webpack<br>webpack是一个module bundler，可以将把有依赖关系的各种文件打包成一系列的静态资源</p>
+<p>##安装<br>首先我们安装最新版的webpack, 我安装的版本是2.2.1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g webpack</div></pre></td></tr></table></figure></p>
+<p>下面我们将探讨webpack 2 的使用</p>
+<p>我们可以直接在终端中使用webpack，命令如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">webpack &#123;源文件／入口文件&#125; &#123;目标文件&#125;</div><div class="line">webpack --watch //监听模式</div><div class="line">webpack -p //混淆脚本</div></pre></td></tr></table></figure></p>
+<p>考虑到随着我们项目复杂度的增高，有可能我们的配置选项也会很多，所以，我们完全可以将配置放到文件中, webpack在执行的时候默认会加载webpack.config.js文件作为配置, 如果我们需要指定配置文件的话，方法如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --config &#123;配置文件&#125;</div></pre></td></tr></table></figure></p>
+<p>下面我们来创建一个简单的项目<br>我们的项目结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── dist</div><div class="line">├── src</div><div class="line">│   └── entry.js</div><div class="line">├── index.html</div><div class="line">└── webpack.config.js</div></pre></td></tr></table></figure></p>
+<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;title&gt;&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">	&lt;script src=&quot;./dist/bundle.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>src/entry.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.write(&apos;hello world&apos;)</div></pre></td></tr></table></figure></p>
+<p>webpack.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">	entry: &apos;./src/entry.js&apos;,</div><div class="line">	output: &#123;</div><div class="line">		path: path.resolve(__dirname, &apos;dist&apos;),</div><div class="line">		filename: &apos;bundle.js&apos;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在终端下运行命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --watch</div></pre></td></tr></table></figure></p>
+<p>使用<a href="https://www.npmjs.com/package/http-server" target="_blank" rel="external">http-server</a>起一个本地服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http-server -p 8080</div></pre></td></tr></table></figure></p>
+<p>可以看到，entry.js的内容被打包到了bundle.js 中<br>这是webpack最简单的应用，下面我们来看看如何使用loader</p>
+<p>##loader<br>webpack2中已经集成了<a href="https://webpack.js.org/guides/migrating/#json-loader-is-not-required-anymore" target="_blank" rel="external">json-loader</a>, 所以我们无需安装其他的依赖<br>在src中增加hello.json文件<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"greet"</span> : <span class="string">"hello from json"</span>&#125;</div></pre></td></tr></table></figure></p>
+<p>修改<code>entry.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json <span class="keyword">from</span> <span class="string">'./hello.json'</span></div><div class="line"><span class="built_in">document</span>.write(json.greet)</div></pre></td></tr></table></figure></p>
+<p>刷新<a href="http://127.0.0.1:8080/" target="_blank" rel="external">http://127.0.0.1:8080/</a><br>可以看到hello.json的结果已经输出到浏览器中</p>
+<p>####使用其他loader<br>如果其他格式的文件，比如css文件我们可以使用相应的loader来解析,安装依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev style-loader css-loader</div></pre></td></tr></table></figure></p>
+<p>修改<code>webpack.config.js</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">	entry: &apos;./src/entry.js&apos;,</div><div class="line">	output: &#123;</div><div class="line">		path: path.resolve(__dirname, &apos;dist&apos;),</div><div class="line">		filename: &apos;bundle.js&apos;</div><div class="line">	&#125;,</div><div class="line">	module: &#123;</div><div class="line">		rules: [&#123;</div><div class="line">			test: /\.css$/,</div><div class="line">			use: [&quot;style-loader&quot;, &quot;css-loader&quot;]</div><div class="line">		&#125;]</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>entry.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import &apos;./main.css&apos;</div><div class="line">import json from &apos;./hello.json&apos;</div><div class="line">document.write(json.greet)</div></pre></td></tr></table></figure></p>
+<p>可以看到，main.css也经过loader的解析而打包进bundle.js里面了</p>
+
       
 
       
@@ -183,7 +202,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/08/My-New-Post/">展开全文 >></a>
+          <a class="article-more-a" href="/2016/03/10/webpack入门/">展开全文 >></a>
         </p>
       
 
@@ -201,35 +220,52 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-浅谈javascript的原型及原型链" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/08/hello-world/">Hello World</a>
+      <a class="article-title" href="/2016/03/08/浅谈javascript的原型及原型链/">浅谈javascript的原型及原型链</a>
     </h1>
   
 
         
-        <a href="/2017/03/08/hello-world/" class="archive-article-date">
-  	<time datetime="2017-03-08T09:19:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-08</time>
+        <a href="/2016/03/08/浅谈javascript的原型及原型链/" class="archive-article-date">
+  	<time datetime="2016-03-08T14:26:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-08</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。</p>
+<p>在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对象字面量</span></div><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//调用构造函数</span></div><div class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="built_in">Object</span>()</div></pre></td></tr></table></figure></p>
+<p>其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数来新建出一个对象。构造函数本身也是一个普通的JS函数</p>
+<p>下面我们来看一个例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建构造函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></div><div class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Person.prototype) <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></div><div class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//创建实例</span></div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'Messi'</span>)</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'Suarez'</span>)</div><div class="line"></div><div class="line">person1.sayName() <span class="comment">// 'Messi'</span></div><div class="line">person2.sayName() <span class="comment">// 'Suarez'</span></div><div class="line"></div><div class="line">person1.sayName === person2.sayName <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>我们借助上面的例子来理解构造函数-原型-实例，三者之间的关系，主要有几个基本概念</p>
+<ul>
+<li>构造函数默认会有一个<code>protoype</code>属性指向它的原型</li>
+<li><p>构造函数的原型会有一个<code>consctructor</code>的属性指向构造函数本身, 即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Person.prototype.constructor === Person</div></pre></td></tr></table></figure>
+</li>
+<li><p>每一个<code>new</code>出来的实例都有一个隐式的<code>__proto__</code>属性，指向它们的构造函数的原型，即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">person1.__proto__ === Person.prototype</div><div class="line">person1.__proto__.constructor === Person</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>了解了这些基本概念之后，我们再来看看javascript的一些原生构造函数的关系网，看下列的图</p>
+<p><img src="https://i.stack.imgur.com/KFzI3.png" alt="javascript objects treasure map"><br>引自<a href="http://stackoverflow.com/questions/650764/how-does-proto-differ-from-constructor-prototype" target="_blank" rel="external">stackoverflow</a></p>
+<p>按照我们上面的理解, Oject本身是一个构造函数，它也是一个对象，那么<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.__proto__ === <span class="built_in">Function</span>.prototype</div></pre></td></tr></table></figure></p>
+<p>为了方便我们记住上图，还有几个需要我们知道的特殊概念：</p>
+<ul>
+<li><p><code>Function</code>的原型属性与<code>Function</code>的原型指向同一个对象. 即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.__proto__ == <span class="built_in">Function</span>.prototype</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Object.prototype.__proto__ === null</code></p>
+</li>
+<li><code>typeof Function.prototype === &#39;function&#39;</code></li>
+</ul>
 
       
 
@@ -238,11 +274,26 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">prototype</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/03/08/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2016/03/08/浅谈javascript的原型及原型链/">展开全文 >></a>
         </p>
       
 
@@ -347,6 +398,14 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">prototype</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

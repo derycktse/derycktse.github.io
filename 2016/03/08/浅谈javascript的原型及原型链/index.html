@@ -6,14 +6,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Deryck</title>
+  <title>浅谈javascript的原型及原型链 | Deryck</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Deryck">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
+其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈javascript的原型及原型链">
+<meta property="og:url" content="http://yoursite.com/2016/03/08/浅谈javascript的原型及原型链/index.html">
 <meta property="og:site_name" content="Deryck">
+<meta property="og:description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
+其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+<meta property="og:image" content="https://i.stack.imgur.com/KFzI3.png">
+<meta property="og:updated_time" content="2017-03-08T14:44:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Deryck">
+<meta name="twitter:title" content="浅谈javascript的原型及原型链">
+<meta name="twitter:description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
+其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+<meta name="twitter:image" content="https://i.stack.imgur.com/KFzI3.png">
   
     <link rel="alternative" href="/atom.xml" title="Deryck" type="application/atom+xml">
   
@@ -149,63 +161,81 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-浅谈javascript的原型及原型链" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/03/10/webpack入门/" class="archive-article-date">
-  	<time datetime="2016-03-10T14:34:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-10</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/10/webpack入门/">webpack入门</a>
+    <h1 class="article-title" itemprop="name">
+      浅谈javascript的原型及原型链
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/03/08/浅谈javascript的原型及原型链/" class="archive-article-date">
+        
+        <a href="/2016/03/08/浅谈javascript的原型及原型链/" class="archive-article-date">
   	<time datetime="2016-03-08T14:26:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/08/浅谈javascript的原型及原型链/">浅谈javascript的原型及原型链</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。</p>
+<p>在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对象字面量</span></div><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//调用构造函数</span></div><div class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="built_in">Object</span>()</div></pre></td></tr></table></figure></p>
+<p>其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数来新建出一个对象。构造函数本身也是一个普通的JS函数</p>
+<p>下面我们来看一个例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建构造函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></div><div class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Person.prototype) <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></div><div class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//创建实例</span></div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'Messi'</span>)</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'Suarez'</span>)</div><div class="line"></div><div class="line">person1.sayName() <span class="comment">// 'Messi'</span></div><div class="line">person2.sayName() <span class="comment">// 'Suarez'</span></div><div class="line"></div><div class="line">person1.sayName === person2.sayName <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>我们借助上面的例子来理解构造函数-原型-实例，三者之间的关系，主要有几个基本概念</p>
+<ul>
+<li>构造函数默认会有一个<code>protoype</code>属性指向它的原型</li>
+<li><p>构造函数的原型会有一个<code>consctructor</code>的属性指向构造函数本身, 即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Person.prototype.constructor === Person</div></pre></td></tr></table></figure>
+</li>
+<li><p>每一个<code>new</code>出来的实例都有一个隐式的<code>__proto__</code>属性，指向它们的构造函数的原型，即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">person1.__proto__ === Person.prototype</div><div class="line">person1.__proto__.constructor === Person</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>了解了这些基本概念之后，我们再来看看javascript的一些原生构造函数的关系网，看下列的图</p>
+<p><img src="https://i.stack.imgur.com/KFzI3.png" alt="javascript objects treasure map"><br>引自<a href="http://stackoverflow.com/questions/650764/how-does-proto-differ-from-constructor-prototype" target="_blank" rel="external">stackoverflow</a></p>
+<p>按照我们上面的理解, Oject本身是一个构造函数，它也是一个对象，那么<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.__proto__ === <span class="built_in">Function</span>.prototype</div></pre></td></tr></table></figure></p>
+<p>为了方便我们记住上图，还有几个需要我们知道的特殊概念：</p>
+<ul>
+<li><p><code>Function</code>的原型属性与<code>Function</code>的原型指向同一个对象. 即</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Function</span>.__proto__ == <span class="built_in">Function</span>.prototype</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Object.prototype.__proto__ === null</code></p>
+</li>
+<li><code>typeof Function.prototype === &#39;function&#39;</code></li>
+</ul>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -221,19 +251,92 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2016/03/08/浅谈javascript的原型及原型链/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/03/10/webpack入门/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          webpack入门
+        
+      </div>
+    </a>
   
   
-    </div></section>
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -256,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

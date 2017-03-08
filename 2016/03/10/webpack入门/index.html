@@ -6,14 +6,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017/3 | Deryck</title>
+  <title>webpack入门 | Deryck</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Deryck">
-<meta property="og:url" content="http://yoursite.com/archives/2017/03/index.html">
+  <meta name="description" content="##什么是webpackwebpack是一个module bundler，可以将把有依赖关系的各种文件打包成一系列的静态资源
+##安装首先我们安装最新版的webpack, 我安装的版本是2.2.11npm install -g webpack
+下面我们将探讨webpack 2 的使用
+我们可以直接在终端中使用webpack，命令如下123webpack &amp;#123;源文件／入口文件&amp;#125; &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack入门">
+<meta property="og:url" content="http://yoursite.com/2016/03/10/webpack入门/index.html">
 <meta property="og:site_name" content="Deryck">
+<meta property="og:description" content="##什么是webpackwebpack是一个module bundler，可以将把有依赖关系的各种文件打包成一系列的静态资源
+##安装首先我们安装最新版的webpack, 我安装的版本是2.2.11npm install -g webpack
+下面我们将探讨webpack 2 的使用
+我们可以直接在终端中使用webpack，命令如下123webpack &amp;#123;源文件／入口文件&amp;#125; &amp;">
+<meta property="og:updated_time" content="2017-03-08T14:35:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Deryck">
+<meta name="twitter:title" content="webpack入门">
+<meta name="twitter:description" content="##什么是webpackwebpack是一个module bundler，可以将把有依赖关系的各种文件打包成一系列的静态资源
+##安装首先我们安装最新版的webpack, 我安装的版本是2.2.11npm install -g webpack
+下面我们将探讨webpack 2 的使用
+我们可以直接在终端中使用webpack，命令如下123webpack &amp;#123;源文件／入口文件&amp;#125; &amp;">
   
     <link rel="alternative" href="/atom.xml" title="Deryck" type="application/atom+xml">
   
@@ -149,76 +162,156 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-webpack入门" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/08/My-New-Post/" class="archive-article-date">
-  	<time datetime="2017-03-08T09:23:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/08/My-New-Post/">My New Post</a>
+    <h1 class="article-title" itemprop="name">
+      webpack入门
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/08/hello-world/" class="archive-article-date">
-  	<time datetime="2017-03-08T09:19:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-08</time>
+        
+        <a href="/2016/03/10/webpack入门/" class="archive-article-date">
+  	<time datetime="2016-03-10T14:34:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-10</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/08/hello-world/">Hello World</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##什么是webpack<br>webpack是一个module bundler，可以将把有依赖关系的各种文件打包成一系列的静态资源</p>
+<p>##安装<br>首先我们安装最新版的webpack, 我安装的版本是2.2.1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install -g webpack</div></pre></td></tr></table></figure></p>
+<p>下面我们将探讨webpack 2 的使用</p>
+<p>我们可以直接在终端中使用webpack，命令如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">webpack &#123;源文件／入口文件&#125; &#123;目标文件&#125;</div><div class="line">webpack --watch //监听模式</div><div class="line">webpack -p //混淆脚本</div></pre></td></tr></table></figure></p>
+<p>考虑到随着我们项目复杂度的增高，有可能我们的配置选项也会很多，所以，我们完全可以将配置放到文件中, webpack在执行的时候默认会加载webpack.config.js文件作为配置, 如果我们需要指定配置文件的话，方法如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --config &#123;配置文件&#125;</div></pre></td></tr></table></figure></p>
+<p>下面我们来创建一个简单的项目<br>我们的项目结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">.</div><div class="line">├── dist</div><div class="line">├── src</div><div class="line">│   └── entry.js</div><div class="line">├── index.html</div><div class="line">└── webpack.config.js</div></pre></td></tr></table></figure></p>
+<p>index.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">	&lt;title&gt;&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">	&lt;script src=&quot;./dist/bundle.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>src/entry.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">document.write(&apos;hello world&apos;)</div></pre></td></tr></table></figure></p>
+<p>webpack.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">	entry: &apos;./src/entry.js&apos;,</div><div class="line">	output: &#123;</div><div class="line">		path: path.resolve(__dirname, &apos;dist&apos;),</div><div class="line">		filename: &apos;bundle.js&apos;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在终端下运行命令:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">webpack --watch</div></pre></td></tr></table></figure></p>
+<p>使用<a href="https://www.npmjs.com/package/http-server" target="_blank" rel="external">http-server</a>起一个本地服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http-server -p 8080</div></pre></td></tr></table></figure></p>
+<p>可以看到，entry.js的内容被打包到了bundle.js 中<br>这是webpack最简单的应用，下面我们来看看如何使用loader</p>
+<p>##loader<br>webpack2中已经集成了<a href="https://webpack.js.org/guides/migrating/#json-loader-is-not-required-anymore" target="_blank" rel="external">json-loader</a>, 所以我们无需安装其他的依赖<br>在src中增加hello.json文件<br><figure class="highlight json"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&#123;<span class="attr">"greet"</span> : <span class="string">"hello from json"</span>&#125;</div></pre></td></tr></table></figure></p>
+<p>修改<code>entry.js</code><br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> json <span class="keyword">from</span> <span class="string">'./hello.json'</span></div><div class="line"><span class="built_in">document</span>.write(json.greet)</div></pre></td></tr></table></figure></p>
+<p>刷新<a href="http://127.0.0.1:8080/" target="_blank" rel="external">http://127.0.0.1:8080/</a><br>可以看到hello.json的结果已经输出到浏览器中</p>
+<p>####使用其他loader<br>如果其他格式的文件，比如css文件我们可以使用相应的loader来解析,安装依赖<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install --save-dev style-loader css-loader</div></pre></td></tr></table></figure></p>
+<p>修改<code>webpack.config.js</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">	entry: &apos;./src/entry.js&apos;,</div><div class="line">	output: &#123;</div><div class="line">		path: path.resolve(__dirname, &apos;dist&apos;),</div><div class="line">		filename: &apos;bundle.js&apos;</div><div class="line">	&#125;,</div><div class="line">	module: &#123;</div><div class="line">		rules: [&#123;</div><div class="line">			test: /\.css$/,</div><div class="line">			use: [&quot;style-loader&quot;, &quot;css-loader&quot;]</div><div class="line">		&#125;]</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>entry.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">import &apos;./main.css&apos;</div><div class="line">import json from &apos;./hello.json&apos;</div><div class="line">document.write(json.greet)</div></pre></td></tr></table></figure></p>
+<p>可以看到，main.css也经过loader的解析而打包进bundle.js里面了</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2016/03/10/webpack入门/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2016/03/08/浅谈javascript的原型及原型链/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">浅谈javascript的原型及原型链</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+
+  
+    <div class="duoshuo"></div>
   
 
-    
+
 
 
           </div>
@@ -241,8 +334,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
@@ -305,6 +398,14 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">javascript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">prototype</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
