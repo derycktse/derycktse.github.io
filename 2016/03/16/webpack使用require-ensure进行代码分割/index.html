@@ -17,7 +17,7 @@
 <meta property="og:description" content="代码分割实例来自于webpack假定我们有下面的项目结构12345678.├── dist├── js│   ├── a.js│   ├── b.js│   ├── c.js│   └── entry.js└── webpack.config.js
 文件内容entry.js12345require(&amp;apos;./a&amp;apos;);require.ensure([&amp;apos;./b&amp;apos;],">
 <meta property="og:image" content="https://segmentfault.com/img/bVJS9m?w=1352&h=528">
-<meta property="og:updated_time" content="2017-03-08T20:53:05.000Z">
+<meta property="og:updated_time" content="2017-03-08T20:54:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="webpack使用require.ensure进行代码分割">
 <meta name="twitter:description" content="代码分割实例来自于webpack假定我们有下面的项目结构12345678.├── dist├── js│   ├── a.js│   ├── b.js│   ├── c.js│   └── entry.js└── webpack.config.js
@@ -222,6 +222,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">构建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -390,6 +401,10 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">构建</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
