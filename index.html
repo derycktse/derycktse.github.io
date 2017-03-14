@@ -201,11 +201,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">es2015</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">es2015</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">javascript</a>
         		</li>
       		
 		</ul>
@@ -288,6 +288,72 @@
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2016/03/16/webpack使用require-ensure进行代码分割/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+  
+    <article id="post-为gulp任务传递参数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/15/为gulp任务传递参数/">为gulp任务传递参数</a>
+    </h1>
+  
+
+        
+        <a href="/2016/03/15/为gulp任务传递参数/" class="archive-article-date">
+  	<time datetime="2016-03-14T16:26:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-03-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。<br>我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问<code>process.argv</code><br>比如命令<code>gulp task1 --a 123 --b &quot;my string&quot; --c</code>, 我们看看<code>process.argv</code>会输出什么<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line"><span class="string">'/usr/bin/nodejs'</span>,</div><div class="line"><span class="string">'/home/user/.node_modules_global/bin/gulp'</span>,</div><div class="line"><span class="string">'task1'</span>,</div><div class="line"><span class="string">'--a'</span>,</div><div class="line"><span class="string">'123'</span>,</div><div class="line"><span class="string">'--b'</span>,</div><div class="line"><span class="string">'my string'</span>,</div><div class="line"><span class="string">'--c'</span></div><div class="line">]</div></pre></td></tr></table></figure></p>
+<p>既然可以拿到命令行输入的东西，那么我们就可以自己写一个参数解析的函数啦!<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// fetch command line arguments</span></div><div class="line"><span class="keyword">const</span> arg = (<span class="function"><span class="params">argList</span> =&gt;</span> &#123;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> arg = &#123;&#125;, a, opt, thisOpt, curOpt;</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; argList.length; a++) &#123;</div><div class="line"></div><div class="line">    thisOpt = argList[a].trim();</div><div class="line">    opt = thisOpt.replace(<span class="regexp">/^\-+/</span>, <span class="string">''</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (opt === thisOpt) &#123;</div><div class="line"></div><div class="line">      <span class="comment">// argument value</span></div><div class="line">      <span class="keyword">if</span> (curOpt) arg[curOpt] = opt;</div><div class="line">      curOpt = <span class="literal">null</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">      <span class="comment">// argument name</span></div><div class="line">      curOpt = opt;</div><div class="line">      arg[curOpt] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> arg;</div><div class="line"></div><div class="line">&#125;)(process.argv);</div><div class="line"><span class="built_in">console</span>.log(arg) <span class="comment">//&#123; a: '123', b: 'my string', c: true &#125;</span></div></pre></td></tr></table></figure></p>
+<p>搞定！</p>
+<p>当然，这只是一个简单的实现。<br>我们还可以使用功能更强大的库, 比如TJ大神的<a href="https://github.com/tj/commander" target="_blank" rel="external">commander</a></p>
+<p>参考<br><a href="https://www.sitepoint.com/pass-parameters-gulp-tasks/" target="_blank" rel="external">How to Pass Command Line Parameters to Gulp Tasks</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">构建</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2016/03/15/为gulp任务传递参数/">展开全文 >></a>
         </p>
       
 
@@ -558,15 +624,15 @@
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">es2015</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">prototype</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">es2015</a>
               </li>
             
             <div class="clearfix"></div>
