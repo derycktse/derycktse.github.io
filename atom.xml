@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://dannyxie.github.io/"/>
-  <updated>2017-03-14T02:40:09.000Z</updated>
+  <updated>2017-03-14T02:45:08.000Z</updated>
   <id>https://dannyxie.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="https://dannyxie.github.io/2016/04/14/%E4%B8%89%E4%B8%AA%E5%85%B3%E4%BA%8E%E6%95%B0%E7%BB%84%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
     <id>https://dannyxie.github.io/2016/04/14/三个关于数组的小技巧/</id>
     <published>2016-04-14T02:36:07.000Z</published>
-    <updated>2017-03-14T02:40:09.000Z</updated>
+    <updated>2017-03-14T02:45:08.000Z</updated>
     
     <content type="html"><![CDATA[<h3 id="1-可迭代的空数组"><a href="#1-可迭代的空数组" class="headerlink" title="1.可迭代的空数组"></a>1.可迭代的空数组</h3><p>我们知道，Javacript的所创建的数组如果未被初始化值的话，它是一个稀疏数组(sparse array)，这是什么意思的？我们先看下面的代码<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">4</span>); <span class="comment">//[undefined, undefined, undefined, undefined]</span></div></pre></td></tr></table></figure></p>
 <p>假设我们要去迭代一个数组，我们会发现，未被初始化值的数组，index实际上访问不到的：</p>
@@ -42,6 +42,10 @@
     
     </summary>
     
+    
+      <category term="javascript" scheme="https://dannyxie.github.io/tags/javascript/"/>
+    
+      <category term="es2015" scheme="https://dannyxie.github.io/tags/es2015/"/>
     
   </entry>
   
