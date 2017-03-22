@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://derycktse.github.io/2016/03/15/为gulp任务传递参数/index.html">
 <meta property="og:site_name" content="Deryck">
 <meta property="og:description" content="现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问process.argv比如命令gulp task1 --a 123 --b &amp;quot;my string&amp;quot; --c, 我们看看process.argv会输出什么12345678910">
-<meta property="og:updated_time" content="2017-03-14T16:39:04.000Z">
+<meta property="og:updated_time" content="2017-03-22T15:08:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为gulp任务传递参数">
 <meta name="twitter:description" content="现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问process.argv比如命令gulp task1 --a 123 --b &amp;quot;my string&amp;quot; --c, 我们看看process.argv会输出什么12345678910">
@@ -179,6 +179,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。<br>我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问<code>process.argv</code><br>比如命令<code>gulp task1 --a 123 --b &quot;my string&quot; --c</code>, 我们看看<code>process.argv</code>会输出什么<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">[</div><div class="line"><span class="string">'/usr/bin/nodejs'</span>,</div><div class="line"><span class="string">'/home/user/.node_modules_global/bin/gulp'</span>,</div><div class="line"><span class="string">'task1'</span>,</div><div class="line"><span class="string">'--a'</span>,</div><div class="line"><span class="string">'123'</span>,</div><div class="line"><span class="string">'--b'</span>,</div><div class="line"><span class="string">'my string'</span>,</div><div class="line"><span class="string">'--c'</span></div><div class="line">]</div></pre></td></tr></table></figure></p>
+<a id="more"></a> 
 <p>既然可以拿到命令行输入的东西，那么我们就可以自己写一个参数解析的函数啦!<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// fetch command line arguments</span></div><div class="line"><span class="keyword">const</span> arg = (<span class="function"><span class="params">argList</span> =&gt;</span> &#123;</div><div class="line"></div><div class="line">  <span class="keyword">let</span> arg = &#123;&#125;, a, opt, thisOpt, curOpt;</div><div class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; argList.length; a++) &#123;</div><div class="line"></div><div class="line">    thisOpt = argList[a].trim();</div><div class="line">    opt = thisOpt.replace(<span class="regexp">/^\-+/</span>, <span class="string">''</span>);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (opt === thisOpt) &#123;</div><div class="line"></div><div class="line">      <span class="comment">// argument value</span></div><div class="line">      <span class="keyword">if</span> (curOpt) arg[curOpt] = opt;</div><div class="line">      curOpt = <span class="literal">null</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line"></div><div class="line">      <span class="comment">// argument name</span></div><div class="line">      curOpt = opt;</div><div class="line">      arg[curOpt] = <span class="literal">true</span>;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> arg;</div><div class="line"></div><div class="line">&#125;)(process.argv);</div><div class="line"><span class="built_in">console</span>.log(arg) <span class="comment">//&#123; a: '123', b: 'my string', c: true &#125;</span></div></pre></td></tr></table></figure></p>
 <p>搞定！</p>
 <p>当然，这只是一个简单的实现。<br>我们还可以使用功能更强大的库, 比如TJ大神的<a href="https://github.com/tj/commander" target="_blank" rel="external">commander</a></p>
@@ -420,15 +421,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">构建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">es2015</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">构建</a>
               </li>
              
               <li class="article-tag-list-item">

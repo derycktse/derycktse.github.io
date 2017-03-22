@@ -9,22 +9,19 @@
   <title>浅谈javascript的原型及原型链 | Deryck</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
-在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
-其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浅谈javascript的原型及原型链">
 <meta property="og:url" content="https://derycktse.github.io/2016/03/08/浅谈javascript的原型及原型链/index.html">
 <meta property="og:site_name" content="Deryck">
 <meta property="og:description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
-在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
-其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()">
 <meta property="og:image" content="https://i.stack.imgur.com/KFzI3.png">
-<meta property="og:updated_time" content="2017-03-21T16:17:01.000Z">
+<meta property="og:updated_time" content="2017-03-22T15:09:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浅谈javascript的原型及原型链">
 <meta name="twitter:description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。
-在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()
-其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数">
+在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数12345//对象字面量var obj1 = &amp;#123;&amp;#125;//调用构造函数var obj2 = new Object()">
 <meta name="twitter:image" content="https://i.stack.imgur.com/KFzI3.png">
   
     <link rel="alternative" href="/atom.xml" title="Deryck" type="application/atom+xml">
@@ -188,8 +185,9 @@
       
         <p>原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。</p>
 <p>在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//对象字面量</span></div><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;</div><div class="line"></div><div class="line"><span class="comment">//调用构造函数</span></div><div class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="built_in">Object</span>()</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
 <p>其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数来新建出一个对象。构造函数本身也是一个普通的JS函数</p>
-<p>下面我们来看一个例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建构造函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></div><div class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Person.prototype) <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></div><div class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//创建实例</span></div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'Messi'</span>)</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'Suarez'</span>)</div><div class="line"></div><div class="line">person1.sayName() <span class="comment">// 'Messi'</span></div><div class="line">person2.sayName() <span class="comment">// 'Suarez'</span></div><div class="line"></div><div class="line">person1.sayName === person2.sayName <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
+<p>下面我们来看一个例子<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建构造函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name</div><div class="line">&#125;</div><div class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></div><div class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></div><div class="line"><span class="built_in">console</span>.log(<span class="keyword">typeof</span> Person.prototype) <span class="comment">// 'object'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></div><div class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//创建实例</span></div><div class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> Person(<span class="string">'Messi'</span>)</div><div class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> Person(<span class="string">'Suarez'</span>)</div><div class="line"></div><div class="line">person1.sayName() <span class="comment">// 'Messi'</span></div><div class="line">person2.sayName() <span class="comment">// 'Suarez'</span></div><div class="line"></div><div class="line">person1.sayName === person2.sayName <span class="comment">//true</span></div></pre></td></tr></table></figure></p>
 <p>我们借助上面的例子来理解构造函数-原型-实例，三者之间的关系，主要有几个基本概念</p>
 <ul>
 <li>构造函数默认会有一个<code>protoype</code>属性指向它的原型</li>
@@ -448,15 +446,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">构建</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">es2015</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">javascript</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">构建</a>
               </li>
              
               <li class="article-tag-list-item">
