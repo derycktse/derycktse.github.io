@@ -499,17 +499,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="变量的解构赋值"><a href="#变量的解构赋值" class="headerlink" title="变量的解构赋值"></a>变量的解构赋值</h3><ol>
+        <h2 id="变量的解构赋值"><a href="#变量的解构赋值" class="headerlink" title="变量的解构赋值"></a>变量的解构赋值</h2><ul>
 <li>“模式匹配”： 只要等号两边的模式相同，左边的变量久会被赋予相应的值；如果解构不成功，变量的值就等于<code>undefined</code>。 </li>
 <li>只要某种数据结构具有 Iterator 接口，都可以采用数组形式的解构赋值。</li>
-<li><p>如果默认值是一个表达式，那么这个表达式是惰性求值的，即只有在用到的时候，才会求值。</p>
- <figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">'aaa'</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> [x = f()] = [<span class="number">1</span>]; <span class="comment">//因为x能取到值，所以函数f根本不会执行</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>默认值可以引用解构赋值的其他变量，但该变量必须已经声明。</p>
-</li>
-</ol>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://es6.ruanyifeng.com" target="_blank" rel="external">ECMAScript 6 入门</a></p>
-
+</ul>
+        
+          <a class="article-more-a" href="/2016/02/23/ES2015读书笔记/#more">more >></a>
+        
       
 
       
