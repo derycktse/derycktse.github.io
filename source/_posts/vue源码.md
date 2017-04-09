@@ -1,5 +1,5 @@
 ---
-title: vue源码
+title: vue源码学习笔记
 date: 2016-04-05 14:48:30
 tags:
 ---
@@ -22,3 +22,5 @@ npm + component作为包的管理
 ### [a5e27b1174e9196dcc9dbb0becc487275ea2e84c] ###
 作者同时使用了compoent的包管理工具
 看提交时间必须使用component@0.16.3这个版本
+
+修改了main.js，主要思想即是通过解析拥有指定属性的DOM，然后将它们存入到对象之中，为这个对象绑定访问选择器（set,get）从而将更新修改到DOM中
