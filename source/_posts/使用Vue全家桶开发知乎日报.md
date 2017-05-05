@@ -26,8 +26,9 @@ tags: [Vue]
 
 ### 接口跨域问题 ###
 
-在本地启一个代理服务器([request](https://github.com/request/request) )， 从而不会有跨域的问题
+~~在本地启一个代理服务器([request](https://github.com/request/request) )， 从而不会有跨域的问题~~
 
+脚手架中已经集成了[http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)作为代理，使用proxyTable即可代理接口，从而不会有跨域问题，用法见[Proxy](https://vuejs-templates.github.io/webpack/proxy.html)
 
 代码结构(使用工具[treer](https://www.npmjs.com/package/treer)生成):
 ```
