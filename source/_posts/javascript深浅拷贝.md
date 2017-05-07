@@ -36,6 +36,21 @@ function shallowCopy(source){
 - 属性的`descriptor`并没有被克隆，比如原本为只读的访问属性，被克隆成可读写的属性了
 - 浅拷贝最重要的一个问题，如果属性本身是一个对象，那么克隆的对象以及原本的对象将共享这个属性
 
+为了完善上面的问题，我们可以使用`Object.getOwnPropertyNames()`来配合完善, `Object.keys`只能返回可枚举的属性
+
+我们看下面的改良版
+```javascript
+function shallowCopyOfProperties(source){
+    var cloneObj = {}
+
+    var keys = Object.getOwnPropertyNames(source)
+    for(var i = 0; i < keys.length ; i ++){
+        cloneObj[keys[i]] = source[keys[i]] 
+    }
+    return cloneObj
+}
+```
+
 ### 深拷贝 ###
 
 ```javascript
