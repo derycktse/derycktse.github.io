@@ -38,14 +38,32 @@ function shallowCopy(source){
 
 为了完善上面的问题，我们可以使用`Object.getOwnPropertyNames()`来配合完善, `Object.keys`只能返回可枚举的属性
 
+我们来分析上面几个缺陷:
+
+**克隆出来的对象跟原本的对象原型链是不同的**
+
+
+我们可以通过获取原对象的原型对象(`Object.getPrototypeOf`)，再将克隆对象继承与该原型对象(`Object.create`)
+
+**原本原型链上的属性，被克隆到了新对象上作为自有属性了**
+
+**只有可被枚举(`emuerable`)的属性被克隆了**
+
+在复制过程中，我们可以先判断属性是否为自由属性，`Object.getOwnPropertyNames`可返回所有的自有属性（包括不可枚举的）
+
+**属性的`descriptor`并没有被克隆，比如原本为只读的访问属性，被克隆成可读写的属性了**
+
+通过`Object.getOwnPropertyDescriptor`获取属性的descriptor之后使用`Object.defineProperty`定义到克隆对象中
+
 我们看下面的改良版
 ```javascript
-function shallowCopyOfProperties(source){
-    var cloneObj = {}
+function shallowCopy(source){
+    var cloneObj = Object.create(Object.getPrototypeOf(source))
 
-    var keys = Object.getOwnPropertyNames(source)
+    var keys = Object.getOwnPropertyNames(source) // `Object.keys`只能返回可枚举的属性
     for(var i = 0; i < keys.length ; i ++){
-        cloneObj[keys[i]] = source[keys[i]] 
+        Object.defineProperty(cloneObj, keys[i], 
+            Object.getOwnPropetyDescriptor(source, keys[i]))
     }
     return cloneObj
 }
