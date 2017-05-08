@@ -49,7 +49,7 @@ function shallowCopy(source){
 
 **只有可被枚举(`emuerable`)的属性被克隆了**
 
-在复制过程中，我们可以先判断属性是否为自由属性，`Object.getOwnPropertyNames`可返回所有的自有属性（包括不可枚举的）
+在复制过程中，我们可以先判断属性是否为自由属性(`Object.prototype.hasOwnProperty`)，当然，我们可以更简单的使用`Object.getOwnPropertyNames`，它可返回所有的自有属性（包括不可枚举的）
 
 **属性的`descriptor`并没有被克隆，比如原本为只读的访问属性，被克隆成可读写的属性了**
 
