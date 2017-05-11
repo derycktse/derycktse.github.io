@@ -73,7 +73,29 @@ function shallowCopy(source){
 
 ### 深拷贝 ###
 
+上面已经讲诉了浅拷贝，浅拷贝只克隆对象的第一层属性，而对于再深层的属性来说，只是复制，并不是克隆，所以深层的属性如果是对象的话，还是指着相同的对象
+
+深拷也很简单，一个思想： 递归
+
+当属性为对象时，利用浅拷贝的思想进行递归调用，即是深拷贝
+
 ```javascript
+function deepCopy(source){
+    var cloneObj = Object.create(Object.getPrototypeOf(source))
+
+    var keys = Object.getOwnPropertyNames(source)
+
+    for(var i=0, length = keys.length ; i < length; i++){
+        var descriptor = Object.getOwnPropertyDescriptor(source, keys[i])
+
+        if(descriptor.value && typeof descriptor.vale === 'object'){
+            descriptor.value = deepCopy(descriptor.value)
+        }
+
+         Object.defineProperty( cloneObj , keys[ i ] , descriptor ) ;
+    }
+    return cloneObj
+}
 ```
 
 
