@@ -88,7 +88,7 @@ function deepCopy(source){
     for(var i=0, length = keys.length ; i < length; i++){
         var descriptor = Object.getOwnPropertyDescriptor(source, keys[i])
 
-        if(descriptor.value && typeof descriptor.vale === 'object'){
+        if(descriptor.value && typeof descriptor.value === 'object'){//如果属性是访问属性（getter/setter）的话，这里的descriptor.value === 'undefined'
             descriptor.value = deepCopy(descriptor.value)
         }
 
@@ -97,6 +97,23 @@ function deepCopy(source){
     return cloneObj
 }
 ```
+
+好了，上面这个深拷贝完成了，但是还是有这几个问题:
+- 循环指向的属性会使得内存泄漏
+
+#### 循环指向 ####
+看下面的例子
+```javascript
+var o = {
+    a : 'a'
+}
+
+o.loop = o
+
+```
+如果调用上述的`deepCopy`，则我们会陷入到o.loop.loop.loop.loop.loop.loop...这样的循环中去
+
+
 
 
 ### 参考 ###
