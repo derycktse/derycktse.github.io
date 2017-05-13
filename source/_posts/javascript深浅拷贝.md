@@ -100,6 +100,7 @@ function deepCopy(source){
 
 好了，上面这个深拷贝完成了，但是还是有这几个问题:
 - 循环指向的属性会使得内存泄漏
+- 如果对象的方法引用到闭包中的变量，则无法克隆
 
 #### 循环指向 ####
 看下面的例子
@@ -113,8 +114,26 @@ o.loop = o
 ```
 如果调用上述的`deepCopy`，则我们会陷入到o.loop.loop.loop.loop.loop.loop...这样的循环中去
 
+#### 闭包 ####
+我们看下面的例子
+```javascript
+function myConstructor()  
+{
+    var myPrivateVar = 'secret' ;
 
+    return {
+        myPublicVar: 'public!' ,
+        getMyPrivateVar: function() {
+            return myPrivateVar ;
+        } ,
+        setMyPrivateVar( value ) {
+            myPrivateVar = value.toString() ;
+        }
+    } ;
+}
 
+var o = myContructor() ;  
+```
 
 ### 参考 ###
 [understanding-object-cloning-in-javascript-part-i](http://blog.soulserv.net/understanding-object-cloning-in-javascript-part-i/)
