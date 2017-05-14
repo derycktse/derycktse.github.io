@@ -133,7 +133,9 @@ function myConstructor()
 }
 
 var o = myContructor() ;  
+var cloneObj = deepCopy(o)
 ```
+上面的例子我们可以看到，对象o中的方法`getMyPrivateVar`与`setMyPrivateVar`均访问到了闭包变量`myPrivateVar`，这里通过o对`myPrivateVar`的修改，cloneObj的`myPrivateVar`同样会受影响
 
 ### 参考 ###
 [understanding-object-cloning-in-javascript-part-i](http://blog.soulserv.net/understanding-object-cloning-in-javascript-part-i/)
