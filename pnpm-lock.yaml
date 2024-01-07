@@ -6,22 +6,22 @@ settings:
 
 dependencies:
   hexo:
-    specifier: ^3.2.0
+    specifier: ^3.9.0
     version: 3.9.0
   hexo-deployer-git:
     specifier: ^0.2.0
     version: 0.2.0
   hexo-generator-archive:
-    specifier: ^0.1.4
+    specifier: ^0.1.5
     version: 0.1.5
   hexo-generator-category:
     specifier: ^0.1.3
     version: 0.1.3
   hexo-generator-feed:
-    specifier: ^1.2.0
+    specifier: ^1.2.2
     version: 1.2.2
   hexo-generator-index:
-    specifier: ^0.2.0
+    specifier: ^0.2.1
     version: 0.2.1
   hexo-generator-json-content:
     specifier: ^3.0.1
@@ -33,13 +33,13 @@ dependencies:
     specifier: ^0.2.0
     version: 0.2.0
   hexo-renderer-marked:
-    specifier: ^0.2.10
+    specifier: ^0.2.11
     version: 0.2.11
   hexo-renderer-stylus:
-    specifier: ^0.3.1
+    specifier: ^0.3.3
     version: 0.3.3
   hexo-server:
-    specifier: ^0.2.0
+    specifier: ^0.2.2
     version: 0.2.2
 
 packages:
