@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>浅谈javascript的原型及原型链 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。 在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数 12345&#x2F;&#x2F;对象字面量var obj1 &#x3D; &#123;&#125;&#x2F;&#x2F;调用构造函数var obj2 &#x3D; new Object()">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈javascript的原型及原型链">
+<meta property="og:url" content="http://example.com/2016/03/08/%E6%B5%85%E8%B0%88javascript%E7%9A%84%E5%8E%9F%E5%9E%8B%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。 在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数 12345&#x2F;&#x2F;对象字面量var obj1 &#x3D; &#123;&#125;&#x2F;&#x2F;调用构造函数var obj2 &#x3D; new Object()">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.stack.imgur.com/KFzI3.png">
+<meta property="article:published_time" content="2016-03-08T14:26:51.000Z">
+<meta property="article:modified_time" content="2024-01-07T12:22:49.184Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="prototype">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.stack.imgur.com/KFzI3.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-浅谈javascript的原型及原型链" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/03/08/%E6%B5%85%E8%B0%88javascript%E7%9A%84%E5%8E%9F%E5%9E%8B%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE/" class="article-date">
+  <time class="dt-published" datetime="2016-03-08T14:26:51.000Z" itemprop="datePublished">2016-03-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      浅谈javascript的原型及原型链
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。</p>
+<p>在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对象字面量</span></span><br><span class="line"><span class="keyword">var</span> obj1 = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用构造函数</span></span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="title class_">Object</span>()</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<p>其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数来新建出一个对象。构造函数本身也是一个普通的JS函数</p>
+<p>下面我们来看一个例子</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建构造函数</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></span><br><span class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">typeof</span> <span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// &#x27;object&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></span><br><span class="line"><span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建实例</span></span><br><span class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;Messi&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;Suarez&#x27;</span>)</span><br><span class="line"></span><br><span class="line">person1.<span class="title function_">sayName</span>() <span class="comment">// &#x27;Messi&#x27;</span></span><br><span class="line">person2.<span class="title function_">sayName</span>() <span class="comment">// &#x27;Suarez&#x27;</span></span><br><span class="line"></span><br><span class="line">person1.<span class="property">sayName</span> === person2.<span class="property">sayName</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<p>我们借助上面的例子来理解构造函数-原型-实例，三者之间的关系，主要有几个基本概念</p>
+<ul>
+<li>构造函数默认会有一个<code>protoype</code>属性指向它的原型</li>
+<li>构造函数的原型会有一个<code>consctructor</code>的属性指向构造函数本身, 即  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> === <span class="title class_">Person</span></span><br></pre></td></tr></table></figure></li>
+<li>每一个<code>new</code>出来的实例都有一个隐式的<code>__proto__</code>属性，指向它们的构造函数的原型，即  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">person1.<span class="property">__proto__</span> === <span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span></span><br><span class="line">person1.<span class="property">__proto__</span>.<span class="property">constructor</span> === <span class="title class_">Person</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>了解了这些基本概念之后，我们再来看看javascript的一些原生构造函数的关系网，看下列的图</p>
+<p><img src="https://i.stack.imgur.com/KFzI3.png" alt="javascript objects treasure map"><br>引自<a target="_blank" rel="noopener" href="http://stackoverflow.com/questions/650764/how-does-proto-differ-from-constructor-prototype">stackoverflow</a></p>
+<p>按照我们上面的理解, Oject本身是一个构造函数，它也是一个对象，那么<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Object</span>.<span class="property">__proto__</span> === <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span></span><br></pre></td></tr></table></figure></p>
+<p>为了方便我们记住上图，还有几个需要我们知道的特殊概念：</p>
+<ol>
+<li><code>Function</code>的原型属性与<code>Function</code>的原型指向同一个对象. 即是 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property">__proto__</span> == <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span></span><br></pre></td></tr></table></figure></li>
+<li><code>Object.prototype.__proto__ === null</code></li>
+<li><code>typeof Function.prototype === &#39;function&#39;</code></li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[在JavaScript中，Function构造函数本身也算是Function类型的实例吗？][<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/31333084/answer/152086175]">https://www.zhihu.com/question/31333084/answer/152086175]</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2016/03/08/%E6%B5%85%E8%B0%88javascript%E7%9A%84%E5%8E%9F%E5%9E%8B%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE/" data-id="clratww5l000zuc0p04h28bu9" data-title="浅谈javascript的原型及原型链" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/prototype/" rel="tag">prototype</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/10/webpack%E5%85%A5%E9%97%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack入门
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/02/23/ES2015/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ES2015读书笔记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es2015/" rel="tag">es2015</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/" rel="tag">prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/es2015/" style="font-size: 10px;">es2015</a> <a href="/tags/javascript/" style="font-size: 15px;">javascript</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 20px;">构建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/01/07/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E4%B8%8D%E5%BF%85%E5%88%A9%E5%85%B6%E5%99%A8/">工欲善其事不必利其器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/13/use-sqlite-in-electron/">electron使用sqlite</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/30/package-json-main-jsnext-main-module/">package.json中的main,jsnext:main,module分别是干什么用的</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/18/webpack-uglify-for-ie8/">在webpack中使UglifyPlugin支持IE8</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/10/mouse-contextmenu-bug-firefox/">关于点击鼠标右键在firefox上面的坑</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
