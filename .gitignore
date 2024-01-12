@@ -5,10 +5,4 @@ db.json
 node_modules/
 public/
 .deploy*/
-2016/
-archives/
-tags/
-index.html
-content.json
-atom.xml
-package-lock.json
+_multiconfig.yml
