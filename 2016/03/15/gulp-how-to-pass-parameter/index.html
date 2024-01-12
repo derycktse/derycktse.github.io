@@ -1,11 +1,253 @@
-extends includes/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>为gulp任务传递参数 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问process.argv比如命令gulp task1 --a 123 --b &quot;my string&quot; --c, 我们看看process.argv会输出什么 1234567891">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为gulp任务传递参数">
+<meta property="og:url" content="http://example.com/2016/03/15/gulp-how-to-pass-parameter/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问process.argv比如命令gulp task1 --a 123 --b &quot;my string&quot; --c, 我们看看process.argv会输出什么 1234567891">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-03-14T16:26:36.000Z">
+<meta property="article:modified_time" content="2024-01-07T12:22:49.182Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="构建">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-gulp-how-to-pass-parameter" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2016/03/15/gulp-how-to-pass-parameter/" class="article-date">
+  <time class="dt-published" datetime="2016-03-14T16:26:36.000Z" itemprop="datePublished">2016-03-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      为gulp任务传递参数
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。<br>我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问<code>process.argv</code><br>比如命令<code>gulp task1 --a 123 --b &quot;my string&quot; --c</code>, 我们看看<code>process.argv</code>会输出什么</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line"><span class="string">&#x27;/usr/bin/nodejs&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;/home/user/.node_modules_global/bin/gulp&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;task1&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;--a&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;123&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;--b&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;my string&#x27;</span>,</span><br><span class="line"><span class="string">&#x27;--c&#x27;</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<span id="more"></span> 
+<p>既然可以拿到命令行输入的东西，那么我们就可以自己写一个参数解析的函数啦!</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// fetch command line arguments</span></span><br><span class="line"><span class="keyword">const</span> arg = (<span class="function"><span class="params">argList</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> arg = &#123;&#125;, a, opt, thisOpt, curOpt;</span><br><span class="line">  <span class="keyword">for</span> (a = <span class="number">0</span>; a &lt; argList.<span class="property">length</span>; a++) &#123;</span><br><span class="line"></span><br><span class="line">    thisOpt = argList[a].<span class="title function_">trim</span>();</span><br><span class="line">    opt = thisOpt.<span class="title function_">replace</span>(<span class="regexp">/^\-+/</span>, <span class="string">&#x27;&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (opt === thisOpt) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// argument value</span></span><br><span class="line">      <span class="keyword">if</span> (curOpt) arg[curOpt] = opt;</span><br><span class="line">      curOpt = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// argument name</span></span><br><span class="line">      curOpt = opt;</span><br><span class="line">      arg[curOpt] = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> arg;</span><br><span class="line"></span><br><span class="line">&#125;)(process.<span class="property">argv</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arg) <span class="comment">//&#123; a: &#x27;123&#x27;, b: &#x27;my string&#x27;, c: true &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>搞定！</p>
+<p>当然，这只是一个简单的实现。<br>我们还可以使用功能更强大的库, 比如TJ大神的<a target="_blank" rel="noopener" href="https://github.com/tj/commander">commander</a></p>
+<p>参考<br><a target="_blank" rel="noopener" href="https://www.sitepoint.com/pass-parameters-gulp-tasks/">How to Pass Command Line Parameters to Gulp Tasks</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2016/03/15/gulp-how-to-pass-parameter/" data-id="clrauoylo0001ng0pca3zfdf0" data-title="为gulp任务传递参数" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/03/16/webpack-code-splitting/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          webpack使用require.ensure进行代码分割
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/03/10/webpack%E5%85%A5%E9%97%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">webpack入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 
-block content
-  .post-item
-  h2.post-title-wrapper
-      p.post-title=page.title
-  if page.date && page.source !== 'about/index.md'
-      div.post-date
-        time(datetime=page.date.toJSON())=date(page.date, date_format)
-  .post-content!= page.content
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/" rel="tag">Vue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es2015/" rel="tag">es2015</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/javascript/" rel="tag">javascript</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/" rel="tag">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/prototype/" rel="tag">prototype</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react/" rel="tag">react</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag">构建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Vue/" style="font-size: 10px;">Vue</a> <a href="/tags/es2015/" style="font-size: 10px;">es2015</a> <a href="/tags/javascript/" style="font-size: 15px;">javascript</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/npm/" style="font-size: 10px;">npm</a> <a href="/tags/prototype/" style="font-size: 10px;">prototype</a> <a href="/tags/react/" style="font-size: 10px;">react</a> <a href="/tags/%E6%9E%84%E5%BB%BA/" style="font-size: 20px;">构建</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/01/">January 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/01/07/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E4%B8%8D%E5%BF%85%E5%88%A9%E5%85%B6%E5%99%A8/">工欲善其事不必利其器</a>
+          </li>
+        
+          <li>
+            <a href="/2017/08/13/use-sqlite-in-electron/">electron使用sqlite</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/30/package-json-main-jsnext-main-module/">package.json中的main,jsnext:main,module分别是干什么用的</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/18/webpack-uglify-for-ie8/">在webpack中使UglifyPlugin支持IE8</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/10/mouse-contextmenu-bug-firefox/">关于点击鼠标右键在firefox上面的坑</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
