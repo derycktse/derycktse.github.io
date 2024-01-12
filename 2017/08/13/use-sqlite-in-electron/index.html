@@ -4,13 +4,17 @@
   <meta charset="utf-8">
   
   
-  <title>Archives: 2024/1 | Hexo</title>
+  <title>electron使用sqlite | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/2024/01/index.html">
+  <meta name="description" content="在electron使用sqlite3的时候，会出现错误: 1Uncaught Error: Cannot find module ‘&#x2F;…&#x2F;node_modules&#x2F;sqlite3&#x2F;lib&#x2F;binding&#x2F;node-v51-darwin-x64&#x2F;node_sqlite3.node’  可以使用electron-rebuild解决: 12$ npm install --save-dev electro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="electron使用sqlite">
+<meta property="og:url" content="http://example.com/2017/08/13/use-sqlite-in-electron/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在electron使用sqlite3的时候，会出现错误: 1Uncaught Error: Cannot find module ‘&#x2F;…&#x2F;node_modules&#x2F;sqlite3&#x2F;lib&#x2F;binding&#x2F;node-v51-darwin-x64&#x2F;node_sqlite3.node’  可以使用electron-rebuild解决: 12$ npm install --save-dev electro">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-13T13:06:55.000Z">
+<meta property="article:modified_time" content="2024-01-07T12:22:49.183Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -67,58 +71,71 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2024" class="archive-year">2024</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/01/12/hello-world/" class="archive-article-date">
-  <time class="dt-published" datetime="2024-01-12T15:52:23.733Z" itemprop="datePublished">Jan 12</time>
+        <section id="main"><article id="post-use-sqlite-in-electron" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2017/08/13/use-sqlite-in-electron/" class="article-date">
+  <time class="dt-published" datetime="2017-08-13T13:06:55.000Z" itemprop="datePublished">2017-08-13</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/01/12/hello-world/">Hello World</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      electron使用sqlite
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2024/01/07/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E4%B8%8D%E5%BF%85%E5%88%A9%E5%85%B6%E5%99%A8/" class="archive-article-date">
-  <time class="dt-published" datetime="2024-01-07T12:08:10.000Z" itemprop="datePublished">Jan 7</time>
-</a>
+    <div class="e-content article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2024/01/07/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E4%B8%8D%E5%BF%85%E5%88%A9%E5%85%B6%E5%99%A8/">工欲善其事不必利其器</a>
-    </h1>
-  
+        <p>在electron使用sqlite3的时候，会出现错误:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uncaught Error: Cannot find module ‘/…/node_modules/sqlite3/lib/binding/node-v51-darwin-x64/node_sqlite3.node’</span><br></pre></td></tr></table></figure>
 
-    </header>
+<p>可以使用electron-rebuild解决:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev electron-rebuild</span><br><span class="line">$ npm install --save sqlite3</span><br></pre></td></tr></table></figure>
+
+<p>在<code>package.json</code>加上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;rebuild&quot;: &quot;electron-rebuild -f -w sqlite3&quot;</span><br></pre></td></tr></table></figure>
+
+<p>执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run rebuild</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2017/08/13/use-sqlite-in-electron/" data-id="clratnion000fao0p53jb5tyj" data-title="electron使用sqlite" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/01/07/%E5%B7%A5%E6%AC%B2%E5%96%84%E5%85%B6%E4%BA%8B%E4%B8%8D%E5%BF%85%E5%88%A9%E5%85%B6%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          工欲善其事不必利其器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/30/package-json-main-jsnext-main-module/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">package.json中的main,jsnext:main,module分别是干什么用的</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 
 </section>
