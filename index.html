@@ -146,6 +146,86 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="derek.xie">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">使用obsidian 编写博客</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-03-16 23:29:20 / Modified: 23:42:10" itemprop="dateCreated datePublished" datetime="2024-03-16T23:29:20+08:00">2024-03-16</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这一两年一直在obsidian记录东西，感觉非常不错。不过有一个问题就是，如果只是一味的记录给自己看，可能失去了和别人交流的机会。考虑到这个层面，还是决定以后得多写一些博客。记录自己在生活以及学习上的一些所得所悟，如果能有人看到我的文字有所共鸣或者收获，那将是非常有意义的事情。<br>考虑到博客使用hexo 生成，托管在github page 上，hexo有自己的一套文件夹命名格式，我还是比较喜欢在obsidian里面写东西。所以最简单的办法就是在obsidian里面写好文章直接同步到hexo 文件夹里面就行.</p>
+<p>目前我的obsidian跟hexo文件夹的位置大概是这样：</p>
+<table>
+<thead>
+<tr>
+<th>my note</th>
+<th>folder</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>obsidian</td>
+<td>~&#x2F;my-obsidian-folder&#x2F;blog&#x2F;_posts&#x2F;</td>
+</tr>
+<tr>
+<td>hexo blog</td>
+<td>~&#x2F;my-hexo-folder&#x2F;myname.github.io&#x2F;source&#x2F;_posts&#x2F;</td>
+</tr>
+</tbody></table>
+<p>每次写完之后，直接使用rsync 同步一下我的文件夹，再部署到github page 上即可</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br><span class="line">hexo c &amp;&amp; hexo g &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。当下还是先让自己培养多写博客的习惯，等习惯养成之后再进一步优化。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/02/25/older/%E5%B0%86%E8%BE%93%E5%85%A5%E6%B3%95%E5%88%87%E5%88%B0%E4%BA%86%E5%8F%8C%E6%8B%BC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1034,80 +1114,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2017/04/27/older/vue-zhihu/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="derek.xie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/04/27/older/vue-zhihu/" class="post-title-link" itemprop="url">使用Vue全家桶开发知乎日报</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-04-27 15:41:33" itemprop="dateCreated datePublished" datetime="2017-04-27T15:41:33+08:00">2017-04-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-01-07 20:22:49" itemprop="dateModified" datetime="2024-01-07T20:22:49+08:00">2024-01-07</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用Vue2 + vue-router + vuex 开发的知乎日报</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/derycktse/zhihudaily-vue">github地址</a>，如果觉得还可以，不妨给个star吧</p>
-<h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>因为经常看知乎日报，萌生了自己撸一个的想法，于是有了这个项目，不过github上面也有很多人做出来了</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/04/27/older/vue-zhihu/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1177,7 +1183,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

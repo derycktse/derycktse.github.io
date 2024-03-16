@@ -20,19 +20,15 @@
     var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="在electron使用sqlite3的时候，会出现错误: 1Uncaught Error: Cannot find module ‘&#x2F;…&#x2F;node_modules&#x2F;sqlite3&#x2F;lib&#x2F;binding&#x2F;node-v51-darwin-x64&#x2F;node_sqlite3.node’  可以使用electron-rebuild解决: 12$ npm install --save-dev electro">
-<meta property="og:type" content="article">
-<meta property="og:title" content="electron使用sqlite">
-<meta property="og:url" content="https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="青苔小茶馆">
+<meta property="og:url" content="https://derycktse.github.io/archives/2024/03/index.html">
 <meta property="og:site_name" content="青苔小茶馆">
-<meta property="og:description" content="在electron使用sqlite3的时候，会出现错误: 1Uncaught Error: Cannot find module ‘&#x2F;…&#x2F;node_modules&#x2F;sqlite3&#x2F;lib&#x2F;binding&#x2F;node-v51-darwin-x64&#x2F;node_sqlite3.node’  可以使用electron-rebuild解决: 12$ npm install --save-dev electro">
 <meta property="og:locale">
-<meta property="article:published_time" content="2017-08-13T13:06:55.000Z">
-<meta property="article:modified_time" content="2024-01-07T12:22:49.183Z">
 <meta property="article:author" content="derek.xie">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/">
+<link rel="canonical" href="https://derycktse.github.io/archives/2024/03/">
 
 
 <script id="page-configurations">
@@ -40,12 +36,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : true,
+    isPost : false,
     lang   : 'cn'
   };
 </script>
 
-  <title>electron使用sqlite | 青苔小茶馆</title>
+  <title>Archive | 青苔小茶馆</title>
   
 
 
@@ -144,95 +140,50 @@
         <div class="content-wrap">
           
 
-          <div class="content post posts-expand">
+          <div class="content archive">
             
 
-    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="derek.xie">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          electron使用sqlite
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2017-08-13 21:06:55" itemprop="dateCreated datePublished" datetime="2017-08-13T21:06:55+08:00">2017-08-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-01-07 20:22:49" itemprop="dateModified" datetime="2024-01-07T20:22:49+08:00">2024-01-07</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+  
+  <div class="post-block">
+    <div class="posts-collapse">
+      <div class="collection-title">
+        <span class="collection-header">Um..! 23 posts in total. Keep on posting.</span>
+      </div>
 
       
-        <p>在electron使用sqlite3的时候，会出现错误:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Uncaught Error: Cannot find module ‘/…/node_modules/sqlite3/lib/binding/node-v51-darwin-x64/node_sqlite3.node’</span><br></pre></td></tr></table></figure>
-
-<p>可以使用electron-rebuild解决:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save-dev electron-rebuild</span><br><span class="line">$ npm install --save sqlite3</span><br></pre></td></tr></table></figure>
-
-<p>在<code>package.json</code>加上</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;rebuild&quot;: &quot;electron-rebuild -f -w sqlite3&quot;</span><br></pre></td></tr></table></figure>
-
-<p>执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run rebuild</span><br></pre></td></tr></table></figure>
+    <div class="collection-year">
+      <span class="collection-header">2024</span>
     </div>
 
-    
-    
-    
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
 
-      <footer class="post-footer">
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2024-03-16T23:29:20+08:00"
+              content="2024-03-16">
+          03-16
+        </time>
+      </div>
 
-        
+      <div class="post-title">
+          <a class="post-title-link" href="/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/" itemprop="url">
+            <span itemprop="name">使用obsidian 编写博客</span>
+          </a>
+      </div>
 
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2017/06/30/older/package-json-main-jsnext-main-module/" rel="prev" title="package.json中的main,jsnext:main,module分别是干什么用的">
-      <i class="fa fa-chevron-left"></i> package.json中的main,jsnext:main,module分别是干什么用的
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2023/10/29/2023/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-%E3%80%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9F%E5%A4%A7%E4%B8%8D%E8%83%BD%E8%A2%AB%E8%AE%A1%E5%88%92%E3%80%8B/" rel="next" title="读书笔记-《为什么伟大不能被计划》">
-      读书笔记-《为什么伟大不能被计划》 <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
+    </header>
   </article>
+
+
+    </div>
+  </div>
   
   
+  
+
   
 
 

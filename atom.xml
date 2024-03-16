@@ -6,7 +6,7 @@
   <link href="https://derycktse.github.io/atom.xml" rel="self"/>
   
   <link href="https://derycktse.github.io/"/>
-  <updated>2024-02-25T09:24:08.453Z</updated>
+  <updated>2024-03-16T15:42:10.955Z</updated>
   <id>https://derycktse.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用obsidian 编写博客</title>
+    <link href="https://derycktse.github.io/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://derycktse.github.io/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/</id>
+    <published>2024-03-16T15:29:20.000Z</published>
+    <updated>2024-03-16T15:42:10.955Z</updated>
+    
+    <content type="html"><![CDATA[<p>这一两年一直在obsidian记录东西，感觉非常不错。不过有一个问题就是，如果只是一味的记录给自己看，可能失去了和别人交流的机会。考虑到这个层面，还是决定以后得多写一些博客。记录自己在生活以及学习上的一些所得所悟，如果能有人看到我的文字有所共鸣或者收获，那将是非常有意义的事情。<br>考虑到博客使用hexo 生成，托管在github page 上，hexo有自己的一套文件夹命名格式，我还是比较喜欢在obsidian里面写东西。所以最简单的办法就是在obsidian里面写好文章直接同步到hexo 文件夹里面就行.</p><p>目前我的obsidian跟hexo文件夹的位置大概是这样：</p><table><thead><tr><th>my note</th><th>folder</th></tr></thead><tbody><tr><td>obsidian</td><td>~&#x2F;my-obsidian-folder&#x2F;blog&#x2F;_posts&#x2F;</td></tr><tr><td>hexo blog</td><td>~&#x2F;my-hexo-folder&#x2F;myname.github.io&#x2F;source&#x2F;_posts&#x2F;</td></tr></tbody></table><p>每次写完之后，直接使用rsync 同步一下我的文件夹，再部署到github page 上即可</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br><span class="line">hexo c &amp;&amp; hexo g &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure><p>当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。当下还是先让自己培养多写博客的习惯，等习惯养成之后再进一步优化。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这一两年一直在obsidian记录东西，感觉非常不错。不过有一个问题就是，如果只是一味的记录给自己看，可能失去了和别人交流的机会。考虑到这个层面，还是决定以后得多写一些博客。记录自己在生活以及学习上的一些所得所悟，如果能有人看到我的文字有所共鸣或者收获，那将是非常有意义的事</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>将输入法切到了双拼</title>
@@ -416,29 +436,6 @@
     
     
     
-    
-  </entry>
-  
-  <entry>
-    <title>浅谈javascript的原型及原型链</title>
-    <link href="https://derycktse.github.io/2016/03/08/older/%E6%B5%85%E8%B0%88javascript%E7%9A%84%E5%8E%9F%E5%9E%8B%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE/"/>
-    <id>https://derycktse.github.io/2016/03/08/older/%E6%B5%85%E8%B0%88javascript%E7%9A%84%E5%8E%9F%E5%9E%8B%E5%8F%8A%E5%8E%9F%E5%9E%8B%E9%93%BE/</id>
-    <published>2016-03-08T14:26:51.000Z</published>
-    <updated>2024-01-07T12:22:49.184Z</updated>
-    
-    <content type="html"><![CDATA[<p>原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。</p><p>在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//对象字面量</span></span><br><span class="line"><span class="keyword">var</span> obj1 = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//调用构造函数</span></span><br><span class="line"><span class="keyword">var</span> obj2 = <span class="keyword">new</span> <span class="title class_">Object</span>()</span><br></pre></td></tr></table></figure><span id="more"></span><p>其实上述两种创建对象的方法，本质上是一样的，都是JS引擎调用对象的构造函数来新建出一个对象。构造函数本身也是一个普通的JS函数</p><p>下面我们来看一个例子</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建构造函数</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params">name</span>)&#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//每个构造函数JS引擎都会自动添加一个prototype属性，我们称之为原型，这是一个对象</span></span><br><span class="line"><span class="comment">//每个由构造函数创建的对象都会共享prototype上面的属性与方法</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">typeof</span> <span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>) <span class="comment">// &#x27;object&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//我们为Person.prototype添加sayName方法</span></span><br><span class="line"><span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">sayName</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">name</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建实例</span></span><br><span class="line"><span class="keyword">var</span> person1 = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;Messi&#x27;</span>)</span><br><span class="line"><span class="keyword">var</span> person2 = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;Suarez&#x27;</span>)</span><br><span class="line"></span><br><span class="line">person1.<span class="title function_">sayName</span>() <span class="comment">// &#x27;Messi&#x27;</span></span><br><span class="line">person2.<span class="title function_">sayName</span>() <span class="comment">// &#x27;Suarez&#x27;</span></span><br><span class="line"></span><br><span class="line">person1.<span class="property">sayName</span> === person2.<span class="property">sayName</span> <span class="comment">//true</span></span><br></pre></td></tr></table></figure><p>我们借助上面的例子来理解构造函数-原型-实例，三者之间的关系，主要有几个基本概念</p><ul><li>构造函数默认会有一个<code>protoype</code>属性指向它的原型</li><li>构造函数的原型会有一个<code>consctructor</code>的属性指向构造函数本身, 即  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">constructor</span> === <span class="title class_">Person</span></span><br></pre></td></tr></table></figure></li><li>每一个<code>new</code>出来的实例都有一个隐式的<code>__proto__</code>属性，指向它们的构造函数的原型，即  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">person1.<span class="property">__proto__</span> === <span class="title class_">Person</span>.<span class="property"><span class="keyword">prototype</span></span></span><br><span class="line">person1.<span class="property">__proto__</span>.<span class="property">constructor</span> === <span class="title class_">Person</span></span><br></pre></td></tr></table></figure></li></ul><p>了解了这些基本概念之后，我们再来看看javascript的一些原生构造函数的关系网，看下列的图</p><p><img src="https://i.stack.imgur.com/KFzI3.png" alt="javascript objects treasure map"><br>引自<a href="http://stackoverflow.com/questions/650764/how-does-proto-differ-from-constructor-prototype">stackoverflow</a></p><p>按照我们上面的理解, Oject本身是一个构造函数，它也是一个对象，那么<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Object</span>.<span class="property">__proto__</span> === <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span></span><br></pre></td></tr></table></figure></p><p>为了方便我们记住上图，还有几个需要我们知道的特殊概念：</p><ol><li><code>Function</code>的原型属性与<code>Function</code>的原型指向同一个对象. 即是 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Function</span>.<span class="property">__proto__</span> == <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span></span><br></pre></td></tr></table></figure></li><li><code>Object.prototype.__proto__ === null</code></li><li><code>typeof Function.prototype === &#39;function&#39;</code></li></ol><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p>[在JavaScript中，Function构造函数本身也算是Function类型的实例吗？][<a href="https://www.zhihu.com/question/31333084/answer/152086175]">https://www.zhihu.com/question/31333084/answer/152086175]</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;原型与原型链是javascript里面最最核心的内容，如果不能理解它们之间的存在关系的话，那么我们是不能理解这门语言的。&lt;/p&gt;
-&lt;p&gt;在JS中，主要有两种创建对象的方法, 分别是对象字面量以及调用构造函数&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//对象字面量&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; obj1 = &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//调用构造函数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; obj2 = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;title class_&quot;&gt;Object&lt;/span&gt;()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</summary>
-    
-    
-    
-    
-    <category term="javascript" scheme="https://derycktse.github.io/tags/javascript/"/>
-    
-    <category term="prototype" scheme="https://derycktse.github.io/tags/prototype/"/>
     
   </entry>
   
