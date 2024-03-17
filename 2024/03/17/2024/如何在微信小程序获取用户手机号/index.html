@@ -28,7 +28,7 @@
 <meta property="og:description" content="主要流程出于安全的考虑，目前在微信小程序端，是无法直接拿到用户的手机号。需要几步安全校验。整体流程大概是：  在微信后台生成appid &amp; secret 用户登录微信小程序授权访问手机号，获得手机号获取凭证code 调取使用appid &amp; secret，获得接口调用凭证 access_token 使用接口调用凭证 access_token 与手机号获取凭证code调用微信服务获得用">
 <meta property="og:locale">
 <meta property="article:published_time" content="2024-03-17T06:03:35.000Z">
-<meta property="article:modified_time" content="2024-03-17T10:24:01.681Z">
+<meta property="article:modified_time" content="2024-03-17T10:32:28.181Z">
 <meta property="article:author" content="derek.xie">
 <meta name="twitter:card" content="summary">
 
@@ -175,7 +175,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2024-03-17 14:03:35 / Modified: 18:24:01" itemprop="dateCreated datePublished" datetime="2024-03-17T14:03:35+08:00">2024-03-17</time>
+              <time title="Created: 2024-03-17 14:03:35 / Modified: 18:32:28" itemprop="dateCreated datePublished" datetime="2024-03-17T14:03:35+08:00">2024-03-17</time>
             </span>
 
           
@@ -205,13 +205,13 @@
     participant user as 微信小程序客户端
     participant api as 后端服务
     participant wechat as 微信服务
-    user->>api: login_code <br />phone_encry_code
-    rect rgb(236, 236, 110)
+    user->>api: 授权手机号获取凭证code
+    rect rgb(255, 255, 200)
     api->>wechat: ask access_token
     wechat->>api: access_token
     end
-    rect rgb(255, 255, 120)
-    api->>wechat: access_token<br>phone_encry_code
+    rect rgb(255, 150, 230)
+    api->>wechat: access_token<br>手机号获取凭证code
     wechat->>api: 用户手机号信息
     end</pre>
 
