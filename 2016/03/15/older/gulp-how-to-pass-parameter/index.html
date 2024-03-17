@@ -28,7 +28,7 @@
 <meta property="og:description" content="现在web前端的脚手架中，有相当一部分数量的人选择用gulp做为首选的构建工具，但是，我们是没办法向gulp的任务直接传递命令行参数的。我们知道gulp实际上是运行在nodejs中的，那么，我们是可以访问process.argv比如命令gulp task1 --a 123 --b &quot;my string&quot; --c, 我们看看process.argv会输出什么 1234567891">
 <meta property="og:locale">
 <meta property="article:published_time" content="2016-03-14T16:26:36.000Z">
-<meta property="article:modified_time" content="2024-03-16T15:42:10.956Z">
+<meta property="article:modified_time" content="2024-03-17T10:21:40.222Z">
 <meta property="article:author" content="derek.xie">
 <meta property="article:tag" content="构建">
 <meta name="twitter:card" content="summary">
@@ -182,7 +182,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-03-16 23:42:10" itemprop="dateModified" datetime="2024-03-16T23:42:10+08:00">2024-03-16</time>
+                <time title="Modified: 2024-03-17 18:21:40" itemprop="dateModified" datetime="2024-03-17T18:21:40+08:00">2024-03-17</time>
               </span>
 
           
@@ -387,6 +387,19 @@
 
 
 
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
 
 
   

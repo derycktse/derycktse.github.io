@@ -20,20 +20,19 @@
     var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Rollup被誉为下一代ES 安装1$ npm install --global rollup">
+  <meta name="description" content="主要流程出于安全的考虑，目前在微信小程序端，是无法直接拿到用户的手机号。需要几步安全校验。整体流程大概是：  在微信后台生成appid &amp; secret 用户登录微信小程序授权访问手机号，获得手机号获取凭证code 调取使用appid &amp; secret，获得接口调用凭证 access_token 使用接口调用凭证 access_token 与手机号获取凭证code调用微信服务获得用">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用rollup">
-<meta property="og:url" content="https://derycktse.github.io/2017/05/01/older/rollup/index.html">
+<meta property="og:title" content="如何微信小程序获取用户手机号">
+<meta property="og:url" content="https://derycktse.github.io/2024/03/17/2024/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E6%89%8B%E6%9C%BA%E5%8F%B7/index.html">
 <meta property="og:site_name" content="青苔小茶馆">
-<meta property="og:description" content="Rollup被誉为下一代ES 安装1$ npm install --global rollup">
+<meta property="og:description" content="主要流程出于安全的考虑，目前在微信小程序端，是无法直接拿到用户的手机号。需要几步安全校验。整体流程大概是：  在微信后台生成appid &amp; secret 用户登录微信小程序授权访问手机号，获得手机号获取凭证code 调取使用appid &amp; secret，获得接口调用凭证 access_token 使用接口调用凭证 access_token 与手机号获取凭证code调用微信服务获得用">
 <meta property="og:locale">
-<meta property="article:published_time" content="2017-04-30T17:32:32.000Z">
-<meta property="article:modified_time" content="2024-03-17T10:21:40.224Z">
+<meta property="article:published_time" content="2024-03-17T06:03:35.000Z">
+<meta property="article:modified_time" content="2024-03-17T10:24:01.681Z">
 <meta property="article:author" content="derek.xie">
-<meta property="article:tag" content="构建">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://derycktse.github.io/2017/05/01/older/rollup/">
+<link rel="canonical" href="https://derycktse.github.io/2024/03/17/2024/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E6%89%8B%E6%9C%BA%E5%8F%B7/">
 
 
 <script id="page-configurations">
@@ -46,7 +45,7 @@
   };
 </script>
 
-  <title>使用rollup | 青苔小茶馆</title>
+  <title>如何微信小程序获取用户手机号 | 青苔小茶馆</title>
   
 
 
@@ -152,7 +151,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2017/05/01/older/rollup/">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/03/17/2024/%E5%A6%82%E4%BD%95%E5%9C%A8%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E6%89%8B%E6%9C%BA%E5%8F%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -165,7 +164,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          使用rollup
+          如何微信小程序获取用户手机号
         </h1>
 
         <div class="post-meta">
@@ -174,16 +173,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2017-05-01 01:32:32" itemprop="dateCreated datePublished" datetime="2017-05-01T01:32:32+08:00">2017-05-01</time>
+              <time title="Created: 2024-03-17 14:03:35 / Modified: 18:24:01" itemprop="dateCreated datePublished" datetime="2024-03-17T14:03:35+08:00">2024-03-17</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-03-17 18:21:40" itemprop="dateModified" datetime="2024-03-17T18:21:40+08:00">2024-03-17</time>
-              </span>
 
           
 
@@ -196,15 +189,93 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>Rollup被誉为下一代ES</p>
-<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --global rollup</span><br></pre></td></tr></table></figure>
+        <h1 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h1><p>出于安全的考虑，目前在微信小程序端，是无法直接拿到用户的手机号。需要几步安全校验。整体流程大概是：</p>
+<ol>
+<li>在微信后台生成appid &amp; secret</li>
+<li>用户登录微信小程序授权访问手机号，获得手机号获取凭证code</li>
+<li>调取使用appid &amp; secret，获得接口调用凭证 access_token</li>
+<li>使用接口调用凭证 access_token 与手机号获取凭证code调用微信服务获得用户手机号信息<br>简单讲即：用户授权 &amp; 调用两次微信服务</li>
+</ol>
+<h1 id="小程序端"><a href="#小程序端" class="headerlink" title="小程序端"></a>小程序端</h1><p>使用微信的内置组件 <code>&lt;button/&gt;</code>，设置<code>open-type</code> 的值设置为 <code>getPhoneNumber</code>, 当用户点击并同意之后，通过 <code>bindgetphonenumber</code> 事件获取回调信息；<br>代码如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">open-type</span>=<span class="string">&quot;getPhoneNumber&quot;</span> <span class="attr">bindgetphonenumber</span>=<span class="string">&quot;getPhoneNumber&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<span id="more"></span>
-<h3 id="使用watch模式"><a href="#使用watch模式" class="headerlink" title="使用watch模式"></a>使用watch模式</h3><p>安装依赖<code>rollup-watch</code>后，便可以愉快地开发啦</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$npm install --save-dev rollup-watch</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Page</span>(&#123;</span><br><span class="line">  getPhoneNumber (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">code</span>)  <span class="comment">// 动态令牌</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">errMsg</span>) <span class="comment">// 回调信息（成功失败都会返回）</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">errno</span>)  <span class="comment">// 错误码（失败时返回）</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>启用模式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rollup -w</span><br></pre></td></tr></table></figure>
+<h1 id="获取用户小程序服务端流程如下"><a href="#获取用户小程序服务端流程如下" class="headerlink" title="获取用户小程序服务端流程如下"></a>获取用户小程序服务端流程如下</h1><pre class="mermaid">sequenceDiagram
+    participant user as 微信小程序客户端
+    participant api as 后端服务
+    participant wechat as 微信服务
+    user->>api: login_code <br />phone_encry_code
+    rect rgb(236, 236, 110)
+    api->>wechat: ask access_token
+    wechat->>api: access_token
+    end
+    rect rgb(255, 255, 120)
+    api->>wechat: access_token<br>phone_encry_code
+    wechat->>api: 用户手机号信息
+    end</pre>
+
+
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>在开发微信小程序过程中，我们可能需要涉及到以下相关的凭证</p>
+<table>
+<thead>
+<tr>
+<th>生成</th>
+<th>作用</th>
+<th>如何获得</th>
+<th>过期时间</th>
+<th>执行端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>appid</td>
+<td>与微信服务交互的凭证</td>
+<td>管理后台生成</td>
+<td>永久</td>
+<td>微信开发者管理后台</td>
+</tr>
+<tr>
+<td>secret</td>
+<td>与微信服务交互的凭证</td>
+<td>管理后台生成</td>
+<td>永久（如果不在后台重建）</td>
+<td>微信开发者管理后台</td>
+</tr>
+<tr>
+<td>手机号获取凭证code</td>
+<td>加密后的手机号</td>
+<td>用户授权后可以拿到</td>
+<td>一次性，被拿去校验成功之后就失效</td>
+<td>小程序</td>
+</tr>
+<tr>
+<td>接口调用凭据 access token</td>
+<td>用来解密手机号code以此获得手机号</td>
+<td>通过appid与secret调微信的接口拿到</td>
+<td>获取2h后失效，期间都可以使用</td>
+<td>服务端</td>
+</tr>
+<tr>
+<td>登录凭证 code</td>
+<td>跟微信服务获取openid</td>
+<td>每次登录的时候</td>
+<td>一次性，被拿去校验成功之后就失效</td>
+<td>小程序</td>
+</tr>
+<tr>
+<td>openid</td>
+<td>使用 login code拿到，用户的唯一身份</td>
+<td>无法直接获取</td>
+<td>永久</td>
+<td>服务端</td>
+</tr>
+</tbody></table>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-login/code2Session.html">小程序登录</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getAccessToken.html">获取接口调用凭据</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-info/phone-number/getPhoneNumber.html">获取手机号</a></li>
+</ul>
+
     </div>
 
     
@@ -212,9 +283,6 @@
     
 
       <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/%E6%9E%84%E5%BB%BA/" rel="tag"># 构建</a>
-          </div>
 
         
 
@@ -222,13 +290,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/04/27/older/vue-zhihu/" rel="prev" title="使用Vue全家桶开发知乎日报">
-      <i class="fa fa-chevron-left"></i> 使用Vue全家桶开发知乎日报
+    <a href="/2024/03/16/2024/%E4%BD%BF%E7%94%A8obsidian%20%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2/" rel="prev" title="使用obsidian 编写博客">
+      <i class="fa fa-chevron-left"></i> 使用obsidian 编写博客
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2017/05/10/older/mouse-contextmenu-bug-firefox/" rel="next" title="关于点击鼠标右键在firefox上面的坑">
-      关于点击鼠标右键在firefox上面的坑 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -287,7 +352,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8watch%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">使用watch模式</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">主要流程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">小程序端</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%B5%81%E7%A8%8B%E5%A6%82%E4%B8%8B"><span class="nav-number">3.</span> <span class="nav-text">获取用户小程序服务端流程如下</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
