@@ -26,9 +26,6 @@ dependencies:
   hexo-generator-index:
     specifier: ^3.0.0
     version: 3.0.0
-  hexo-generator-tag:
-    specifier: ^2.0.0
-    version: 2.0.0
   hexo-renderer-ejs:
     specifier: ^2.0.0
     version: 2.0.0
@@ -688,13 +685,6 @@ packages:
 
   /hexo-generator-index@3.0.0:
     resolution: {integrity: sha512-83AuNN4cWdLVi//3ugR8E3kR6rrOwhXZt+hOCm1IjtIGj353/GlrtpMHpqZHU5kqipzj4miy9dweVdukXglVWw==}
-    engines: {node: '>=14'}
-    dependencies:
-      hexo-pagination: 3.0.0
-    dev: false
-
-  /hexo-generator-tag@2.0.0:
-    resolution: {integrity: sha512-1px/hF3veEohWDN8jjzchQhaiz+uOStUvvMaBJC9vWOlALh30UFcapL8IrvAwwJZjFRVA+WqGgDRqoQ8+yaaFw==}
     engines: {node: '>=14'}
     dependencies:
       hexo-pagination: 3.0.0
