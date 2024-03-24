@@ -299,6 +299,28 @@
   </entry>
   
   <entry>
+    <title>读书笔记 - 睡眠革命</title>
+    <link href="https://derycktse.github.io/2023/01/21/2023/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20%E7%9D%A1%E7%9C%A0%E9%9D%A9%E5%91%BD/"/>
+    <id>https://derycktse.github.io/2023/01/21/2023/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%20-%20%E7%9D%A1%E7%9C%A0%E9%9D%A9%E5%91%BD/</id>
+    <published>2023-01-21T11:50:00.000Z</published>
+    <updated>2024-03-24T16:05:00.458Z</updated>
+    
+    <content type="html"><![CDATA[<p>书的核心是提出R90的概念，即90分钟一个睡眠周期。把每天晚上的睡眠拆成一个个的周期单位不用太局限于一天晚上睡眠周期不够，更重要的是一周可以获得多少的周期。如果前一天晚上觉得休息不够，下午跟傍晚时一个修复睡眠的时间。另外根据自己的实际需要起床时间，再结合自己合适的睡眠周期，倒推自己的入睡时间，周末也按这个时间。重要的是睡眠规律，睡眠的时长也没有那么的重要，长时间的浅睡眠，效果并不好。其他都是一些同类书会提到的一些辅助睡眠方法，比如远离电子设备，营造合适的睡眠环境，睡眠姿势等等。</p><p><img src="https://pic1.zhimg.com/80/v2-679e790a500f3b1499f5e3fc74ab7f49_1440w.png" alt="img"><br><img src="https://pic2.zhimg.com/80/v2-51c467ec18a77cd885a8f0054bd8020a_1440w.png" alt="img"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;书的核心是提出R90的概念，即90分钟一个睡眠周期。把每天晚上的睡眠拆成一个个的周期单位不用太局限于一天晚上睡眠周期不够，更重要的是一周可以获得多少的周期。如果前一天晚上觉得休息不够，下午跟傍晚时一个修复睡眠的时间。另外根据自己的实际需要起床时间，再结合自己合适的睡眠周期，</summary>
+      
+    
+    
+    
+    
+    <category term="读书笔记" scheme="https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>使用obsidian</title>
     <link href="https://derycktse.github.io/2023/01/02/2023/%E4%BD%BF%E7%94%A8obsidian/"/>
     <id>https://derycktse.github.io/2023/01/02/2023/%E4%BD%BF%E7%94%A8obsidian/</id>
@@ -415,27 +437,6 @@
     
     
     <category term="构建" scheme="https://derycktse.github.io/tags/%E6%9E%84%E5%BB%BA/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>使用Vue全家桶开发知乎日报</title>
-    <link href="https://derycktse.github.io/2017/04/27/older/vue-zhihu/"/>
-    <id>https://derycktse.github.io/2017/04/27/older/vue-zhihu/</id>
-    <published>2017-04-27T07:41:33.000Z</published>
-    <updated>2024-03-17T10:34:13.878Z</updated>
-    
-    <content type="html"><![CDATA[<p>使用Vue2 + vue-router + vuex 开发的知乎日报</p><p><a href="https://github.com/derycktse/zhihudaily-vue">github地址</a>，如果觉得还可以，不妨给个star吧</p><h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><p>因为经常看知乎日报，萌生了自己撸一个的想法，于是有了这个项目，不过github上面也有很多人做出来了</p><span id="more"></span><h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><p>直接使用vue-cli脚手架开撸</p><h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><h3 id="图片防盗链"><a href="#图片防盗链" class="headerlink" title="图片防盗链"></a>图片防盗链</h3><p>使用代理网站 <a href="Images.weserv.nl">Images.weserv.nl</a>代理知乎图片</p><h3 id="接口跨域问题"><a href="#接口跨域问题" class="headerlink" title="接口跨域问题"></a>接口跨域问题</h3><p><del>在本地启一个代理服务器(<a href="https://github.com/request/request">request</a> )， 从而不会有跨域的问题</del></p><p>脚手架中已经集成了<a href="https://github.com/chimurai/http-proxy-middleware">http-proxy-middleware</a>作为代理，使用proxyTable即可代理接口，从而不会有跨域问题，用法见<a href="https://vuejs-templates.github.io/webpack/proxy.html">Proxy</a></p><p>代码结构(使用工具<a href="https://www.npmjs.com/package/treer">treer</a>生成):</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">src</span><br><span class="line">├─App.vue</span><br><span class="line">├─main.js</span><br><span class="line">├─store</span><br><span class="line">|   └store.js</span><br><span class="line">├─router</span><br><span class="line">|   └index.js</span><br><span class="line">├─components</span><br><span class="line">|     ├─Carousel.vue</span><br><span class="line">|     ├─List.vue</span><br><span class="line">|     ├─NewsDetail.vue</span><br><span class="line">|     └NewsList.vue</span><br><span class="line">├─common</span><br><span class="line">|   └util.js</span><br><span class="line">├─assets</span><br><span class="line">|   ├─logo.png</span><br><span class="line">|   ├─top_logo.png</span><br><span class="line">|   ├─css</span><br><span class="line">|   |  ├─reset.css</span><br><span class="line">|   |  └zhihu_base.css</span><br><span class="line">├─api</span><br><span class="line">|  └index.js</span><br></pre></td></tr></table></figure><h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://github.com/izzyleung/ZhihuDailyPurify/wiki/%E7%9F%A5%E4%B9%8E%E6%97%A5%E6%8A%A5-API-%E5%88%86%E6%9E%90">知乎API分析</a></p>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;使用Vue2 + vue-router + vuex 开发的知乎日报&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/derycktse/zhihudaily-vue&quot;&gt;github地址&lt;/a&gt;，如果觉得还可以，不妨给个star吧&lt;/p&gt;
-&lt;h3 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h3&gt;&lt;p&gt;因为经常看知乎日报，萌生了自己撸一个的想法，于是有了这个项目，不过github上面也有很多人做出来了&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="Vue" scheme="https://derycktse.github.io/tags/vue/"/>
     
   </entry>
   
