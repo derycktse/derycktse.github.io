@@ -39,6 +39,27 @@
   </entry>
   
   <entry>
+    <title>github copilot被封记</title>
+    <link href="https://derycktse.github.io/2024/04/11/2024/github%20copilot%E8%A2%AB%E5%B0%81%E8%AE%B0/"/>
+    <id>https://derycktse.github.io/2024/04/11/2024/github%20copilot%E8%A2%AB%E5%B0%81%E8%AE%B0/</id>
+    <published>2024-04-11T03:00:00.000Z</published>
+    <updated>2024-05-19T03:09:11.477Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2024-03-29晚上使用vs code, 发现我的copilot一直不起作用了。</p><h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>一开始想着可能我配置错了，尝试了各种方法，都不行：</p><ol><li>切换更早版本的copilot（一年前的版本）</li><li>换一台笔记本</li><li>用其他的IDE</li></ol><p>copliot 的终端报错显示</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [auth] [2024-03-29T14:22:41.063Z] Invalid copilot token: missing token: 403 </span><br><span class="line">[ERROR] [default] [2024-03-29T14:22:41.065Z] GitHub Copilot could not connect to server. Extension activation failed: &quot;Contact Support. You are currently logged in as derycktse.&quot;</span><br></pre></td></tr></table></figure><p>琢磨了一下看着像是被封了</p><h1 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h1><p>于是在官网找到客服提ticket实锤被封。<br>GitHub回复检测我的账号有部署服务的嫌疑，不能解禁。<br><img src="https://github.com/derycktse/Note/assets/3389862/9ddc188b-b3db-4827-b663-690e95668ed6" alt="img"><br>因为我在公司使用了，而公司出口IP走的腾讯云。于是被github 的安全机制扫描出来给封禁了。</p><p>于是我质疑他们只看来源不看使用量的策略，毕竟我个人使用的话，这个量还是微乎其微的。<br><img src="https://github.com/derycktse/Note/assets/3389862/52c2cc78-2c10-4e59-a3c5-6fdb1b352e24" alt="img"><br>最终客服成功给我解封了</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;2024-03-29晚上使用vs code, 发现我的copilot一直不起作用了。&lt;/p&gt;
+&lt;h1 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>2024-03</title>
     <link href="https://derycktse.github.io/2024/03/31/2024/2024-03/"/>
     <id>https://derycktse.github.io/2024/03/31/2024/2024-03/</id>
@@ -421,26 +442,6 @@
       
     <summary type="html">&lt;p&gt;在electron使用sqlite3的时候，会出现错误:&lt;/p&gt;
 &lt;figure class=&quot;highlight plaintext&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>package.json中的main,jsnext:main,module分别是干什么用的</title>
-    <link href="https://derycktse.github.io/2017/06/30/older/package-json-main-jsnext-main-module/"/>
-    <id>https://derycktse.github.io/2017/06/30/older/package-json-main-jsnext-main-module/</id>
-    <published>2017-06-30T03:16:08.000Z</published>
-    <updated>2024-03-31T04:17:44.714Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="main"><a href="#main" class="headerlink" title="main"></a>main</h2><p>我们来看<a href="https://docs.npmjs.com/files/package.json#main">npm</a>官方的定义:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">The main field is a module ID that is the primary entry point to your program. That is, if your package is named foo, and a user installs it, and then does require(&quot;foo&quot;), then your main module&#x27;s exports object will be returned.</span><br><span class="line"></span><br><span class="line">This should be a module ID relative to the root of your package folder.</span><br><span class="line"></span><br><span class="line">For most modules, it makes the most sense to have a main script and often not much else.</span><br></pre></td></tr></table></figure><p>简单说<code>main</code>字段定义了我们程序的主要入口，用户在<code>require</code>我们模块的时候，程序会从<code>main</code>字段中找到我们程序的主要入口，从而输出我们的代码依赖.</p><p>在这里,<code>main</code>字段用来指向commonjs的模块</p><h2 id="jsnext-main-与-module"><a href="#jsnext-main-与-module" class="headerlink" title="jsnext:main 与 module"></a>jsnext:main 与 module</h2><p><code>jsnext:main</code> 与 <code>module</code>的作用是一样的， 但是由于<code>module</code>更直白一点，所以现在使用<code>module</code>. 在这里我们讨论<code>module</code></p><p><code>module</code>字段会指向一个ES2015 模块的入口, 当使用<code>rollup</code>这些模块的bundler时，由于使用了ES2015 的模块，可以再做<code>tree shaking</code>优化</p><h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://shuheikagawa.com/blog/2017/01/05/main-jsnext-main-and-module/">http://shuheikagawa.com/blog/2017/01/05/main-jsnext-main-and-module/</a><br><a href="https://github.com/jsforum/jsforum/issues/5">https://github.com/jsforum/jsforum/issues/5</a><br><a href="https://www.reddit.com/r/javascript/comments/5jwg9c/confused_about_fields_module_and_jsnextmain_in/">https://www.reddit.com/r/javascript/comments/5jwg9c/confused_about_fields_module_and_jsnextmain_in&#x2F;</a><br>rollup wiki</p><p><a href="https://github.com/rollup/rollup/wiki/pkg.module">https://github.com/rollup/rollup/wiki/pkg.module</a><br><a href="https://github.com/rollup/rollup/wiki/jsnext:main">https://github.com/rollup/rollup/wiki/jsnext:main</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;main&quot;&gt;&lt;a href=&quot;#main&quot; class=&quot;headerlink&quot; title=&quot;main&quot;&gt;&lt;/a&gt;main&lt;/h2&gt;&lt;p&gt;我们来看&lt;a href=&quot;https://docs.npmjs.com/files/package.json#main&quot;&gt;n</summary>
       
     
     
