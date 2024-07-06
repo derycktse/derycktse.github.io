@@ -103,7 +103,8 @@ rss: /atom.xml
 
 
 ## Themes: https://hexo.io/themes/
-theme: next 
+# theme: next 
+theme: stellar 
 
 
 # Deployment

@@ -128,7 +128,7 @@ upstream 服务直接响应html内容
 ![](https://github.com/community/community/assets/3389862/934e4705-e5fb-49ae-9b2e-ea0d7960b515)
 
 是不是很简单？
-## 异常的出现
+## 异常的出现 ##
 那么，对于SSI的使用数量，是否有上限呢？让我们往页面里面再添加SSI
 
 修改如下
