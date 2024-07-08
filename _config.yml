@@ -5,6 +5,7 @@
 # Site
 title: 青苔小茶馆 
 subtitle: ''
+avatar: https://avatars.githubusercontent.com/u/3389862?v=4
 description: '德里克的个人博客'
 keywords: blog, 播客
 author: deryck.xie
@@ -103,8 +104,8 @@ rss: /atom.xml
 
 
 ## Themes: https://hexo.io/themes/
-# theme: next 
-theme: stellar 
+theme: next 
+# theme: stellar 
 
 
 # Deployment

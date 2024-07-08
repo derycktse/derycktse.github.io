@@ -1,6 +1,6 @@
 ---
 date: 2024-07-06 16:43:30
-title: Nginx Server Side Includes
+title: 使用Nginx Server Side Includes
 ---
 
 # 什么是Server Side Includes
