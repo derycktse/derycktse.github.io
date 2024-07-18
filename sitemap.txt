@@ -1,3 +1,4 @@
+https://derycktse.github.io/2024/07/18/2024/reading-note-mini-habits/
 https://derycktse.github.io/2017/05/18/older/webpack-uglify-for-ie8/
 https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/
 https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/
