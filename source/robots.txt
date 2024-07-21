@@ -1,10 +1,2 @@
 User-agent: *
-Allow: /
-Allow: /archives/
-Allow: /categories/
-Allow: /tags/ 
-Disallow: /vendors/
-Disallow: /fonts/
-Disallow: /vendors/
-Disallow: /fancybox/
 Sitemap: https://derycktse.github.io/sitemap.xml
