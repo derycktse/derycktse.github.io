@@ -1,6 +1,2 @@
 User-agent: *
-Disallow: /vendors/
-Disallow: /fonts/
-Disallow: /vendors/
-Disallow: /fancybox/
 Sitemap: https://derycktse.github.io/sitemap.xml
