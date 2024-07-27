@@ -1,4 +1,9 @@
-https://derycktse.github.io/2024/07/18/2024/reading-note-mini-habits/
+https://derycktse.github.io/2024/07/27/2024/reading-note-reading-traveling-and-love/
+https://derycktse.github.io/2024/01/14/2024/reading-notes-the-courage-to-be-hated/
+https://derycktse.github.io/2024/02/11/2024/reading-note-open-your-mind/
+https://derycktse.github.io/2024/01/14/2024/reading-note-The-Road-to-Financial-Freedom/
+https://derycktse.github.io/2024/01/13/2024/reading-note-elastic-growth/
+https://derycktse.github.io/2024/07/27/2024/reading-note-mini-habits/
 https://derycktse.github.io/2017/05/18/older/webpack-uglify-for-ie8/
 https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/
 https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/
@@ -21,11 +26,7 @@ https://derycktse.github.io/2016/02/23/older/ES2015/
 https://derycktse.github.io/2024/03/16/2024/use-obsidian-to-write-blog/
 https://derycktse.github.io/2024/07/06/2024/using-nginx-server-side-includes/
 https://derycktse.github.io/2016/03/08/older/A-brief-discussion-on-JavaScript-prototype-and-prototype-chain/
-https://derycktse.github.io/2024/01/13/2024/reading-note-elastic-growth/
-https://derycktse.github.io/2024/02/11/2024/reading-note-open-your-mind/
-https://derycktse.github.io/2024/01/14/2024/reading-notes-the-courage-to-be-hated/
 https://derycktse.github.io/2024/05/02/2024/my-daily-2024-04/
-https://derycktse.github.io/2024/01/14/2024/reading-note-The-Road-to-Financial-Freedom/
 https://derycktse.github.io/2024/03/31/2024/my-daily-2024-03/
 https://derycktse.github.io/2024/03/17/2024/get-user-phone-in-weixin-mini-program/
 https://derycktse.github.io/2024/04/11/2024/github-copilot-was-banned/
