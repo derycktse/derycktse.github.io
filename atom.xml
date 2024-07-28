@@ -6,7 +6,7 @@
   <link href="https://derycktse.github.io/atom.xml" rel="self"/>
   
   <link href="https://derycktse.github.io/"/>
-  <updated>2024-07-28T06:23:03.013Z</updated>
+  <updated>2024-07-28T08:17:50.926Z</updated>
   <id>https://derycktse.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用Google Analytics</title>
+    <link href="https://derycktse.github.io/2024/07/28/2024/use-google-analytics/"/>
+    <id>https://derycktse.github.io/2024/07/28/2024/use-google-analytics/</id>
+    <published>2024-07-28T08:17:50.925Z</published>
+    <updated>2024-07-28T08:17:50.926Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Google-Analytics"><a href="#Google-Analytics" class="headerlink" title="Google Analytics"></a>Google Analytics</h1><p>目前市场流量分析工具，Google Analytics的占有为全球第一<br>2024年7月开始，Google Universal Analytics开始全面停用，所有服务切换到了GA4。</p><blockquote><p><strong>紧急通知：</strong> 自 2024 年 7 月 1 日起，您将无法通过界面&#x2F;API 以及任何产品集成功能（例如 Google Ads 或 Search Ads 360）访问 Universal Analytics 数据。如果您尚未完成迁移，请通过<a href="https://support.google.com/analytics/answer/10110290">设置助理</a> 开始使用 Google Analytics 4 (GA4)。如果您想要继续访问媒体资源中的数据，则应立即<a href="https://support.google.com/analytics/answer/11583528#export&zippy=%2Chow-can-i-export-data-from-my-universal-analytics-property">下载自己的数据</a> 。</p></blockquote><h2 id="Google-Analytics-4"><a href="#Google-Analytics-4" class="headerlink" title="Google Analytics 4"></a>Google Analytics 4</h2><p> Google Analytics 4，即GA4，为GA的第4个版本。</p><h2 id="Google-Analytics-的各个版本"><a href="#Google-Analytics-的各个版本" class="headerlink" title="Google Analytics 的各个版本"></a>Google Analytics 的各个版本</h2><p>严格来说，并没有一个被正式称为 “GA3” 的版本。Google Analytics 的版本命名并不是按照数字顺序进行的，但我们可以根据其发展历程来理解不同版本的演变。</p><ol><li>Urchin：<ul><li>Google Analytics 的前身是 Urchin，Google 在2005年收购了 Urchin Software Corporation，并基于其技术推出了 Google Analytics。</li></ul></li><li>Classic Google Analytics (GA1)：<ul><li>这是 Google Analytics 的第一个版本，使用了 Urchin Tracking Module (UTM) 代码进行数据收集。</li></ul></li><li>Universal Analytics (GA2)：<ul><li>2012年，Google 推出了 Universal Analytics，这是一个重大升级，采用了新的数据模型和跟踪代码（analytics.js），并引入了许多新功能，如跨设备跟踪和更灵活的数据收集。</li></ul></li><li>Google Analytics 4 (GA4)：<ul><li>2020年，Google 推出了 Google Analytics 4，这是一个全新的版本，采用了基于事件的数据模型，旨在更好地支持跨平台（网站和应用）跟踪和分析。<br>说明:</li></ul></li><li>Google 并没有正式使用 “GA3” 这个名称。Universal Analytics 通常被视为 Google Analytics 的第二个主要版本（GA2），而 GA4 则是第三个主要版本。</li></ol><h1 id="接入方式"><a href="#接入方式" class="headerlink" title="接入方式"></a>接入方式</h1><p>GA4 接入方式有两种：</p><ol><li>gtag.js</li><li>使用Google Tag Manager</li></ol><h1 id="Global-Site-Tag-gtag-js"><a href="#Global-Site-Tag-gtag-js" class="headerlink" title="Global Site Tag (gtag.js)"></a>Global Site Tag (gtag.js)</h1><p>Google在2017年发布了全球站点标签（gtag.js）。这个新的库可以在Google的网站和转化测量产品中通用，使得用户只需使用gtag.js代码就可以管理不同的产品，而不需要管理多个标签。在gtag之前，Google Analytics和Google Ads使用的是不同的标签框架。<br>gtag.js框架以统一和标准化的方式向Google Analytics、Google Ads（以前称为Google Adwords）和其他Google服务发送数据。</p><h2 id="使用gtag接入ga4"><a href="#使用gtag接入ga4" class="headerlink" title="使用gtag接入ga4"></a>使用gtag接入ga4</h2><ol><li><p>登录<a href="https://analytics.google.com/analytics/web">Google analytic 后台</a>, 在Amin -&gt; Property settings -&gt; Data Collection and modification -&gt; Data streams 可以找到一个 <code>G-*</code> 开头的ID，这就是你的GA4 ID<br><img src="https://github.com/user-attachments/assets/09ee0ca2-a1e0-48e2-8f88-b94418a51a48" alt="image"></p></li><li><p>使用gtag 接入<br><img src="https://github.com/user-attachments/assets/43c7d5f3-77fa-4307-a7dd-88d5836ff2db" alt="image"></p></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul><li><a href="https://developers.google.com/tag-platform/gtagjs">About the Google tag</a></li><li><a href="https://zhuanlan.zhihu.com/p/53993217?utm_source=wechat_session&utm_medium=social&utm_oi=793368515217330176&from=timeline&isappinstalled=0">先利其器 - 查看 Google Analytics 报表的小诀窍</a></li><li><a href="https://www.analyticsmania.com/post/gtag-vs-google-tag-manager/">GTAG vs Google Tag Manager. What is the Difference? What to Choose?  </a></li><li><a href="https://www.analyticsmania.com/post/gtag-vs-analytics-js/">GTAG vs Analytics.js </a></li><li><a href="https://developers.google.com/analytics/devguides/collection/gtagjs/events">Measure Google Analytics Events </a></li><li><a href="https://awoo.ai/zh-hant/blog/google-analytics4-events/">不可不知的GA4事件！與通用版Analytics(GA3)有什麼不同呢?  </a></li><li><a href="https://support.google.com/analytics/answer/3123666?hl=en#zippy=%2Cin-this-article">Set up User-ID</a></li><li><a href="https://support.google.com/analytics/answer/2709828?hl=zh-Hans#collection">自定义维度和指标</a></li><li><a href="https://www.ichdata.com/google-analytics-history.html">Google Analytics发展历史（1995到2024）</a></li><li><a href="https://onward.justia.com/history-of-google-analytics/">History of Google Analytics</a></li><li><a href="https://developers.google.com/tag-platform/devguides/existing">分析现有代码配置</a></li><li><a href="https://support.google.com/analytics/answer/9310895?hl=en#zippy=%2Cin-this-article">UA→GA4How gtag.js for UA maps to GA4</a></li><li><a href="https://www.ichdata.com/google-analytics-and-google-tag-manager-limits.html">Google Analytics 4 免费版和付费版的限额对比</a></li><li><a href="https://developers.google.com/analytics/devguides/collection/analyticsjs">将 analytics.js 添加到网站中</a></li></ul>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;Google-Analytics&quot;&gt;&lt;a href=&quot;#Google-Analytics&quot; class=&quot;headerlink&quot; title=&quot;Google Analytics&quot;&gt;&lt;/a&gt;Google Analytics&lt;/h1&gt;&lt;p&gt;目前市场流量分析工具，Goo</summary>
+      
+    
+    
+    
+    
+    <category term="SEO" scheme="https://derycktse.github.io/tags/seo/"/>
+    
+    <category term="DataAnalytics" scheme="https://derycktse.github.io/tags/dataanalytics/"/>
+    
+  </entry>
   
   <entry>
     <title>读书笔记《阅读、游历和爱情》</title>
@@ -420,28 +444,6 @@
       
     <summary type="html">&lt;p&gt;二刷时间: 2023-08-06&lt;/p&gt;
 &lt;h1 id=&quot;评价&quot;&gt;&lt;a href=&quot;#评价&quot; class=&quot;headerlink&quot; title=&quot;评价&quot;&gt;&lt;/a&gt;评价&lt;/h1&gt;&lt;p&gt;从脑科学聊到行动，在自己舒适区边缘做拉伸。&lt;br&gt;整体文字还比较流畅，串联了挺多理论，参考文</summary>
-      
-    
-    
-    
-    
-    <category term="读书笔记" scheme="https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记 - 睡眠革命</title>
-    <link href="https://derycktse.github.io/2023/01/21/2023/reading-note-Sleep-Revolution/"/>
-    <id>https://derycktse.github.io/2023/01/21/2023/reading-note-Sleep-Revolution/</id>
-    <published>2023-01-21T11:50:00.000Z</published>
-    <updated>2024-07-27T15:16:32.481Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>书的核心是提出R90的概念，即90分钟一个睡眠周期。把每天晚上的睡眠拆成一个个的周期单位不用太局限于一天晚上睡眠周期不够，更重要的是一周可以获得多少的周期。如果前一天晚上觉得休息不够，下午跟傍晚时一个修复睡眠的时间。另外根据自己的实际需要起床时间，再结合自己合适的睡眠周期，倒推自己的入睡时间，周末也按这个时间。重要的是睡眠规律，睡眠的时长也没有那么的重要，长时间的浅睡眠，效果并不好。其他都是一些同类书会提到的一些辅助睡眠方法，比如远离电子设备，营造合适的睡眠环境，睡眠姿势等等。</p><h1 id="知识"><a href="#知识" class="headerlink" title="知识"></a>知识</h1><ul><li>快速眼动睡眠（REM，rapid eye movement）</li><li>非快速眼动睡眠： REM以外的睡眠<ul><li>再进一步分为：入睡期（N1）、浅睡期（N2）、熟睡期（N3）（熟睡及深睡期）。</li></ul></li><li>在一个睡眠周期中，REM睡眠和非REM睡眠会交替出现</li><li>正常的睡眠周期，由非快速动眼期的第一阶（入睡期，N1）循序进入第二阶（浅睡期，N2）、由浅入深至第三阶（熟睡及深睡期，N3；原有第四阶，目前已并入第三阶，合称 熟睡期），接着并不直接进入快速动眼期，而是从深度睡眠逆向回到浅度睡眠，之后才进入快速动眼期。快速动眼期结束后，接着再进入第一阶的N1，如此周而复始。</li></ul><p><img src="https://pic1.zhimg.com/80/v2-679e790a500f3b1499f5e3fc74ab7f49_1440w.png" alt="img"><br><img src="https://pic2.zhimg.com/80/v2-51c467ec18a77cd885a8f0054bd8020a_1440w.png" alt="img"></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h1&gt;&lt;p&gt;书的核心是提出R90的概念，即90分钟一个睡眠周期。把每天晚上的睡眠拆成一个个的周期单位不用太局限于一天晚上睡眠周期不够，更重要的是一周可以</summary>
       
     
     

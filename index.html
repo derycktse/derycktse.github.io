@@ -182,6 +182,116 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/07/28/2024/use-google-analytics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="德里克的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/07/28/2024/use-google-analytics/" class="post-title-link" itemprop="url">使用Google Analytics</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-07-28 16:17:50" itemprop="dateCreated datePublished" datetime="2024-07-28T16:17:50+08:00">2024-07-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Google-Analytics"><a href="#Google-Analytics" class="headerlink" title="Google Analytics"></a>Google Analytics</h1><p>目前市场流量分析工具，Google Analytics的占有为全球第一<br>2024年7月开始，Google Universal Analytics开始全面停用，所有服务切换到了GA4。</p>
+<blockquote>
+<p><strong>紧急通知：</strong> 自 2024 年 7 月 1 日起，您将无法通过界面&#x2F;API 以及任何产品集成功能（例如 Google Ads 或 Search Ads 360）访问 Universal Analytics 数据。如果您尚未完成迁移，请通过<a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/10110290">设置助理</a> 开始使用 Google Analytics 4 (GA4)。如果您想要继续访问媒体资源中的数据，则应立即<a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/11583528#export&zippy=%2Chow-can-i-export-data-from-my-universal-analytics-property">下载自己的数据</a> 。</p>
+</blockquote>
+<h2 id="Google-Analytics-4"><a href="#Google-Analytics-4" class="headerlink" title="Google Analytics 4"></a>Google Analytics 4</h2><p> Google Analytics 4，即GA4，为GA的第4个版本。</p>
+<h2 id="Google-Analytics-的各个版本"><a href="#Google-Analytics-的各个版本" class="headerlink" title="Google Analytics 的各个版本"></a>Google Analytics 的各个版本</h2><p>严格来说，并没有一个被正式称为 “GA3” 的版本。Google Analytics 的版本命名并不是按照数字顺序进行的，但我们可以根据其发展历程来理解不同版本的演变。</p>
+<ol>
+<li>Urchin：<ul>
+<li>Google Analytics 的前身是 Urchin，Google 在2005年收购了 Urchin Software Corporation，并基于其技术推出了 Google Analytics。</li>
+</ul>
+</li>
+<li>Classic Google Analytics (GA1)：<ul>
+<li>这是 Google Analytics 的第一个版本，使用了 Urchin Tracking Module (UTM) 代码进行数据收集。</li>
+</ul>
+</li>
+<li>Universal Analytics (GA2)：<ul>
+<li>2012年，Google 推出了 Universal Analytics，这是一个重大升级，采用了新的数据模型和跟踪代码（analytics.js），并引入了许多新功能，如跨设备跟踪和更灵活的数据收集。</li>
+</ul>
+</li>
+<li>Google Analytics 4 (GA4)：<ul>
+<li>2020年，Google 推出了 Google Analytics 4，这是一个全新的版本，采用了基于事件的数据模型，旨在更好地支持跨平台（网站和应用）跟踪和分析。<br>说明:</li>
+</ul>
+</li>
+<li>Google 并没有正式使用 “GA3” 这个名称。Universal Analytics 通常被视为 Google Analytics 的第二个主要版本（GA2），而 GA4 则是第三个主要版本。</li>
+</ol>
+<h1 id="接入方式"><a href="#接入方式" class="headerlink" title="接入方式"></a>接入方式</h1><p>GA4 接入方式有两种：</p>
+<ol>
+<li>gtag.js</li>
+<li>使用Google Tag Manager</li>
+</ol>
+<h1 id="Global-Site-Tag-gtag-js"><a href="#Global-Site-Tag-gtag-js" class="headerlink" title="Global Site Tag (gtag.js)"></a>Global Site Tag (gtag.js)</h1><p>Google在2017年发布了全球站点标签（gtag.js）。这个新的库可以在Google的网站和转化测量产品中通用，使得用户只需使用gtag.js代码就可以管理不同的产品，而不需要管理多个标签。在gtag之前，Google Analytics和Google Ads使用的是不同的标签框架。<br>gtag.js框架以统一和标准化的方式向Google Analytics、Google Ads（以前称为Google Adwords）和其他Google服务发送数据。</p>
+<h2 id="使用gtag接入ga4"><a href="#使用gtag接入ga4" class="headerlink" title="使用gtag接入ga4"></a>使用gtag接入ga4</h2><ol>
+<li><p>登录<a target="_blank" rel="noopener" href="https://analytics.google.com/analytics/web">Google analytic 后台</a>, 在Amin -&gt; Property settings -&gt; Data Collection and modification -&gt; Data streams 可以找到一个 <code>G-*</code> 开头的ID，这就是你的GA4 ID<br><img src="https://github.com/user-attachments/assets/09ee0ca2-a1e0-48e2-8f88-b94418a51a48" alt="image"></p>
+</li>
+<li><p>使用gtag 接入<br><img src="https://github.com/user-attachments/assets/43c7d5f3-77fa-4307-a7dd-88d5836ff2db" alt="image"></p>
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/tag-platform/gtagjs">About the Google tag</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/53993217?utm_source=wechat_session&utm_medium=social&utm_oi=793368515217330176&from=timeline&isappinstalled=0">先利其器 - 查看 Google Analytics 报表的小诀窍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.analyticsmania.com/post/gtag-vs-google-tag-manager/">GTAG vs Google Tag Manager. What is the Difference? What to Choose?  </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.analyticsmania.com/post/gtag-vs-analytics-js/">GTAG vs Analytics.js </a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/analytics/devguides/collection/gtagjs/events">Measure Google Analytics Events </a></li>
+<li><a target="_blank" rel="noopener" href="https://awoo.ai/zh-hant/blog/google-analytics4-events/">不可不知的GA4事件！與通用版Analytics(GA3)有什麼不同呢?  </a></li>
+<li><a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/3123666?hl=en#zippy=%2Cin-this-article">Set up User-ID</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/2709828?hl=zh-Hans#collection">自定义维度和指标</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ichdata.com/google-analytics-history.html">Google Analytics发展历史（1995到2024）</a></li>
+<li><a target="_blank" rel="noopener" href="https://onward.justia.com/history-of-google-analytics/">History of Google Analytics</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/tag-platform/devguides/existing">分析现有代码配置</a></li>
+<li><a target="_blank" rel="noopener" href="https://support.google.com/analytics/answer/9310895?hl=en#zippy=%2Cin-this-article">UA→GA4How gtag.js for UA maps to GA4</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.ichdata.com/google-analytics-and-google-tag-manager-limits.html">Google Analytics 4 免费版和付费版的限额对比</a></li>
+<li><a target="_blank" rel="noopener" href="https://developers.google.com/analytics/devguides/collection/analyticsjs">将 analytics.js 添加到网站中</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/07/28/2024/reading-note-reading-traveling-and-love/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1190,255 +1300,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/02/11/2024/reading-note-open-your-mind/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="deryck.xie">
-      <meta itemprop="description" content="德里克的个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/02/11/2024/reading-note-open-your-mind/" class="post-title-link" itemprop="url">读书笔记《打开心智》</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-02-11 23:20:00" itemprop="dateCreated datePublished" datetime="2024-02-11T23:20:00+08:00">2024-02-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-28 14:23:03" itemprop="dateModified" datetime="2024-07-28T14:23:03+08:00">2024-07-28</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="笔记"><a href="#笔记" class="headerlink" title="笔记"></a>笔记</h1><p>这本书的观念好像跟之前说的脑科学的书讲的不太一致。<br>主要是说多巴胺的作用，之前读书的认知是，多巴胺是降级机制，而且是即时奖励。但是这本书讲的说是，多巴胺是动机，而快乐的感觉是享乐热点，这个跟之前有什么区别呢？<br>这本书里说的是多巴胺关联的是动机，而非快乐，多巴胺越浓，动机越强</p>
-<blockquote>
-<p>“上瘾”就是一个典型的高动机低快感的现象。当我们沉迷于某一事物时，我们可能并不感到快乐，但就是控制不住自己，原因就在于这些奖励刺激的是我们的奖赏回路，而不是享乐热点。我们内心深处知道它们并不重要，只是在浪费时间，但就是控制不了大脑的天性。</p>
-</blockquote>
-<ul>
-<li>杏仁体<ul>
-<li>愤怒、焦虑、恐惧这三种情绪都跟杏仁核有密切的关系</li>
-<li>那些行动力比较弱，遇事习惯瞻前顾后、犹豫不决的人，杏仁核的体积往往较大，活动也较为活跃。</li>
-</ul>
-</li>
-<li>前额叶皮层<ul>
-<li>主要负责决策、计划、抽象思考、推理和策略等高级功能。</li>
-<li>抑制</li>
-</ul>
-</li>
-<li>在“杏仁核-前额叶”通路中，前额叶与杏仁核是互相抑制、动态平衡的关系。</li>
-</ul>
-<blockquote>
-<p>如果你总是把一件事情丢给别人决定，或是总是拖延，直到没有余地时才做决定，那么它就会潜移默化地强化“我无法做出决策”的信念，降低你的自我效能感，以及面对威胁时的抵抗力。但反过来，如果你能够做到靠自己的力量果断地做出决策，哪怕结果并不是最好的，也能在潜意识中强化你的内隐自我，让你感受到：我是有能力做出决策的，我是有能力决定和改变外在世界的。那么，当你再次遇到困难和挑战时，当你的内心再一次进入“我究竟能不能做好”的负面情绪时，这些正面信息和内隐自我，就会成为你对抗这种心态的“弹药支撑”，为你源源不断地提供动力。</p>
-</blockquote>
-<p>我发现我就有这样个毛病，特别是对于重大的决策，我自己不会做决策，总是会把问题抛给别人。</p>
-<p>我们做的很多事情，很多计划，都只是定量而不是定性，比如读书运动健身，重要的不是打卡我运动了多少或者是我读了多少本书，而更多应该是按结果我养成了一个什么样的生活习惯或者说是习得了什么知识，如果都只是落实动作，那其实也没什么作用。这些都是充分不必要的条件</p>
-<p>基于“自驱“的”自律“才能持久，过去我们总是觉得自己意志力不足，需要靠意志力让自己变得自律，约束自己，其实是很低效的，更高的是我们要能让自己进入一个健康的循环之中。这让我想起我一直听的一个节目齐俊杰懂财经的作者，说他每天都五六点钟起来，一天写接近一万字，但是自己都不觉得累，如果是单纯靠意志力，肯定是完不成，真正要靠自己愿意，自己喜欢，能驱动自己，才能达成正循环。</p>
-<hr>
-<h1 id="文摘"><a href="#文摘" class="headerlink" title="文摘"></a>文摘</h1><p>《打开心智》<br>李睿秋<br>30个笔记</p>
-<p>◆  第一章 大脑的底层原理：心智模式四大支柱</p>
-<blockquote>
-<blockquote>
-<p>大脑有一个内在的、固定的倾向，那就是对绝大多数事物，都希望采取走捷径的方式快速理解和处理它。因为这样是最省力、最节能的做法。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>而焦虑的本质其实就是对于不确定性的恐惧。一件事情，如果我们明确知道它会顺利，我们不会焦虑；如果我们明确知道它不会顺利，我们也不会焦虑（取而代之的可能是恐惧或沮丧）。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>1.预设立场：我们的行为和认知往往会为我们预设下一个个立场，让我们带着立场去获取信息；<br>2.证实偏见：在预设立场的基础上，我们会更容易接受跟立场一致的信息，忽略不一致的信息，从而强化我们的立场；<br>3.合理化：一旦我们接触到不一致的信息，我们也会倾向于把它往一致的方向解释，尽可能强化我们的立场。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>要想养成良好的习惯，改掉自己的坏毛病，绝不能指望在短时间内一蹴而就，因为那相当于在跟大脑的适应性做斗争，注定是徒劳无功的。你要做的是通过缓慢的、日复一日地微调，去改变自己的基线，让大脑一步步适应新的模式，用它去代替旧的常态。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>因此在生活管理中，我设置了一个“15%可能性”的项目，也就是抽出大约15%的时间去尝试和探索自己没有做过的事情，为生活引进一些新鲜感。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>“上瘾”就是一个典型的高动机低快感的现象。当我们沉迷于某一事物时，我们可能并不感到快乐，但就是控制不住自己，原因就在于这些奖励刺激的是我们的奖赏回路，而不是享乐热点。我们内心深处知道它们并不重要，只是在浪费时间，但就是控制不了大脑的天性。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>一旦我们习惯了这种“不劳而获”的多巴胺获取模式，就更加难以适应需要付出努力才能获取多巴胺的模式了。因为相比之下，后者能够为我们提供的奖励变得更少，能够激发的多巴胺浓度也相对来说变低了。一边是你什么都不用做就可以获得稳定的多巴胺，另一边是你必须先付出努力，经过一定的时间，才能获得的并不确定的多巴胺，大脑自然会更倾向于选择前者。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>在这一章中，我们讨论了大脑的四种基本原理。<br>第一种：节能。它是大脑运作的最基本原理。大脑总会倾向于走捷径、抄近道，用最简单的方式去行动，以节省更多的能量和资源，确保我们能更好地趋利避害。<br>第二种：稳定。它是大脑的定位系统。大脑总会倾向于维持现状，希望一切是确定的、已知的、可控的，这样才能获得安全感，维护现有的心智秩序。<br>第三种：预测。它是大脑的导航系统。大脑每时每刻都在完善自己，我们的一切信息输入和行动输出，都是对它的一种训练，把它往对应的方向一步步推动。<br>第四种：反馈。它是大脑的动力系统。大脑以完成任务、获得奖励的方式来强化我们的行动，为我们提供动力，让我们知道什么事情是可以做、应当做的。<br>这四条基本原理，彼此组合，可以演绎出非常复杂的规则。生活中的种种现象，大脑的种种规律，都可以归结到这四点。<br>同样，许多自我提升、自我完善的思维和方法论，也必须基于这几条原理，才能更好地落实，取得成效</p>
-</blockquote>
-</blockquote>
-<p>◆  第二章 掌控情绪：如何与情绪做朋友</p>
-<blockquote>
-<blockquote>
-<p>尽管杏仁核的名字很普通，但它在大脑中却有着举足轻重的作用，它是我们的“情绪中心”，是许多情绪相关通路的核心。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>综上所述，愤怒、焦虑、恐惧这三种情绪都跟杏仁核有密切的关系。它们的本质，就是杏仁核出于“威胁识别”功能，对我们的一种警告和提醒。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>实际上，许多研究发现：那些行动力比较弱，遇事习惯瞻前顾后、犹豫不决的人，杏仁核的体积往往较大，活动也较为活跃。这就导致他们遇到问题时，总会下意识地夸大风险和后果，自己把自己吓倒，以致寸步难进。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>前额叶皮质是大脑皮质中至关重要的一部分，顾名思义，它位于额叶的最前部，大致在额头的位置，主要负责决策、计划、抽象思考、推理和策略等高级功能。在这些功能中，有一个非常基础、重要的功能：抑制。前额叶皮质相当于整个大脑的调度中心，它能够抑制我们各种各样的念头、冲动和行为，让我们冷静下来，为理性思考留出空间，避免被自己的冲动和天性所支配。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>我们为这些事情耗费的精力，耽误的时间，造成的内耗，很可能都是白费功夫。你真正要做的是让自己保持良好的状态，不断地强化心态，以便于当那3%￼的问题真正发生时，能够更好地去处理，而不是把注意力停留在那毫无意义的97%上。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>如果你总是把一件事情丢给别人决定，或是总是拖延，直到没有余地时才做决定，那么它就会潜移默化地强化“我无法做出决策”的信念，降低你的自我效能感，以及面对威胁时的抵抗力。但反过来，如果你能够做到靠自己的力量果断地做出决策，哪怕结果并不是最好的，也能在潜意识中强化你的内隐自我，让你感受到：我是有能力做出决策的，我是有能力决定和改变外在世界的。那么，当你再次遇到困难和挑战时，当你的内心再一次进入“我究竟能不能做好”的负面情绪时，这些正面信息和内隐自我，就会成为你对抗这种心态的“弹药支撑”，为你源源不断地提供动力。</p>
-</blockquote>
-</blockquote>
-<p>◆  第三章 自我驱动：如何长期坚持做一件事</p>
-<blockquote>
-<blockquote>
-<p>很多人之所以能够自律，并不是他们喜欢苦行、喜欢逼迫自己，而是因为他们从中获得了乐趣。这种乐趣，可能是解决一个问题的快感，可能是成功证明了自己的成就感，可能是朝目标又近一步的愉悦感……总而言之，他们认同自己所做的事情，并能从中感受到价值。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>重要的不是你刻意去做什么，而是一点一滴改变整个生活模式，整体地、系统地，让自己进入一个更好的状态。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>这种“给自己设定一个数值，再努力去达到这个数值”的思维，只是看起来很美好，但实际上用处不大。因为你的生活不是计数器，我们要做的，是对自己的生活负责，而不是简单粗暴地去规范它。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>许多人认为，自律就是要用意志力去约束自己，坚持良好的习惯。如果做不到，就需要锻炼意志力，让它变得更加坚毅。只有这样，才能实现自己的目标。<br>但这一做法其实是低效的。基于意志力的两大假说“延迟满足”和“自我损耗理论”，已经被证明是无效的。并没有一种“意志力”在控制着我们。只要我们认为意志力是无限的，它就可以是无限的。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>基于“自驱”，让改变发生，这才是有效的、真正的“自律”。</p>
-</blockquote>
-</blockquote>
-<p>◆  第四章 果断行动：如何摆脱懒惰、拖延和畏难</p>
-<blockquote>
-<blockquote>
-<p>日常生活中，一个人DMN的时间越长，整体的幸福感往往也就越低。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>如果你的自信和自尊水准不够高，还可能导致一个更严重的结果：抑郁性反刍。它指的是思维不由自主地聚焦在负面想法上，无法自主地把注意力转移开，既难以去思考“有没有别的可能性”，也无法去想“我可以做些什么，来改变这种现状”，而是一遍又一遍地反刍那些不愉快的经历和念头，导致自我怀疑和自我否定。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>DMN本来就是一个“默认”的状态，它才是大脑的常态。我们能做的，是让自己去接纳这些负面想法，但要把主导权抓在自己手里，而不是任由它们主导我们的思维。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>行动力&#x3D;（期望×价值）&#x2F;（分心×延迟）。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>行动力越高，一个人就越不容易拖延。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>可以看出，在什么情况下，我们才会充满行动力去做一件事情呢？要么，这件事情非常简单，立刻就能做完（延迟小）；要么，这件事情的价值非常高，高到可以克服分心和延迟。换句话说，也就是低投入、高回报的事情。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>许多人之所以不敢去尝试新事物，就是因为害怕失败，害怕“能力不足”这件事被别人发现，但成长思维告诉我们：不用怕。人的能力永远不是静态的，而是不断变化的。你在一件事上的失败只能说明一件事，那就是你将要变得更厉害了。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>从短期来看，人们更容易为“做错”的事情感到后悔，并会想办法去补救、纠正；但一旦把时间拉长，不论程度上还是数量上，“没做”的后悔程度，都会远远超过“做错”。“做错”的后悔可能持续几周、几个月，但“没做”的后悔，可能持续许多年，乃至于成为记忆里一个永久的遗憾</p>
-</blockquote>
-</blockquote>
-<p>◆  第五章 高效学习：如何打造终身受用的学习系统</p>
-<blockquote>
-<blockquote>
-<p>我们学习的效果和省力的程度基本是成反比的。</p>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<p>也就是先通过积累形成若干个主题，再从这些主题出发，想清楚自己缺少什么，需要去弥补什么，然后有意识地去获取知识来填充这些主题，完善这些主题。简言之：先建立框架，再填充框架。</p>
-</blockquote>
-</blockquote>
-<p>◆  第六章 深度思考：如何成为更聪明的人</p>
-<blockquote>
-<blockquote>
-<p>很多时候，决策的本质并不在于选择，而是舍弃。懂得舍弃什么，愿意舍弃什么，是一种勇气，也是一种尤为可贵的能力。</p>
-</blockquote>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1504,14 +1369,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

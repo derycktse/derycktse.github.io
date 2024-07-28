@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://derycktse.github.io/2024/07/28/2024/use-google-analytics/</loc>
+    
+    <lastmod>2024-07-28</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://derycktse.github.io/2024/01/14/2024/reading-notes-the-courage-to-be-hated/</loc>
     
     <lastmod>2024-07-28</lastmod>
@@ -453,6 +462,20 @@
   
   <url>
     <loc>https://derycktse.github.io/tags/vue/</loc>
+    <lastmod>2024-07-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/seo/</loc>
+    <lastmod>2024-07-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/dataanalytics/</loc>
     <lastmod>2024-07-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
