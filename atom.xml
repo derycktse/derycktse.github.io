@@ -6,7 +6,7 @@
   <link href="https://derycktse.github.io/atom.xml" rel="self"/>
   
   <link href="https://derycktse.github.io/"/>
-  <updated>2024-07-29T14:54:15.834Z</updated>
+  <updated>2024-07-31T08:37:57.818Z</updated>
   <id>https://derycktse.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用cubox作为我的主力阅读软件</title>
+    <link href="https://derycktse.github.io/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/"/>
+    <id>https://derycktse.github.io/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/</id>
+    <published>2024-07-31T14:00:00.000Z</published>
+    <updated>2024-07-31T08:37:57.818Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近用上了 Cubox 作为我的主力read-it-later 软件。在这之前，我用过的read-it-later 软件主要有这么几款：</p><ol><li>instapaper: 交互不是很符合我的习惯，放弃。</li><li>omnivore: 作为一款开源的免费软件，还提供了独立部署的方案，其实很不错了。但是UI 和一些使用场景，怎么都用起来感觉差那么点。</li><li>readwise reader: 非常优秀，最大缺点就是贵。</li></ol><p>当然了，目前这一类工具都拓展了其他的功能，已经演变成一些深度阅读学习工具。不过，就本质的需求来说，我仅仅是希望有一个比较称心的read it later 与 文章收藏工具。</p><h1 id="一些Cubox我比较依赖的功能"><a href="#一些Cubox我比较依赖的功能" class="headerlink" title="一些Cubox我比较依赖的功能"></a>一些Cubox我比较依赖的功能</h1><p>作为一款read it later软件，我觉得cubox还是不错的。read it later 软件本质就是收藏，过后稍后阅读。所以，方便 &amp; 体验好是我看重的比较核心的指标。<br>以下简单讲讲一些Cubox比较好的地方，一些没有深度用到的功能就不展开说了。</p><h2 id="收录方便，与微信生态兼容良好"><a href="#收录方便，与微信生态兼容良好" class="headerlink" title="收录方便，与微信生态兼容良好"></a>收录方便，与微信生态兼容良好</h2><p>安装了浏览器插件之后，在平时浏览页面的过程中，遇到好的文章可以很方便就一键收录，过后再去阅读即可。<br>微信公众号是我一个很重要的阅读来源之一，付费版的cubox支持一键转发给cubox助手后直接收藏，这点深得我心。使用方法如下：</p><ol><li>添加 cubox 收藏助手为好友</li><li>在微信中将内容发送给「Cubox 收藏助手」即可完成收藏。</li></ol><p><img src="https://github.com/user-attachments/assets/1dc5fe12-450d-435c-ab3b-3249c729a15e" alt="collect_wechat_2"></p><p>可直接转发或手动输入以发送。收藏的内容将默认保存在「收集箱」列表。<br>收藏成功不会有提示消息，无需担心，通常并非收藏失败，收藏的内容需要稍等片刻才会出现在你的 Cubox 中。</p><ul><li>目前支持收藏：链接、公众号文章、图片、文本、视频、语音、文件。</li><li>暂不支持收藏：小程序、视频号、地理位置等特殊内容，以及超出体积限制的文件。</li></ul><h2 id="文件夹-与-书签"><a href="#文件夹-与-书签" class="headerlink" title="文件夹 与 书签"></a>文件夹 与 书签</h2><p>书签功能不需要多讲，Cubox 文件夹支持多重嵌套（付费版才支持），这点对我的个人习惯来说，还是蛮有用的。<br><img width="345" alt="image" src="https://github.com/user-attachments/assets/3c6a2b0a-a6eb-4abe-9f0e-a228da4c0dee"></p><h2 id="集成AI，生成文章摘要"><a href="#集成AI，生成文章摘要" class="headerlink" title="集成AI，生成文章摘要"></a>集成AI，生成文章摘要</h2><p>这个功能需要付费版，如果文章解析成功，可以使用AI生成摘要，浏览大纲。遇到一些比较晦涩的段落，还可以划线让AI解释。</p><img width="374" alt="image" src="https://github.com/user-attachments/assets/e1df6071-0342-4aa5-a482-6fbd54c91574"><img width="885" alt="image" src="https://github.com/user-attachments/assets/cb695406-a9c7-4a55-81f7-afb3810580e5"><h2 id="字体排版"><a href="#字体排版" class="headerlink" title="字体排版"></a>字体排版</h2><p>相比其他的软件，cubox 可以设置自由的可读区域与字体大小，行距等。<br>目前我中文阅读还是挺多的, 在这里推荐一款开源的不错的中文字体：<a href="https://github.com/lxgw/LxgwWenKai?tab=readme-ov-file">霞鹜文楷</a><br>现在我的cubox 和obsidian都引入了这款字体。换了这个字体后，我的阅读时间与写作的时间有了提高。毕竟看一款赏心悦目的字体，心情也是挺愉悦的。</p><p><img src="https://github.com/user-attachments/assets/ba89fad5-0d60-4a67-8265-88153d5f36d1" alt="字体展示"></p><h2 id="图片处理"><a href="#图片处理" class="headerlink" title="图片处理"></a>图片处理</h2><p>read it later 软件里, 有一些软件，图片引用的是源站链接。如果图片被设置防盗链的话，就看不了图了。<br>cubox 在这方面处理的还不错，不过尚不清楚原理是在它们的服务里缓存了图片，还是直接做了一层图片访问代理。从结果来看，图片显示的效果还是不错的。</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>各方面综合起来, cubox虽然不是最优秀，但是目前来说，还是最适合我的使用习惯。当然了，目前使用起来，个人还是感觉有许多不足的。</p><ol><li>快捷键。我习惯在PC端使用，但是看了一下，cubox内置的快捷键还是挺少的。</li><li>pdf &amp; epub 等支持，这个readwise reader独一档，还支持进度记录。</li><li>国内外问题，因为公众号原因，我使用了国内版cubox, 这样一来微信公众号可以兼容得很好，但是twitter内容体验一塌糊涂，据说海外版是反过来的。</li></ol><h1 id="邀请注册"><a href="#邀请注册" class="headerlink" title="邀请注册"></a>邀请注册</h1><p>如果你没用过cubox的话，推荐你注册试用一下，在设置里面可以使用我的邀请码<code>wgE1r2qzo</code>, 这样我们都能验证7天的会员. 不确定国内海外版是否邀请互通，建议使用下面链接登录。</p><blockquote><p>你的私人阅读学习岛屿: <a href="https://cubox.pro/">https://cubox.pro</a>（下载或注册 Cubox 输入推荐码 wgE1r2qzo 领取 7 天会员）</p></blockquote><p>操作步骤:</p><ol><li>在 <a href="https://cubox.pro/">https://cubox.pro</a> 注册登录</li><li>设置 -&gt; 会员奖励，填入我的邀请码<code>wgE1r2qzo</code> 即可</li></ol><p><img src="https://github.com/user-attachments/assets/a416d712-7403-4f1c-8b24-bccfd6ef172a" alt="image"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;最近用上了 Cubox 作为我的主力read-it-later 软件。在这之前，我用过的read-it-later 软件主要有这么几款：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;instapaper: 交互不是很符合我的习惯，放弃。&lt;/li&gt;
+&lt;li&gt;omnivore: 作为一款开源的免</summary>
+      
+    
+    
+    
+    
+    <category term="效率提升" scheme="https://derycktse.github.io/tags/%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87/"/>
+    
+  </entry>
   
   <entry>
     <title>使用Google Analytics</title>
@@ -422,28 +447,6 @@
       
     <summary type="html">&lt;p&gt;国庆期间把刚出版的马斯克传给看完了&lt;/p&gt;
 &lt;h1 id=&quot;对于马斯克的评价&quot;&gt;&lt;a href=&quot;#对于马斯克的评价&quot; class=&quot;headerlink&quot; title=&quot;对于马斯克的评价&quot;&gt;&lt;/a&gt;对于马斯克的评价&lt;/h1&gt;&lt;p&gt;感觉马斯克不像是这个时代的人，所有的认知都</summary>
-      
-    
-    
-    
-    
-    <category term="读书笔记" scheme="https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记 - 世界尽头的咖啡馆</title>
-    <link href="https://derycktse.github.io/2023/08/10/2023/reading-note-The-Cafe-at-the-End-of-the-World/"/>
-    <id>https://derycktse.github.io/2023/08/10/2023/reading-note-The-Cafe-at-the-End-of-the-World/</id>
-    <published>2023-08-10T15:46:00.000Z</published>
-    <updated>2024-07-28T09:35:21.617Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="2023-08-10笔记"><a href="#2023-08-10笔记" class="headerlink" title="2023-08-10笔记"></a>2023-08-10笔记</h1><p>看了书之后，今天在得到听书上又听了一遍这个书。其实更多的内容不太记得个。到时候有个小故事的让我想起来了。试讲主人公在潜水的时候想追上海龟但是一直追逐不上。因为海龟会利用海水的流向，如果顺水向就用力滑动，如果逆水就保持静止不动，这样的话就可以充分保持体力，让力量得到充分发挥。</p><p>我觉得在生活上也应该用这样的方法，懂得顺势而为，借力打力。<br>最近我在持续跑步，总是时快时慢，想着要赶配速，有时候一下子跳的很快，然后过一会就要歇息。今晚调整了一下策略，以一个没那么快但是可以坚持的配速，跑了前三公里，后面2公里才放快速度，虽然后程还是进入了时快时慢的现象，用时比之前略长，但是怎么来说，我跑完之后，并没有觉得特别累。</p><p>我觉得对于这种慢跑，节奏非常重要，虽然可以时快时慢，但是我是因为累了才放慢脚步的，而且配速波动还是比较大<br>接下来我觉得可以慢慢演变这种方向，保持一个均衡配速，尽可能减少休息。</p><h1 id="文摘"><a href="#文摘" class="headerlink" title="文摘"></a>文摘</h1><p>《世界尽头的咖啡馆》<br>约翰·史崔勒基<br>4个笔记</p><p>◆  点评</p><p>2023&#x2F;6&#x2F;23 认为好看</p><p>◆  10</p><blockquote><blockquote><p>“海龟从不与海浪相争，而是巧妙利用海浪的力量。我之所以无法追上它，就是因为我不顾海水的方向，自始至终都在划水。</p></blockquote></blockquote><blockquote><blockquote><p>如果你和你想做的事不在同一个频道，你就会浪费许多精力。等你有机会做你想做的事时，你可能已经没有力气或时间了。”</p></blockquote></blockquote><p>◆  16</p><blockquote><blockquote><p>“很多人从没想过自己的存在意义。有的人想过这个概念，但不知道自己有没有所谓的PFE。还有一些人因为自己的成长环境或者宗教信仰，不认为自己有权利去追求和实现自己的PFE。</p></blockquote></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;2023-08-10笔记&quot;&gt;&lt;a href=&quot;#2023-08-10笔记&quot; class=&quot;headerlink&quot; title=&quot;2023-08-10笔记&quot;&gt;&lt;/a&gt;2023-08-10笔记&lt;/h1&gt;&lt;p&gt;看了书之后，今天在得到听书上又听了一遍这个书。其实更多的内容</summary>
       
     
     
