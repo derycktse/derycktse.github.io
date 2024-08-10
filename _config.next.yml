@@ -1,0 +1,56 @@
+
+
+font:
+  enable: true 
+
+  # Uri of fonts host, e.g. https://fonts.googleapis.com (Default).
+  host: https://fonts.googleapis.com
+
+  # Font options:
+  # `external: true` will load this font family from `host` above.
+  # `size: x.x`. Use `em` as unit. Default: 1 (16px)
+
+  # Global font settings used for all elements inside <body>.
+  global:
+    external: true 
+    family: "LXGW WenKai Screen !important"
+    size:
+
+  # Font settings for site title (.site-title).
+  title:
+    external: true
+    family:
+    size:
+
+  # Font settings for headlines (<h1> to <h6>).
+  headings:
+    external: true
+    family:
+    size:
+
+  # Font settings for posts (.post-body).
+  posts:
+    external: true
+    family: "LXGW WenKai Screen !important"
+
+  # Font settings for <code> and code blocks.
+  codes:
+    external: false
+    family:
+    # family: "LXGW WenKai Mono, Source Code Pro"
+
+
+
+# Utterances
+# For more information: https://utteranc.es
+utterances:
+  enable: true
+  repo: derycktse/comment # Github repository owner and name
+  # Available values: pathname | url | title | og:title
+  issue_term: pathname
+  # Available values: github-light | github-dark | preferred-color-scheme | github-dark-orange | icy-dark | dark-blue | photon-dark | boxy-light
+  theme: github-light
+
+style:
+  font-family:
+    body: LXGW Wenkai Screen
