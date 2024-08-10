@@ -28,7 +28,7 @@
 <meta property="og:description" content="4月买车记买了一辆车，其实现在感觉不怎么需要，因为出行周边的交通比较发达的。眼看摇到号半年的有效期快到了，最终决定还是买一下吧。也没怎么花时间在挑车上，最终买了丰田的亚洲龙，销售环节基本是妹夫帮忙电话谈的。当时人在老家，跟深圳的4S通了电话，问了两三家可以开到多少，如果合适的话就上深圳提车。可能这里给4S有“外地的单，赚一单是一单”的感觉，价格比在老家便宜了不少，最终直接全款拿下。 家人的身体健康">
 <meta property="og:locale">
 <meta property="article:published_time" content="2024-05-02T15:58:41.000Z">
-<meta property="article:modified_time" content="2024-07-28T09:35:21.620Z">
+<meta property="article:modified_time" content="2024-07-31T08:37:57.816Z">
 <meta property="article:author" content="deryck.xie">
 <meta property="article:tag" content="总结">
 <meta name="twitter:card" content="summary">
@@ -215,7 +215,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-28 17:35:21" itemprop="dateModified" datetime="2024-07-28T17:35:21+08:00">2024-07-28</time>
+                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
               </span>
 
           
@@ -374,6 +374,7 @@
 
           </div>
           
+    <div class="comments" id="utterances-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -548,6 +549,21 @@ if (document.querySelectorAll('pre.mermaid').length) {
   
 
   
+
+<script>
+NexT.utils.loadComments(document.querySelector('#utterances-container'), () => {
+    // if (typeof parcelRequire === 'function') { return; }
+    var js = document.createElement('script');
+    js.type = 'text/javascript';
+    js.src = 'https://utteranc.es/client.js';
+    js.async = true;
+    js.crossorigin = 'anonymous';
+    js.setAttribute('repo', 'derycktse/comment');
+    js.setAttribute('issue-term', 'pathname');
+    js.setAttribute('theme', 'github-light');
+    document.getElementById('utterances-container').appendChild(js);
+});
+</script>
 
 </body>
 </html>
