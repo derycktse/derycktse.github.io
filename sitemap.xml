@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/</loc>
+    <loc>https://derycktse.github.io/2017/05/18/older/webpack-uglify-for-ie8/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2017/05/18/older/webpack-uglify-for-ie8/</loc>
+    <loc>https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -47,7 +47,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2016/04/05/older/vue-source-code/</loc>
+    <loc>https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -56,7 +56,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/</loc>
+    <loc>https://derycktse.github.io/2016/04/05/older/vue-source-code/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -218,7 +218,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/</loc>
+    <loc>https://derycktse.github.io/2024/07/28/2024/use-google-analytics/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -227,7 +227,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2024/07/28/2024/use-google-analytics/</loc>
+    <loc>https://derycktse.github.io/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -245,15 +245,6 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2024/02/11/2024/reading-note-open-your-mind/</loc>
-    
-    <lastmod>2024-07-31</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://derycktse.github.io/2024/07/18/2024/reading-note-mini-habits/</loc>
     
     <lastmod>2024-07-31</lastmod>
@@ -263,7 +254,25 @@
   </url>
   
   <url>
+    <loc>https://derycktse.github.io/2024/02/11/2024/reading-note-open-your-mind/</loc>
+    
+    <lastmod>2024-07-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://derycktse.github.io/2024/07/28/2024/reading-note-reading-traveling-and-love/</loc>
+    
+    <lastmod>2024-07-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/2024/04/11/2024/github-copilot-was-banned/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -282,15 +291,6 @@
   
   <url>
     <loc>https://derycktse.github.io/2024/05/02/2024/my-daily-2024-04/</loc>
-    
-    <lastmod>2024-07-31</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/2024/04/11/2024/github-copilot-was-banned/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -362,6 +362,15 @@
   </url>
   
   <url>
+    <loc>https://derycktse.github.io/2023/12/24/2023/My-reading-summary-in-2023/</loc>
+    
+    <lastmod>2024-07-31</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://derycktse.github.io/2023/01/21/2023/reading-note-Cognitive-awakening/</loc>
     
     <lastmod>2024-07-31</lastmod>
@@ -372,15 +381,6 @@
   
   <url>
     <loc>https://derycktse.github.io/2023/01/21/2023/reading-note-Sleep-Revolution/</loc>
-    
-    <lastmod>2024-07-31</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/2023/12/24/2023/My-reading-summary-in-2023/</loc>
     
     <lastmod>2024-07-31</lastmod>
     
@@ -430,13 +430,6 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/tags/%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87/</loc>
-    <lastmod>2024-08-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://derycktse.github.io/tags/seo/</loc>
     <lastmod>2024-08-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -451,6 +444,20 @@
   </url>
   
   <url>
+    <loc>https://derycktse.github.io/tags/%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87/</loc>
+    <lastmod>2024-08-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/network/</loc>
+    <lastmod>2024-08-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://derycktse.github.io/tags/javascript/</loc>
     <lastmod>2024-08-10</lastmod>
     <changefreq>weekly</changefreq>
@@ -459,13 +466,6 @@
   
   <url>
     <loc>https://derycktse.github.io/tags/prototype/</loc>
-    <lastmod>2024-08-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/network/</loc>
     <lastmod>2024-08-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
