@@ -6,7 +6,7 @@
   <link href="https://derycktse.github.io/atom.xml" rel="self"/>
   
   <link href="https://derycktse.github.io/"/>
-  <updated>2024-07-31T08:37:57.818Z</updated>
+  <updated>2024-08-11T02:48:52.310Z</updated>
   <id>https://derycktse.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站多区域部署的解析方案</title>
+    <link href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/"/>
+    <id>https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/</id>
+    <published>2024-08-10T09:04:08.000Z</published>
+    <updated>2024-08-11T02:48:52.310Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景与目的"><a href="#背景与目的" class="headerlink" title="背景与目的"></a>背景与目的</h1><p>作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外部署一套。</p><p>为什么网站需要多个部署？</p><ol><li>安全合规：不同国家和地区可能有不同的数据保护法规和隐私政策。多区域部署可以帮助企业遵守当地法律法规，例如，某些法规要</li><li>个性化：多区域部署可以帮助企业更好地满足不同地区用户的需求，提供定制化的内容和服务。</li><li>灾备：如果一个区域出现故障，可以快速切换到另外一个区域的服务</li><li>提升访问速度：将用户流量导入到较近的区域有助于提升响应的速度。</li></ol><p>如果服务部署了多个地区，那么如何让用户能够访问到我们希望他们去访问的区域呢？</p><h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="多个域名解决方案"><a href="#多个域名解决方案" class="headerlink" title="多个域名解决方案"></a>多个域名解决方案</h2><p>这种情况比较常见，且比较直观，通过浏览器的URL就能区分。拿三星官网来举例。<br>输入 <code>https://www.samsung.com</code>。<br><img src="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c" alt="image"><br>最终三星的服务器将我的页面跳到香港繁体中文的首页。地址栏显示: <code>https://www.samsung.com/hk/</code>, 可以看到服务器的ip位于香港🇭🇰（因为我在深圳，所以可能海外最近的节点是在香港）。</p><p>这个时候如果切换到中文：<br><img src="https://github.com/user-attachments/assets/9e278bad-669f-437f-addd-2afee3eb1b5e" alt="image"></p><p>可以看到最终响应域名的是 <code>https://www.samsung.com.cn/</code>, 而且左下角可以看到服务器是来自于中国🇨🇳。</p><p>这就是一种典型的多域名部署方案。</p><h2 id="同域名解决方案"><a href="#同域名解决方案" class="headerlink" title="同域名解决方案"></a>同域名解决方案</h2><p>多个域名的情况下，管理员需要去投入更多维护成本。有的网站会采用同个域名但是对于不同地区的用户，访问到不同部署服务。</p><p>以前有一个很经典的面试题：<strong>浏览器输入URL之后回车，会发生什么</strong>， 其中最重要的一个环节就是DNS解析。</p><h3 id="DNS是什么"><a href="#DNS是什么" class="headerlink" title="DNS是什么"></a>DNS是什么</h3><blockquote><p>DNS（域名系统，Domain Name System）是互联网的一项核心服务，它负责将人类可读的域名（如 <code>www.example.com</code>）转换为机器可读的IP地址（如 <code>192.0.2.1</code>）。DNS使用分布式数据库和层次化的设计，允许用户通过域名访问网站，而不需要记住复杂的数字IP地址。<br>当用户在浏览器中输入一个网址时，浏览器会向DNS服务器发送查询请求。DNS服务器会查找与该域名对应的IP地址，并将其返回给浏览器，然后浏览器使用这个IP地址与目标服务器建立连接，从而加载用户请求的网页。</p></blockquote><h3 id="基于地理位置的DNS解析"><a href="#基于地理位置的DNS解析" class="headerlink" title="基于地理位置的DNS解析"></a>基于地理位置的DNS解析</h3><p>对于同个域名，在中国地区的用户，我们可以让DNS解析到中国服务，而海外的用户，我们可以解析到海外服务。假设我们的管理域名如下</p><table><thead><tr><th>域名</th><th>说明</th></tr></thead><tbody><tr><td><a href="http://www.example.com/">www.example.com</a></td><td>希望用户统一访问的域名</td></tr><tr><td><a href="http://www.cn-example.com/">www.cn-example.com</a></td><td>希望中国地区用户访问到的服务</td></tr><tr><td><a href="http://www.global-example.com/">www.global-example.com</a></td><td>希望非中国地区用户访问到的服务</td></tr></tbody></table><p>现在云厂商很多都提供了基于地理位置的DNS解析，我们拿<a href="https://aws.amazon.com/route53/">AWS route53</a>服务来举例。</p><p><img src="https://github.com/user-attachments/assets/b63f7e47-35e0-44b3-849e-a9dd8298f497" alt="image"></p><p>可以看到，对于 <code>www.example.com</code> 这个域名，我们新建两条了DNS解析记录。注意，这里我们选择的<strong>route policy为基于地理位置的解析</strong>： 记CN的用户，解析到<code>www.cn-example.com</code>, 而其他用户则解析到<code>www.global-example.com</code>。<br>注：上面我们使用了<code>cname record type</code>，如果服务没有域名，我们可以用DNS <code>A record type</code>。</p><p>如此，对于用户来说，只需要知道一个域名即可，而对于网站管理员来说，不同地域的用户，则会访问到不同的部署服务。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;背景与目的&quot;&gt;&lt;a href=&quot;#背景与目的&quot; class=&quot;headerlink&quot; title=&quot;背景与目的&quot;&gt;&lt;/a&gt;背景与目的&lt;/h1&gt;&lt;p&gt;作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外</summary>
+      
+    
+    
+    
+    
+    <category term="架构设计" scheme="https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>使用cubox作为我的主力阅读软件</title>
@@ -424,29 +446,6 @@
       
       
     <summary type="html">&lt;p&gt;本书读了几页就知道跟我工作中自上而下的完全相悖。目前的工作一直在强调目标计划，如果讲不清就很难推行，我个人是极不认可这种做法。因为会扼杀积极性与创造力，因为做计划也非常费脑子，而往往计划又很难推行，这里又特别损耗动力。但是另一方面又觉得这种企业管理手段是不是如果不这样搞，会</summary>
-      
-    
-    
-    
-    
-    <category term="读书笔记" scheme="https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读书笔记 - 马斯克传</title>
-    <link href="https://derycktse.github.io/2023/10/04/2023/reading-note-elon-musk/"/>
-    <id>https://derycktse.github.io/2023/10/04/2023/reading-note-elon-musk/</id>
-    <published>2023-10-04T05:12:00.000Z</published>
-    <updated>2024-07-31T08:37:57.814Z</updated>
-    
-    <content type="html"><![CDATA[<p>国庆期间把刚出版的马斯克传给看完了</p><h1 id="对于马斯克的评价"><a href="#对于马斯克的评价" class="headerlink" title="对于马斯克的评价"></a>对于马斯克的评价</h1><p>感觉马斯克不像是这个时代的人，所有的认知都非常的超前。<br>马斯克一些特点：</p><ul><li>父亲埃罗尔对他的一些性格影响深远</li><li>患有阿斯伯格综合征</li><li>对风险的接受很高</li></ul><h1 id="马斯克的各个重要阶段"><a href="#马斯克的各个重要阶段" class="headerlink" title="马斯克的各个重要阶段"></a>马斯克的各个重要阶段</h1><h2 id="女王大学"><a href="#女王大学" class="headerlink" title="女王大学"></a>女王大学</h2><p>纳瓦德·法鲁克：朋友</p><h2 id="PayPal"><a href="#PayPal" class="headerlink" title="PayPal"></a>PayPal</h2><p>创办了x.com.之后， 跟 PayPal合并，但是因为管理问题，导致其他高管联合莫里茨推翻马斯克</p><h3 id="相关人物"><a href="#相关人物" class="headerlink" title="相关人物"></a>相关人物</h3><ul><li>马克斯·列夫琴: paypal端的创始人之一</li><li>彼得·蒂尔：推翻马斯克回来兼任临时CEO</li><li>里德·霍夫曼：首席运营官</li><li>戴维·萨克斯</li><li>卢克·诺塞克：</li><li>迈克尔·莫里茨：投资人？</li></ul><h2 id="SpaceX"><a href="#SpaceX" class="headerlink" title="SpaceX"></a>SpaceX</h2><p>萌发了火星移民的想法，找俄罗斯人谈判买火箭，结果受到奚落，一气之下自己搞火箭工程</p><p>2006-03-24 第一次试飞 燃料泄露失败<br>2007-03 第二次试飞；第二级火箭出现问题失败</p><h3 id="相关人物-1"><a href="#相关人物-1" class="headerlink" title="相关人物"></a>相关人物</h3><ul><li>吉姆·坎特雷尔: 火箭工程师</li><li>阿德奥·雷西: 宾夕法尼亚大学一起搞派对的伙伴</li><li>迈克尔·格里芬： 航天工程师，他后来成为美国航空航天局局长</li><li>汤姆·穆勒：工程师</li><li>布扎：</li><li>玛丽·贝丝·布朗: 助理</li><li>格温·肖特韦尔:  总裁</li><li>汉斯·科尼格斯曼：德国工程师</li><li>杰里米·霍尔曼：穆勒招进来的工程师；被马斯克指责没有拧紧螺母导致燃料泄露第一次试飞失败；一年后离开了spacex；实际后来证明是清白的</li></ul><h2 id="特斯拉"><a href="#特斯拉" class="headerlink" title="特斯拉"></a>特斯拉</h2><ul><li>一开始是零件外包，然后再进行组装，这也是汽车行业的普遍做饭。后面发现玩转不下去，最后形成了自产自装的模式。</li></ul><h3 id="相关人物-2"><a href="#相关人物-2" class="headerlink" title="相关人物"></a>相关人物</h3><ul><li>联合创始人<ul><li>马丁·艾伯哈德： 创建了特斯拉。认识了马斯克并且让马斯克投资了特斯拉</li><li>塔彭宁：担任总裁</li><li>施特劳贝尔：担任首席技术官</li><li>伊恩·赖特：首席运营官；因为跟艾伯哈德起了争执导致马斯克无奈解雇；</li><li>马斯克: 董事会主席和主要投资人。</li></ul></li><li>安东尼奥·格拉西亚斯: 一名投资人</li><li>戴维·萨克斯：跟马斯克是PayPal的联合创始人</li><li>蒂姆·沃特金斯：英国机器人工程师</li><li>迈克尔·马克斯： 解雇了艾伯哈德之后；马斯克招过来担任临时CEO；但结果很快就离开</li><li>泽夫·德罗里：以色列伞兵军官；担任CEO；但是不懂车；被JB.施特劳贝尔为首的群体投诉解雇；</li><li>艾拉·埃伦普赖斯：董事会成员；说服马斯克自己来接任CEO</li><li>克里斯·汤普森：火箭结构主管</li></ul><h2 id="OpenAI"><a href="#OpenAI" class="headerlink" title="OpenAI"></a>OpenAI</h2><ul><li>2018年决裂</li></ul><hr><h1 id="文摘"><a href="#文摘" class="headerlink" title="文摘"></a>文摘</h1><p>《埃隆·马斯克传》<br>【美】沃尔特·艾萨克森<br>17个笔记</p><p>◆  序章 火之缪斯</p><blockquote><blockquote><p>当年我在采访报道史蒂夫·乔布斯时，他的搭档斯蒂夫·沃兹尼亚克说：“有一个很重要的问题就是，他有必要这么刻薄、这么粗暴无情、这么沉湎于戏剧性冲突吗？”在我的报道行将结束时，我把这个问题又抛给了沃兹尼亚克。他说如果由他来管理苹果公司，他会待人更友善一些，他会像对待家人一样对待公司的每个人，更不会突然解雇员工。然后他停顿了一下，接着说：“但那样的话，我们可能永远不会做出麦金塔计算机。”所以那个关于埃隆·马斯克的问题也是这样：如果他能更放松一点儿，更可亲一点儿，他还会是那个要把我们送上火星、送往电动车未来世界的人吗？</p></blockquote></blockquote><p>◆  10 Zip2 帕洛阿尔托，1995—1999年</p><blockquote><blockquote><p>从职业生涯的一开始，马斯克就是一个苛刻的管理者，瞧不起“要在工作和生活中找到一种平衡状态”的价值观。</p></blockquote></blockquote><blockquote><blockquote><p>他从来没有当过运动队的队长，也没有在一群朋友中做过领导型人物，所以他缺乏那种对待同志和战友的感情。像史蒂夫·乔布斯一样，马斯克真的不在乎是不是在工作中冒犯了谁、吓到了谁，只要能推动他们完成任务——那些他们认为不可能完成的任务就行。“你的工作任务不是让你的团队爱上你，”多年后他在一场SpaceX的高管会议上说，“事实上，那样做会适得其反。”</p></blockquote></blockquote><p>◆  15 火箭人 SpaceX，2002年</p><blockquote><blockquote><p>这样他就成功延续了在PayPal的传统：先设定一个不切实际的时间表，然后“取法乎上得其中”——疯狂的想法原本不可能变成现实，结果是很多年之后最终实现了。</p></blockquote></blockquote><p>◆  17 加速启动 SpaceX，2002年</p><blockquote><blockquote><p>不过这样做了以后，他就会认为穆勒是雇员，而不是SpaceX的联合创始人。他在PayPal就为这个问题跟人吵过架，后来在特斯拉也一样。他认为，如果你不愿意躬身入局，用你的金钱和智慧去投资一家公司，你就没有资格成为创始人。“你不能一边要求把两年的工资托管起来，一边还觉得自己是联合创始人。”马斯克说，“想成为联合创始人，必须在付出聪明才智、辛勤耕耘的同时勇于承担风险。</p></blockquote></blockquote><p>◆  18 火箭制造法 SpaceX，2002—2003年</p><blockquote><blockquote><p>所有要求都应该被当成建议，不可变更的金科玉律只有那些物理学定律约束下的条件。</p></blockquote></blockquote><p>◆  21 Roadster 特斯拉，2004—2006年</p><blockquote><blockquote><p>埃隆·马斯克对特斯拉做出的最重要的一个决定，也是在特斯拉成功之路上起决定性作用、对汽车行业产生关键影响的一点，就是车企要尽可能自己生产关键部件，而不是采购独立供应商的数百个零部件后再组装成一辆车。</p></blockquote></blockquote><blockquote><blockquote><p>“我快把路特斯公司的人逼疯了，”马斯克说，“他们没完没了地问我，为什么我对待这辆车上每一条细微曲线的设计都如此苛刻。而我会告诉他们：‘因为我们必须让它惊艳世人。’”</p></blockquote></blockquote><p>◆  24 工业奇兵 特斯拉，2006—2008年</p><blockquote><blockquote><p>全球化供应链这头吞金兽，以及新车高昂的成本，会让公司在开始大规模销售电动车之前耗尽全部资金，包括客户为预订Roadster支付的款项。</p></blockquote></blockquote><p>◆  25 亲自掌舵 特斯拉，2007—2008年</p><blockquote><blockquote><p>迈克尔承认公司自己来控制制造过程的方方面面是有好处的，结果也证明马斯克是对的。但他内心更纠结了，他一直在思考关于马斯克这个人的核心问题：马斯克这些难以取悦他人的恶劣行为，与使他走向成功的全部内在动力能否分离。“我已经把他归入与史蒂夫·乔布斯一样的性格分类。有些人，他就是浑蛋，但他们取得了斐然的成就，以至于我不得不说：‘他们这两面看起来就是一体的，分不开。’”于是我问他，那这是不是就可以为马斯克如此行事开脱呢？“也许吧，如果这个世界为人类取得这种成就所付出的代价，就是让一个真正的浑蛋来做这些事，那好吧，也许这种代价值得付出。反正我想了很久，最后得出来的就是这个结论。”随后，他停顿了一下，继续说：“但如果有的选，我不希望世界是这样运行的。”</p></blockquote></blockquote><p>◆  29 处于崩溃边缘 特斯拉和SpaceX，2008年</p><blockquote><blockquote><p>人们越是逼他选择，他就越发抵触。马斯克说：“对我来说，这就像你有两个孩子，快没吃的了，你可以给每个孩子分一半，但这样他们可能都会饿死，或者你把所有的食物给一个孩子，增加至少一个孩子存活的概率。但由我自己来决定一生一死，这种事我干不出来，所以我决定必须付出我的全部来拯救两个孩子。”</p></blockquote></blockquote><p>◆  33 私营太空事业 SpaceX，2009—2010年</p><blockquote><blockquote><p>SpaceX不仅用私有化产权的方式进入了航空航天领域，还彻底颠覆了这个行业的成本结构。</p></blockquote></blockquote><p>◆  36 制造业 特斯拉，2010—2013年</p><blockquote><blockquote><p>埃里森说：“强迫症是他们成功的原因之一，因为他们执着于解决一个问题，不达目的不罢休。”马斯克与乔布斯的不同之处在于，他的这种习惯不仅体现在产品设计方面，还体现在他对基础科学、工程和制造的问题研究当中。</p></blockquote></blockquote><p>◆  41 推出自动驾驶系统 特斯拉，2014—2016年</p><blockquote><blockquote><p>405号州际公路上有一个弯道，因为车道标记已经褪色，总是给马斯克惹事，他的自动辅助驾驶系统会把车开出车道，差点儿撞上对面开过来的汽车，所以马斯克到办公室后无数次大发雷霆。他不停地提要求：“把程序给我搞好。”结果团队试图改进自动驾驶软件，一弄就是好几个月。<br>无奈之下，萨姆·特勒和同事们想出了一个更简单的解决方案：要求交通部门重新粉刷该路段的车道线。他们没有得到回应，就想出了一个更大胆的计划：自己租一台划线机，凌晨3点开出去，封闭高速公路入口一个小时，重新画好车道线。当时同事们已经看好一台道路划线机，与此同时，一个同事终于与交通部门的一位工作人员取得了联系，此人是马斯克的粉丝。他同意重新画线，条件是他和部门的几个同事想参观一下SpaceX。特勒带他们参观了公司，双方合影留念，随后车道线被粉刷一新。此后，马斯克的自动辅助驾驶系统就能很好地沿着车道线驾驶车辆了</p></blockquote></blockquote><p>◆  45 堕入黑暗 2017年</p><blockquote><blockquote><p>“干活的第一步就应该是质疑你接到的任务要求</p></blockquote></blockquote><blockquote><blockquote><p>马斯克说，“因为所有要求或多或少都包含着愚蠢和错误的</p></blockquote></blockquote><p>◆  59 星舰狂飙 SpaceX，2021年7月</p><blockquote><blockquote><p>“我直截了当地给他们反馈，大部分都是准确的意见，而且我尽量不搞人身攻击。”马斯克说，“我批评的时候对事不对人，谁都会犯错，重要的是一个人是不是具有一条完善的反馈回路，能够吸收他人的批评意见，还能有所改善。物理学并不关心你心里是不是难受，它关心的是你做出来的火箭是不是真能飞上天。”</p></blockquote></blockquote>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;国庆期间把刚出版的马斯克传给看完了&lt;/p&gt;
-&lt;h1 id=&quot;对于马斯克的评价&quot;&gt;&lt;a href=&quot;#对于马斯克的评价&quot; class=&quot;headerlink&quot; title=&quot;对于马斯克的评价&quot;&gt;&lt;/a&gt;对于马斯克的评价&lt;/h1&gt;&lt;p&gt;感觉马斯克不像是这个时代的人，所有的认知都</summary>
       
     
     

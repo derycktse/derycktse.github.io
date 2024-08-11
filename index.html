@@ -185,6 +185,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="德里克的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/10/2024/website-multi-region-deploy-resolve-solution/" class="post-title-link" itemprop="url">网站多区域部署的解析方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-08-10 17:04:08" itemprop="dateCreated datePublished" datetime="2024-08-10T17:04:08+08:00">2024-08-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="背景与目的"><a href="#背景与目的" class="headerlink" title="背景与目的"></a>背景与目的</h1><p>作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外部署一套。</p>
+<p>为什么网站需要多个部署？</p>
+<ol>
+<li>安全合规：不同国家和地区可能有不同的数据保护法规和隐私政策。多区域部署可以帮助企业遵守当地法律法规，例如，某些法规要</li>
+<li>个性化：多区域部署可以帮助企业更好地满足不同地区用户的需求，提供定制化的内容和服务。</li>
+<li>灾备：如果一个区域出现故障，可以快速切换到另外一个区域的服务</li>
+<li>提升访问速度：将用户流量导入到较近的区域有助于提升响应的速度。</li>
+</ol>
+<p>如果服务部署了多个地区，那么如何让用户能够访问到我们希望他们去访问的区域呢？</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="多个域名解决方案"><a href="#多个域名解决方案" class="headerlink" title="多个域名解决方案"></a>多个域名解决方案</h2><p>这种情况比较常见，且比较直观，通过浏览器的URL就能区分。拿三星官网来举例。<br>输入 <code>https://www.samsung.com</code>。<br><img src="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c" alt="image"><br>最终三星的服务器将我的页面跳到香港繁体中文的首页。地址栏显示: <code>https://www.samsung.com/hk/</code>, 可以看到服务器的ip位于香港🇭🇰（因为我在深圳，所以可能海外最近的节点是在香港）。</p>
+<p>这个时候如果切换到中文：<br><img src="https://github.com/user-attachments/assets/9e278bad-669f-437f-addd-2afee3eb1b5e" alt="image"></p>
+<p>可以看到最终响应域名的是 <code>https://www.samsung.com.cn/</code>, 而且左下角可以看到服务器是来自于中国🇨🇳。</p>
+<p>这就是一种典型的多域名部署方案。</p>
+<h2 id="同域名解决方案"><a href="#同域名解决方案" class="headerlink" title="同域名解决方案"></a>同域名解决方案</h2><p>多个域名的情况下，管理员需要去投入更多维护成本。有的网站会采用同个域名但是对于不同地区的用户，访问到不同部署服务。</p>
+<p>以前有一个很经典的面试题：<strong>浏览器输入URL之后回车，会发生什么</strong>， 其中最重要的一个环节就是DNS解析。</p>
+<h3 id="DNS是什么"><a href="#DNS是什么" class="headerlink" title="DNS是什么"></a>DNS是什么</h3><blockquote>
+<p>DNS（域名系统，Domain Name System）是互联网的一项核心服务，它负责将人类可读的域名（如 <code>www.example.com</code>）转换为机器可读的IP地址（如 <code>192.0.2.1</code>）。DNS使用分布式数据库和层次化的设计，允许用户通过域名访问网站，而不需要记住复杂的数字IP地址。<br>当用户在浏览器中输入一个网址时，浏览器会向DNS服务器发送查询请求。DNS服务器会查找与该域名对应的IP地址，并将其返回给浏览器，然后浏览器使用这个IP地址与目标服务器建立连接，从而加载用户请求的网页。</p>
+</blockquote>
+<h3 id="基于地理位置的DNS解析"><a href="#基于地理位置的DNS解析" class="headerlink" title="基于地理位置的DNS解析"></a>基于地理位置的DNS解析</h3><p>对于同个域名，在中国地区的用户，我们可以让DNS解析到中国服务，而海外的用户，我们可以解析到海外服务。假设我们的管理域名如下</p>
+<table>
+<thead>
+<tr>
+<th>域名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a></td>
+<td>希望用户统一访问的域名</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.cn-example.com/">www.cn-example.com</a></td>
+<td>希望中国地区用户访问到的服务</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.global-example.com/">www.global-example.com</a></td>
+<td>希望非中国地区用户访问到的服务</td>
+</tr>
+</tbody></table>
+<p>现在云厂商很多都提供了基于地理位置的DNS解析，我们拿<a target="_blank" rel="noopener" href="https://aws.amazon.com/route53/">AWS route53</a>服务来举例。</p>
+<p><img src="https://github.com/user-attachments/assets/b63f7e47-35e0-44b3-849e-a9dd8298f497" alt="image"></p>
+<p>可以看到，对于 <code>www.example.com</code> 这个域名，我们新建两条了DNS解析记录。注意，这里我们选择的<strong>route policy为基于地理位置的解析</strong>： 记CN的用户，解析到<code>www.cn-example.com</code>, 而其他用户则解析到<code>www.global-example.com</code>。<br>注：上面我们使用了<code>cname record type</code>，如果服务没有域名，我们可以用DNS <code>A record type</code>。</p>
+<p>如此，对于用户来说，只需要知道一个域名即可，而对于网站管理员来说，不同地域的用户，则会访问到不同的部署服务。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1188,156 +1295,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/03/17/2024/get-user-phone-in-weixin-mini-program/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="deryck.xie">
-      <meta itemprop="description" content="德里克的个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/17/2024/get-user-phone-in-weixin-mini-program/" class="post-title-link" itemprop="url">如何在微信小程序获取用户手机号</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-03-17 14:03:35" itemprop="dateCreated datePublished" datetime="2024-03-17T14:03:35+08:00">2024-03-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="主要流程"><a href="#主要流程" class="headerlink" title="主要流程"></a>主要流程</h1><p>出于安全的考虑，目前在微信小程序端，是无法直接拿到用户的手机号。需要几步安全校验。整体流程大概是：</p>
-<ol>
-<li>在微信后台生成appid &amp; secret</li>
-<li>用户登录微信小程序授权访问手机号，获得手机号获取凭证code</li>
-<li>调取使用appid &amp; secret，获得接口调用凭证 access_token</li>
-<li>使用接口调用凭证 access_token 与手机号获取凭证code调用微信服务获得用户手机号信息<br>简单讲即：用户授权 &amp; 调用两次微信服务</li>
-</ol>
-<h1 id="小程序端"><a href="#小程序端" class="headerlink" title="小程序端"></a>小程序端</h1><p>使用微信的内置组件 <code>&lt;button/&gt;</code>，设置<code>open-type</code> 的值设置为 <code>getPhoneNumber</code>, 当用户点击并同意之后，通过 <code>bindgetphonenumber</code> 事件获取回调信息；<br>代码如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">open-type</span>=<span class="string">&quot;getPhoneNumber&quot;</span> <span class="attr">bindgetphonenumber</span>=<span class="string">&quot;getPhoneNumber&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Page</span>(&#123;</span><br><span class="line">  getPhoneNumber (e) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">code</span>)  <span class="comment">// 动态令牌</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">errMsg</span>) <span class="comment">// 回调信息（成功失败都会返回）</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(e.<span class="property">detail</span>.<span class="property">errno</span>)  <span class="comment">// 错误码（失败时返回）</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="获取用户小程序服务端流程如下"><a href="#获取用户小程序服务端流程如下" class="headerlink" title="获取用户小程序服务端流程如下"></a>获取用户小程序服务端流程如下</h1><pre class="mermaid">sequenceDiagram
-    participant user as 微信小程序客户端
-    participant api as 后端服务
-    participant wechat as 微信服务
-    user->>api: 授权手机号获取凭证code
-    rect rgb(255, 255, 200)
-    api->>wechat: ask access_token
-    wechat->>api: access_token
-    end
-    rect rgb(255, 150, 230)
-    api->>wechat: access_token<br>手机号获取凭证code
-    wechat->>api: 用户手机号信息
-    end</pre>
-
-
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>在开发微信小程序过程中，我们可能需要涉及到以下相关的凭证</p>
-<table>
-<thead>
-<tr>
-<th>生成</th>
-<th>作用</th>
-<th>如何获得</th>
-<th>过期时间</th>
-<th>执行端</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>appid</td>
-<td>与微信服务交互的凭证</td>
-<td>管理后台生成</td>
-<td>永久</td>
-<td>微信开发者管理后台</td>
-</tr>
-<tr>
-<td>secret</td>
-<td>与微信服务交互的凭证</td>
-<td>管理后台生成</td>
-<td>永久（如果不在后台重建）</td>
-<td>微信开发者管理后台</td>
-</tr>
-<tr>
-<td>手机号获取凭证code</td>
-<td>加密后的手机号</td>
-<td>用户授权后可以拿到</td>
-<td>一次性，被拿去校验成功之后就失效</td>
-<td>小程序</td>
-</tr>
-<tr>
-<td>接口调用凭据 access token</td>
-<td>用来解密手机号code以此获得手机号</td>
-<td>通过appid与secret调微信的接口拿到</td>
-<td>获取2h后失效，期间都可以使用</td>
-<td>服务端</td>
-</tr>
-<tr>
-<td>登录凭证 code</td>
-<td>跟微信服务获取openid</td>
-<td>每次登录的时候</td>
-<td>一次性，被拿去校验成功之后就失效</td>
-<td>小程序</td>
-</tr>
-<tr>
-<td>openid</td>
-<td>使用 login code拿到，用户的唯一身份</td>
-<td>无法直接获取</td>
-<td>永久</td>
-<td>服务端</td>
-</tr>
-</tbody></table>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-login/code2Session.html">小程序登录</a></li>
-<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/mp-access-token/getAccessToken.html">获取接口调用凭据</a></li>
-<li><a target="_blank" rel="noopener" href="https://developers.weixin.qq.com/miniprogram/dev/OpenApiDoc/user-info/phone-number/getPhoneNumber.html">获取手机号</a></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1407,14 +1364,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">15</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

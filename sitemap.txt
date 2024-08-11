@@ -1,3 +1,4 @@
+https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/
 https://derycktse.github.io/2017/04/27/older/vue-zhihu/
 https://derycktse.github.io/2017/05/18/older/webpack-uglify-for-ie8/
 https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/
@@ -58,3 +59,4 @@ https://derycktse.github.io/tags/node-js/
 https://derycktse.github.io/tags/npm/
 https://derycktse.github.io/tags/es2015/
 https://derycktse.github.io/tags/vue/
+https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/
