@@ -476,7 +476,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
+                <time title="Modified: 2024-08-17 11:44:04" itemprop="dateModified" datetime="2024-08-17T11:44:04+08:00">2024-08-17</time>
               </span>
 
           
@@ -511,8 +511,12 @@
 <p>每次写完之后，直接使用rsync 同步一下我的文件夹，再部署到github page 上即可</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。当下还是先让自己培养多写博客的习惯，等习惯养成之后再进一步优化。</p>
+<p>当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。毕竟写blog的频率当下还达不到非常高频。还是先让自己培养多写作的习惯，等习惯养成之后再进一步优化。</p>
+<p>来自2024-08-17 补充，发现每次<code>rsync</code>后，未修改个文件，同样也被重新覆盖了，这里体现在文件的修改时间上，自然而然想到可以使用对比摘要不同再同步的方法，发现<code>rsync</code>已经有参数支持。可以基于摘要进行比对后再决定是否更新</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c, --checksum              skip based on checksum, not mod-time &amp; size</span><br></pre></td></tr></table></figure>
 
+<p>修改版</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --checksum --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br></pre></td></tr></table></figure>
       
     </div>
 
