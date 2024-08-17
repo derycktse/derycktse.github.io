@@ -42,15 +42,12 @@
     <link href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/"/>
     <id>https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/</id>
     <published>2024-08-10T09:04:08.000Z</published>
-    <updated>2024-08-11T02:48:52.310Z</updated>
+    <updated>2024-08-17T06:46:04.980Z</updated>
     
     <content type="html"><![CDATA[<h1 id="背景与目的"><a href="#背景与目的" class="headerlink" title="背景与目的"></a>背景与目的</h1><p>作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外部署一套。</p><p>为什么网站需要多个部署？</p><ol><li>安全合规：不同国家和地区可能有不同的数据保护法规和隐私政策。多区域部署可以帮助企业遵守当地法律法规，例如，某些法规要</li><li>个性化：多区域部署可以帮助企业更好地满足不同地区用户的需求，提供定制化的内容和服务。</li><li>灾备：如果一个区域出现故障，可以快速切换到另外一个区域的服务</li><li>提升访问速度：将用户流量导入到较近的区域有助于提升响应的速度。</li></ol><p>如果服务部署了多个地区，那么如何让用户能够访问到我们希望他们去访问的区域呢？</p><h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="多个域名解决方案"><a href="#多个域名解决方案" class="headerlink" title="多个域名解决方案"></a>多个域名解决方案</h2><p>这种情况比较常见，且比较直观，通过浏览器的URL就能区分。拿三星官网来举例。<br>输入 <code>https://www.samsung.com</code>。<br><img src="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c" alt="image"><br>最终三星的服务器将我的页面跳到香港繁体中文的首页。地址栏显示: <code>https://www.samsung.com/hk/</code>, 可以看到服务器的ip位于香港🇭🇰（因为我在深圳，所以可能海外最近的节点是在香港）。</p><p>这个时候如果切换到中文：<br><img src="https://github.com/user-attachments/assets/9e278bad-669f-437f-addd-2afee3eb1b5e" alt="image"></p><p>可以看到最终响应域名的是 <code>https://www.samsung.com.cn/</code>, 而且左下角可以看到服务器是来自于中国🇨🇳。</p><p>这就是一种典型的多域名部署方案。</p><h2 id="同域名解决方案"><a href="#同域名解决方案" class="headerlink" title="同域名解决方案"></a>同域名解决方案</h2><p>多个域名的情况下，管理员需要去投入更多维护成本。有的网站会采用同个域名但是对于不同地区的用户，访问到不同部署服务。</p><p>以前有一个很经典的面试题：<strong>浏览器输入URL之后回车，会发生什么</strong>， 其中最重要的一个环节就是DNS解析。</p><h3 id="DNS是什么"><a href="#DNS是什么" class="headerlink" title="DNS是什么"></a>DNS是什么</h3><blockquote><p>DNS（域名系统，Domain Name System）是互联网的一项核心服务，它负责将人类可读的域名（如 <code>www.example.com</code>）转换为机器可读的IP地址（如 <code>192.0.2.1</code>）。DNS使用分布式数据库和层次化的设计，允许用户通过域名访问网站，而不需要记住复杂的数字IP地址。<br>当用户在浏览器中输入一个网址时，浏览器会向DNS服务器发送查询请求。DNS服务器会查找与该域名对应的IP地址，并将其返回给浏览器，然后浏览器使用这个IP地址与目标服务器建立连接，从而加载用户请求的网页。</p></blockquote><h3 id="基于地理位置的DNS解析"><a href="#基于地理位置的DNS解析" class="headerlink" title="基于地理位置的DNS解析"></a>基于地理位置的DNS解析</h3><p>对于同个域名，在中国地区的用户，我们可以让DNS解析到中国服务，而海外的用户，我们可以解析到海外服务。假设我们的管理域名如下</p><table><thead><tr><th>域名</th><th>说明</th></tr></thead><tbody><tr><td><a href="http://www.example.com/">www.example.com</a></td><td>希望用户统一访问的域名</td></tr><tr><td><a href="http://www.cn-example.com/">www.cn-example.com</a></td><td>希望中国地区用户访问到的服务</td></tr><tr><td><a href="http://www.global-example.com/">www.global-example.com</a></td><td>希望非中国地区用户访问到的服务</td></tr></tbody></table><p>现在云厂商很多都提供了基于地理位置的DNS解析，我们拿<a href="https://aws.amazon.com/route53/">AWS route53</a>服务来举例。</p><p><img src="https://github.com/user-attachments/assets/b63f7e47-35e0-44b3-849e-a9dd8298f497" alt="image"></p><p>可以看到，对于 <code>www.example.com</code> 这个域名，我们新建两条了DNS解析记录。注意，这里我们选择的<strong>route policy为基于地理位置的解析</strong>： 记CN的用户，解析到<code>www.cn-example.com</code>, 而其他用户则解析到<code>www.global-example.com</code>。<br>注：上面我们使用了<code>cname record type</code>，如果服务没有域名，我们可以用DNS <code>A record type</code>。</p><p>如此，对于用户来说，只需要知道一个域名即可，而对于网站管理员来说，不同地域的用户，则会访问到不同的部署服务。</p>]]></content>
     
     
-      
-      
-    <summary type="html">&lt;h1 id=&quot;背景与目的&quot;&gt;&lt;a href=&quot;#背景与目的&quot; class=&quot;headerlink&quot; title=&quot;背景与目的&quot;&gt;&lt;/a&gt;背景与目的&lt;/h1&gt;&lt;p&gt;作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外</summary>
-      
+    <summary type="html">本文介绍为了满足安全合规与个性化需求，提升用户访问速度和可靠性，网站采取多个区域部署的DNS解析方案</summary>
     
     
     
@@ -285,11 +282,11 @@
   </entry>
   
   <entry>
-    <title>使用obsidian 编写博客</title>
+    <title>使用obsidian编写博客</title>
     <link href="https://derycktse.github.io/2024/03/16/2024/use-obsidian-to-write-blog/"/>
     <id>https://derycktse.github.io/2024/03/16/2024/use-obsidian-to-write-blog/</id>
     <published>2024-03-16T15:29:20.000Z</published>
-    <updated>2024-08-17T03:44:04.656Z</updated>
+    <updated>2024-08-17T06:46:04.979Z</updated>
     
     <content type="html"><![CDATA[<p>这一两年一直在obsidian记录东西，感觉非常不错。不过有一个问题就是，如果只是一味的记录给自己看，可能失去了和别人交流的机会。考虑到这个层面，还是决定以后得多写一些博客。记录自己在生活以及学习上的一些所得所悟，如果能有人看到我的文字有所共鸣或者收获，那将是非常有意义的事情。<br>考虑到博客使用hexo 生成，托管在github page 上，hexo有自己的一套文件夹命名格式，我还是比较喜欢在obsidian里面写东西。所以最简单的办法就是在obsidian里面写好文章直接同步到hexo 文件夹里面就行.</p><p>目前我的obsidian跟hexo文件夹的位置大概是这样：</p><table><thead><tr><th>my note</th><th>folder</th></tr></thead><tbody><tr><td>obsidian</td><td>~&#x2F;my-obsidian-folder&#x2F;blog&#x2F;_posts&#x2F;</td></tr><tr><td>hexo blog</td><td>~&#x2F;my-hexo-folder&#x2F;myname.github.io&#x2F;source&#x2F;_posts&#x2F;</td></tr></tbody></table><p>每次写完之后，直接使用rsync 同步一下我的文件夹，再部署到github page 上即可</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br><span class="line">hexo clean &amp;&amp; hexo g &amp;&amp; hexo deploy</span><br></pre></td></tr></table></figure><p>当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。毕竟写blog的频率当下还达不到非常高频。还是先让自己培养多写作的习惯，等习惯养成之后再进一步优化。</p><p>来自2024-08-17 补充，发现每次<code>rsync</code>后，未修改个文件，同样也被重新覆盖了，这里体现在文件的修改时间上，自然而然想到可以使用对比摘要不同再同步的方法，发现<code>rsync</code>已经有参数支持。可以基于摘要进行比对后再决定是否更新</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-c, --checksum              skip based on checksum, not mod-time &amp; size</span><br></pre></td></tr></table></figure><p>修改版</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -r --checksum --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/</span><br></pre></td></tr></table></figure>]]></content>
     
