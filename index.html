@@ -185,6 +185,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="德里克的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/" class="post-title-link" itemprop="url">使用AWS SDK操作腾讯云对象存储</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-08-17 11:21:04 / Modified: 11:21:31" itemprop="dateCreated datePublished" datetime="2024-08-17T11:21:04+08:00">2024-08-17</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在架构设计上，一些容灾做的比较好的网站可能会采用多区域部署。</p>
+<p>有的服务采用同一个云服务商的不同区域的服务。而有一些解决方案，在综合可用性，费用等实际情况考量下，可能会选用不同的云服务商。</p>
+<p>在实际实践中，我就遇到了不同区域选用不同的云服务商的场景: 网站使用对象存储来管理。海外使用的云服务商是AWS, 中国区域使用的是阿里云。<br>两家云服务商分别有自己的对象存储服务，分别是：aws s3 与 阿里云OSS。</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>云服务商</th>
+<th>对象存储服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中国区</td>
+<td>阿里云</td>
+<td><a target="_blank" rel="noopener" href="https://www.aliyun.com/product/oss">OSS</a></td>
+</tr>
+<tr>
+<td>海外区</td>
+<td>亚马逊</td>
+<td><a target="_blank" rel="noopener" href="https://aws.amazon.com/s3/">S3</a></td>
+</tr>
+</tbody></table>
+<p><img src="https://github.com/user-attachments/assets/c8da10a4-1369-41cb-b153-339c098362b6" alt="image"></p>
+<p>在代码实现上，我们往往需要同时引入aws跟aliyun 对象存储的sdk。<br>部署在海外的服务，上传文件到s3。部署在国内的服务，上传文件到阿里云oss。</p>
+<p>所以，在服务里，往往需要同时引用双方的SDK，并针对性进行内容上传。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">AWS</span> = <span class="built_in">require</span>(<span class="string">&#x27;aws-sdk&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OSS</span> = <span class="built_in">require</span>(<span class="string">&#x27;ali-oss&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果是海外，则操作AWS S3, 否则使用阿里云 SS</span></span><br><span class="line"><span class="keyword">if</span> (isOversea) &#123;</span><br><span class="line">  <span class="keyword">const</span> s3 = <span class="keyword">new</span> <span class="variable constant_">AWS</span>.<span class="title function_">S3</span>();</span><br><span class="line">  <span class="keyword">const</span> params = &#123;</span><br><span class="line">    <span class="title class_">Bucket</span>: bucket,</span><br><span class="line">    <span class="title class_">Key</span>: key,</span><br><span class="line">    <span class="title class_">Body</span>: file,</span><br><span class="line">  &#125;;</span><br><span class="line">  s3.<span class="title function_">upload</span>(params, <span class="function">(<span class="params">err, data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">reject</span>(<span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;upload failed!&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">resolve</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> client = <span class="keyword">new</span> <span class="title function_">OSS</span>(&#123;</span><br><span class="line">    <span class="string">&quot;region&quot;</span>: <span class="string">&quot;oss-cn-hangzhou&quot;</span>,</span><br><span class="line">    <span class="string">&quot;accessKeyId&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;accessKeySecret&quot;</span>: <span class="string">&quot;&quot;</span>,</span><br><span class="line">    <span class="string">&quot;bucket&quot;</span>: <span class="string">&quot;&quot;</span></span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  client.<span class="title function_">put</span>(key, file)</span><br><span class="line">    .<span class="title function_">then</span>(<span class="function"><span class="params">data</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">resolve</span>()</span><br><span class="line">    &#125;).<span class="title function_">catch</span>(<span class="function"><span class="params">ex</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;err&#x27;</span>, ex)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最近在做功能对接的时候，阅读阿里云官方文档，发现阿里云官方声明支持使用aws的sdk进行操作oss。</p>
+<blockquote>
+<p>对象存储OSS提供了兼容Amazon S3的API。当您将数据从Amazon S3迁移到OSS后，只需简单的配置修改，即可让您的客户端应用轻松兼容OSS服务。本文主要介绍如何通过不同开发平台的S3 SDK完成初始化配置，然后使用S3 SDK接口访问OSS资源。</p>
+</blockquote>
+<p>需要将上传的<code>endpoint</code>进行调整即可，阿里云已经在数据层面对AWS的SDK进行了兼容。</p>
+<h1 id="代码同构"><a href="#代码同构" class="headerlink" title="代码同构"></a>代码同构</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">AWS</span> = <span class="built_in">require</span>(<span class="string">&#x27;aws-sdk&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable constant_">AWS</span>.<span class="property">config</span>.<span class="title function_">update</span>(&#123;</span><br><span class="line">    <span class="attr">accessKeyId</span>: <span class="string">&quot;OSS_AccessKeyId&quot;</span>,</span><br><span class="line">    <span class="attr">secretAccessKey</span>: <span class="string">&quot;OSS_AccessKeySecret&quot;</span>,</span><br><span class="line">    <span class="attr">region</span>: <span class="string">&quot;oss-cn-hangzhou&quot;</span>,</span><br><span class="line">    <span class="attr">endpoint</span>: <span class="string">&#x27;https://oss-cn-hangzhou.aliyuncs.com&#x27;</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">s3 = <span class="keyword">new</span> <span class="variable constant_">AWS</span>.<span class="title function_">S3</span>(&#123;<span class="attr">apiVersion</span>: <span class="string">&#x27;2006-03-01&#x27;</span>&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h1><p>使用此种代码同构的方式，在测试过程中出现了异常。<br>这个异常出现的场景：如果同一个应用，同时操作S3与OSS，就会出现操作对象存储失败。<br>原因则是因为，使用构建函数的配置update enpoint的方式, 会切换所有对象存储的<code>endpoint</code> , 结果让数据要么统一到aws, 要么统一到阿里云</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable constant_">AWS</span>.<span class="property">config</span>.<span class="title function_">update</span>(&#123;</span><br><span class="line">    <span class="attr">accessKeyId</span>: <span class="string">&quot;OSS_AccessKeyId&quot;</span>,</span><br><span class="line">    <span class="attr">secretAccessKey</span>: <span class="string">&quot;OSS_AccessKeySecret&quot;</span>,</span><br><span class="line">    <span class="attr">region</span>: <span class="string">&quot;oss-cn-hangzhou&quot;</span>,</span><br><span class="line">    <span class="attr">endpoint</span>: <span class="string">&#x27;https://oss-cn-hangzhou.aliyuncs.com&#x27;</span>,  <span class="comment">// 出现问题的地方</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>在AWS SDK的文档可以看到，S3的客户端支持实例化的方式，只需要在实例的时候，针对实例进行初始化配置即可。即<strong>使用工厂模式而非单例模式</strong><br>重新调整代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="variable constant_">AWS</span> = <span class="built_in">require</span>(<span class="string">&#x27;aws-sdk&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 针对性传入aliyun 或者 aws的配置，如果有多个客户端，那就初始化多个实例</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">const</span> initConfiguration = &#123;</span><br><span class="line">  <span class="attr">apiVersion</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">accessKeyId</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">accessKeySecret</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">region</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">  <span class="attr">endpoint</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 每次初始化一个实例并指定endpoint.</span></span><br><span class="line"><span class="variable language_">this</span>.<span class="property">client</span> = <span class="keyword">new</span> <span class="variable constant_">AWS</span>.<span class="title function_">S3</span>(&#123;</span><br><span class="line">  <span class="attr">apiVersion</span>: initConfiguration.<span class="property">apiVersion</span>,</span><br><span class="line">  <span class="attr">accessKeyId</span>: initConfiguration.<span class="property">accessKeyId</span>,</span><br><span class="line">  <span class="attr">secretAccessKey</span>: initConfiguration.<span class="property">accessKeySecret</span>,</span><br><span class="line">  <span class="attr">region</span>: initConfiguration.<span class="property">region</span>,</span><br><span class="line">  <span class="attr">endpoint</span>: initConfiguration.<span class="property">endpoint</span>,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>如此一份兼容S3 与 OSS的 代码片段便大功告成了</p>
+<p>横向对比可以发现，现在业界许多对象存储，除了阿里云OSS，腾讯云COS，同样都能使用 AWS 的SDK来操作他们的对象存储，因为他们都遵循AWS的 Simple Storage Service规范。</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.alibabacloud.com/help/zh/oss/developer-reference/use-amazon-s3-sdks-to-access-oss#section-2ri-suq-pb3">使用Amazon S3 SDK访问OSS</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/436/37421">使用 AWS S3 SDK 访问 COS</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -315,10 +419,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2024-07-31 22:00:00 / Modified: 16:37:57" itemprop="dateCreated datePublished" datetime="2024-07-31T22:00:00+08:00">2024-07-31</time>
+              <time title="Created: 2024-07-31 22:00:00" itemprop="dateCreated datePublished" datetime="2024-07-31T22:00:00+08:00">2024-07-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
+              </span>
 
           
 
@@ -425,7 +535,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -542,7 +652,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -639,7 +749,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -717,7 +827,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -825,7 +935,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -990,7 +1100,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -1143,7 +1253,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
               </span>
 
           
@@ -1170,116 +1280,6 @@
 <p>琢磨了一下看着像是被封了</p>
 <h1 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h1><p>于是在官网找到客服提ticket实锤被封。<br>GitHub回复检测我的账号有部署服务的嫌疑，不能解禁。<br><img src="https://github.com/derycktse/Note/assets/3389862/9ddc188b-b3db-4827-b663-690e95668ed6" alt="img"><br>因为我在公司使用了，而公司出口IP走的腾讯云。于是被github 的安全机制扫描出来给封禁了。</p>
 <p>于是我质疑他们只看来源不看使用量的策略，毕竟我个人使用的话，这个量还是微乎其微的。<br><img src="https://github.com/derycktse/Note/assets/3389862/52c2cc78-2c10-4e59-a3c5-6fdb1b352e24" alt="img"><br>最终客服成功给我解封了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/03/31/2024/my-daily-2024-03/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="deryck.xie">
-      <meta itemprop="description" content="德里克的个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/31/2024/my-daily-2024-03/" class="post-title-link" itemprop="url">日常记事:2024-03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-03-31 12:17:31" itemprop="dateCreated datePublished" datetime="2024-03-31T12:17:31+08:00">2024-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-07-31 16:37:57" itemprop="dateModified" datetime="2024-07-31T16:37:57+08:00">2024-07-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="3月"><a href="#3月" class="headerlink" title="3月"></a>3月</h1><p>整一个3月还是比较忙的，毕竟整个3月是公司的一个季度考核末期，所以本着deadline 是第一生产力的原则，大伙都在冲刺。加上3月也病了一场，所以回顾了一下，3月份并没有做太多的事情。</p>
-<h2 id="运动"><a href="#运动" class="headerlink" title="运动"></a>运动</h2><p>3月中上旬一直在咳嗽，运动从过年后也歇息有一段时间了。到了中下旬咳嗽才好了，于是恢复了跑步。整体运动量：<br>运动打卡日： 6&#x2F;31<br>跑步km:  30&#x2F;50</p>
-<h2 id="读书"><a href="#读书" class="headerlink" title="读书"></a>读书</h2><table>
-<thead>
-<tr>
-<th>书名</th>
-<th>进度</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>十分钟冥想</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>洋盘</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>我的母亲做保洁</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>前端工程化：体系设计与实践</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>皮囊</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>阿里人的答案书</td>
-<td>100%</td>
-</tr>
-<tr>
-<td>月光落在左手上</td>
-<td>20%</td>
-</tr>
-<tr>
-<td>暮色将尽</td>
-<td>10%</td>
-</tr>
-<tr>
-<td>35岁后, 我无路可退？</td>
-<td>30%</td>
-</tr>
-</tbody></table>
 
       
     </div>
@@ -1364,14 +1364,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">45</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">17</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
