@@ -1,5 +1,5 @@
 ---
-title: 使用obsidian 编写博客
+title: 使用obsidian编写博客
 date: 2024-03-16 23:29:20
 ---
 
@@ -19,4 +19,14 @@ rsync -r --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.gith
 hexo clean && hexo g && hexo deploy
 ```
 
-当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。当下还是先让自己培养多写博客的习惯，等习惯养成之后再进一步优化。
+当然还有很多更好的办法，比如使用软链等形式，不过觉得现在这个阶段已经够用了。毕竟写blog的频率当下还达不到非常高频。还是先让自己培养多写作的习惯，等习惯养成之后再进一步优化。
+
+来自2024-08-17 补充，发现每次`rsync`后，未修改个文件，同样也被重新覆盖了，这里体现在文件的修改时间上，自然而然想到可以使用对比摘要不同再同步的方法，发现`rsync`已经有参数支持。可以基于摘要进行比对后再决定是否更新
+```sh
+-c, --checksum              skip based on checksum, not mod-time & size
+```
+
+修改版
+```
+rsync -r --checksum --delete ~/my-obsidian-folder/blog/_posts/ ~/my-hexo-folder/myname.github.io/source/_posts/
+```
