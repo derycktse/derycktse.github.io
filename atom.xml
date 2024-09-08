@@ -6,7 +6,7 @@
   <link href="https://derycktse.github.io/atom.xml" rel="self"/>
   
   <link href="https://derycktse.github.io/"/>
-  <updated>2024-08-18T11:16:37.996Z</updated>
+  <updated>2024-09-08T07:03:46.621Z</updated>
   <id>https://derycktse.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>记网站静态资源国内区域回源海外被墙及解决方式</title>
+    <link href="https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/"/>
+    <id>https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/</id>
+    <published>2024-09-08T06:59:26.000Z</published>
+    <updated>2024-09-08T07:03:46.621Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>目前管理的一个网站，主要用户群体是北美，欧洲，与中国地区。早之前选用的云服务商的亚马逊。静态资源原链路大概如下（从左往右）：</p><table><thead><tr><th>区域</th><th>CDN</th><th>源站</th></tr></thead><tbody><tr><td>全球用户</td><td>AWS CloudFront</td><td>S3</td></tr></tbody></table><p>但是通过监控来看中国区用户访问速度并不太理想。关于CDN的节点，我们看看</p><h1 id="CloudFront各州节点情况"><a href="#CloudFront各州节点情况" class="headerlink" title="CloudFront各州节点情况"></a>CloudFront各州节点情况</h1><h2 id="北美区"><a href="#北美区" class="headerlink" title="北美区"></a>北美区</h2><p><img src="https://github.com/user-attachments/assets/9a79fce3-5976-4d9b-a334-b95649ce4cb9" alt="cloudfront 北美节点数"></p><h2 id="欧洲区"><a href="#欧洲区" class="headerlink" title="欧洲区"></a>欧洲区</h2><p><img src="https://github.com/user-attachments/assets/1d6da487-b167-448c-84b0-93acd284036a" alt="CloudFront 欧洲区节点"></p><h2 id="亚太区"><a href="#亚太区" class="headerlink" title="亚太区"></a>亚太区</h2><p><img src="https://github.com/user-attachments/assets/cf9ed303-7e40-47b0-af01-d0fd182a3a54" alt="CloudFront 亚洲区节点"></p><p>AWS主营业务在海外，中国区只有深圳、香港、北京、台北桃园、中卫几个节点。所以中国区的用户，静态资源下载的速度并不十分理想</p><h1 id="优化链路-增加中国区云服务商"><a href="#优化链路-增加中国区云服务商" class="headerlink" title="优化链路 - 增加中国区云服务商"></a>优化链路 - 增加中国区云服务商</h1><p>在国内的CDN，增加了阿里云云服务托管，并且选用了阿里云的对象存储，于是访问链路变成（从左往右）</p><table><thead><tr><th>区域</th><th>CDN</th><th>源站</th></tr></thead><tbody><tr><td>中国用户</td><td>阿里云CDN</td><td>阿里云对象存储（OSS）</td></tr><tr><td>全球用户</td><td>AWS CloudFront</td><td>AWS S3</td></tr></tbody></table><p>由于阿里云在中国区的节点数量多，于是国内用户访问的速度就快了一个档次。</p><h1 id="新问题-中国区访问资源偶尔失败"><a href="#新问题-中国区访问资源偶尔失败" class="headerlink" title="新问题 - 中国区访问资源偶尔失败"></a>新问题 - 中国区访问资源偶尔失败</h1><p>近期出现新上传的资源, 中国地区的用户访问失败</p><p><img src="https://github.com/user-attachments/assets/2f4d7ca2-4459-4923-b528-31e5d09a783e" alt="resource error"></p><p>通过上面的信息初步可以推断出来是国内回源出现了问题。实际上，我们的静态资源链路拓扑图是这样的：</p><p><img src="https://github.com/user-attachments/assets/7cdf801d-f286-4d45-b2f9-722eda3902af" alt="站点拓扑图"></p><p>中国区的架构是后面才新增的，原本的运营后台传输资源只是会上传在海外服务。<br>所以对于中国区的服务，配置的策略是：如果国内OSS没有资源，则会回源到海外去获取资源再缓存。</p><h2 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h2><p>本次出问题就出在红色的线路，海外回源的策略上。<br>阿里云OSS使用aws cloudfront的提供的默认CDN域名作为回源(xxx.cloudfront.com), 由于 *.cloudfront.com 相关域名会被一些中国区认定灰产的内容所引用，所以xxx.cloudfront相关的域名容易被墙。</p><h1 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h1><p>知道问题之后就好办了，有两种方式可以解决</p><h2 id="方式一：中国区回源海外域名备案"><a href="#方式一：中国区回源海外域名备案" class="headerlink" title="方式一：中国区回源海外域名备案"></a>方式一：中国区回源海外域名备案</h2><p>更换一个中国区备案的域名，用来做回源使用。<br>次解决方案，而且可以通过OSS资源预热的形式，让资源主动进入OSS里面缓存，如果网络抖动也可以通过增加重试的形式，基本能成功。</p><p><img src="https://github.com/user-attachments/assets/cc70d18f-3600-4995-acdf-7b2302947e20" alt="image"></p><h2 id="方式二-主动写入中国区"><a href="#方式二-主动写入中国区" class="headerlink" title="方式二: 主动写入中国区"></a>方式二: 主动写入中国区</h2><p>用回源的方式一个问题为，国内的资源是采取被动的形式才生成的。那么可以采取主动写入的形式。即：同时往中国区写入内容。这个要求我们写入的服务访问中国以及海外的网络都稳定。所以，一个比较理想的部署方式是，运营后台迁移到香港地区。如此网站的拓扑变成：</p><p><img src="https://github.com/user-attachments/assets/9dee2979-ddbb-4d2f-8d64-fcf0de62851d" alt="image"></p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>稳定性方面，方案二要比方案一稳定得多。因为方案一采取被动加重试来进行稳定保障，而方案二是主动掌握稳定性。<br>但是结合成本上来说，方案一只需要简单变更，而且不涉及链路调整，仅仅是修改回源别名。简单有效，所以本次解决被墙的问题采用了方案一，最终墙的问题顺利解决。</p>]]></content>
+    
+    
+    <summary type="html">本文记录了在网站多区域部署的情况下，中国区的静态资源回源到海外区失败以及解决方式</summary>
+    
+    
+    
+    
+    <category term="架构设计" scheme="https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>使用AWS SDK操作阿里云OSS</title>
@@ -423,27 +442,6 @@
       
       
     <summary type="html">&lt;h1 id=&quot;工欲善其事，不必利其器&quot;&gt;&lt;a href=&quot;#工欲善其事，不必利其器&quot; class=&quot;headerlink&quot; title=&quot;工欲善其事，不必利其器&quot;&gt;&lt;/a&gt;工欲善其事，不必利其器&lt;/h1&gt;&lt;p&gt;今天花了一个上午的时间折腾我的笔记软件，我目前使用的是obsidia</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2023我的读书总结</title>
-    <link href="https://derycktse.github.io/2023/12/24/2023/My-reading-summary-in-2023/"/>
-    <id>https://derycktse.github.io/2023/12/24/2023/My-reading-summary-in-2023/</id>
-    <published>2023-12-24T12:18:00.000Z</published>
-    <updated>2024-08-11T02:48:52.297Z</updated>
-    
-    <content type="html"><![CDATA[<p>2023已经到了尾声了，关于今年的读书，针对一些读过的书，在这里也要做点儿总结。今年的读书量来说还比去年多了一点点。上半年其实有些懈怠，下半年重新找回了看书的热情。另外，听书的时间也是不少, 不过基本都是睡前的时候助眠。在这里列一下今年个人心目中5本书。</p><h1 id="《重来3-跳出疯狂的忙碌》"><a href="#《重来3-跳出疯狂的忙碌》" class="headerlink" title="《重来3: 跳出疯狂的忙碌》"></a>《重来3: 跳出疯狂的忙碌》</h1><p>这本书我觉得可以入选我书单的年度之书。能够很好解毒了当下工作中忙碌的一个状态，让我有了一些思考。有许多的观念还是蛮颠覆的。在企业上班，有时候会有一些不必要的忙碌，关于“刻苦工作”我倒不觉得这个事情本身是一件很糟的事。但是大多数打工人的忙碌，并不是主动愿意去刻苦，所以即使时间拉的很长，自己收获也甚微，身心俱疲。如果工作感到劳累，这本书会带给你一些不一样的想法。</p><h1 id="《终身成长》"><a href="#《终身成长》" class="headerlink" title="《终身成长》"></a>《终身成长》</h1><p>在各种关于个人成长的榜单里，这本书总会占有一席之地。这本书读的时间还蛮久。最主要的一个收获就是让我了解了固定性思维跟成长性思维这两种思维。让我有了一些思维上的转变，之后在一些觉得自己没天赋或者不擅长的领域，不会像以前觉得自己做不来而退缩，会开始愿意去尝试，让自己在很多时候会想去突破自己，开始相信自己的能力并不是一成不变的。</p><h1 id="《马斯克传》"><a href="#《马斯克传》" class="headerlink" title="《马斯克传》"></a>《马斯克传》</h1><p>关于马斯克这个人有多传奇自然不用多说，去年也读了写他的《硅谷钢铁侠》。今年读这本马斯克传个人觉得还是不错的，对于马斯克的一些事迹有了更多的细节跟补充。作者是写过乔布斯传的沃尔特·艾萨克森，他写的传记还是有口皆碑的。马斯克的传奇还在继续。</p><h1 id="《认知觉醒》"><a href="#《认知觉醒》" class="headerlink" title="《认知觉醒》"></a>《认知觉醒》</h1><p>这本书也是二刷了，之前听书的时候听过，在去年读过一遍之后，今年又再看列一遍。从脑科学聊到了认知科学。书中推荐了五个好习惯：早起，读书，写作，冥想，运动。这也是我目前在尽力培养的习惯。</p><h1 id="《好好学习》"><a href="#《好好学习》" class="headerlink" title="《好好学习》"></a>《好好学习》</h1><p>内容比较大白话，所以读起来不费劲。去年其实花了一天就看完了，今年机缘巧合又看了一遍。这本书，虽然我评价不算很高，总的来说是一本整理各种知识点加上一些个人总结的书。但因为看了这本书后，重新唤醒了我记录日志的习惯。通过记录以及反思，让我在复盘的过程中，自己也有了不少的收获。所以也推荐可以看一看。</p><h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>附上今年的读书列表：</p><ul><li>底层逻辑2</li><li>挪威的森林</li><li>优势成长</li><li>认知驱动</li><li>把时间当作朋友</li><li>霍乱时期的爱情</li><li>一桩事先张扬的谋杀案</li><li>中国式管理行为</li><li>活法</li><li>六项精进</li><li>干法</li><li>心：稻盛和夫</li><li>乌合之众</li><li>终身成长</li><li>齐俊杰看财经</li><li>洛克菲勒写给儿子的38封信</li><li>箭术与禅心</li><li>父亲巴菲特教给我的事</li><li>世界尽头的咖啡馆</li><li>你当像鸟飞往你的山</li><li>微习惯</li><li>大明王朝的七张面孔</li><li>上瘾</li><li>穿越寒冬</li><li>周鸿祎自述：我的互联网方法论</li><li>夜晚的潜水艇</li><li>沉默的大多数</li><li>动物凶猛</li><li>认知觉醒</li><li>http&#x2F;2 in action</li><li>他改变了中国</li><li>我与地坛</li><li>恰如其分的害羞</li><li>我在北京送快递</li><li>好好学习</li><li>思考的框架</li><li>我的阿勒泰</li><li>向死而生</li><li>向上生长</li><li>金钱心理学</li><li>沈南鹏传</li><li>段永平传</li><li>人生复本</li><li>埃隆马斯克传</li><li>富兰克林自传</li><li>重来3: 跳出疯狂的忙碌</li><li>奇特的一生</li><li>为什么伟大不能被计划</li><li>相信</li><li>最重要的事，只有一件</li><li>克服焦虑</li><li>百万富翁快车道</li></ul>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;2023已经到了尾声了，关于今年的读书，针对一些读过的书，在这里也要做点儿总结。今年的读书量来说还比去年多了一点点。上半年其实有些懈怠，下半年重新找回了看书的热情。另外，听书的时间也是不少, 不过基本都是睡前的时候助眠。在这里列一下今年个人心目中5本书。&lt;/p&gt;
-&lt;h1 i</summary>
       
     
     

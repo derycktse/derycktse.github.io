@@ -185,6 +185,72 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/08/2024/china-website-static-resources-blocked-solutions/" class="post-title-link" itemprop="url">记网站静态资源国内区域回源海外被墙及解决方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2024-09-08 14:59:26 / Modified: 15:03:46" itemprop="dateCreated datePublished" datetime="2024-09-08T14:59:26+08:00">2024-09-08</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文记录了在网站多区域部署的情况下，中国区的静态资源回源到海外区失败以及解决方式</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/08/2024/china-website-static-resources-blocked-solutions/">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1151,83 +1217,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/04/11/2024/github-copilot-was-banned/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="deryck.xie">
-      <meta itemprop="description" content="一个前端工程师的个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/11/2024/github-copilot-was-banned/" class="post-title-link" itemprop="url">github copilot被封记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2024-04-11 11:00:00" itemprop="dateCreated datePublished" datetime="2024-04-11T11:00:00+08:00">2024-04-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>2024-03-29晚上使用vs code, 发现我的copilot一直不起作用了。</p>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><p>一开始想着可能我配置错了，尝试了各种方法，都不行：</p>
-<ol>
-<li>切换更早版本的copilot（一年前的版本）</li>
-<li>换一台笔记本</li>
-<li>用其他的IDE</li>
-</ol>
-<p>copliot 的终端报错显示</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[INFO] [auth] [2024-03-29T14:22:41.063Z] Invalid copilot token: missing token: 403 </span><br><span class="line">[ERROR] [default] [2024-03-29T14:22:41.065Z] GitHub Copilot could not connect to server. Extension activation failed: &quot;Contact Support. You are currently logged in as derycktse.&quot;</span><br></pre></td></tr></table></figure>
-
-<p>琢磨了一下看着像是被封了</p>
-<h1 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h1><p>于是在官网找到客服提ticket实锤被封。<br>GitHub回复检测我的账号有部署服务的嫌疑，不能解禁。<br><img src="https://github.com/derycktse/Note/assets/3389862/9ddc188b-b3db-4827-b663-690e95668ed6" alt="img"><br>因为我在公司使用了，而公司出口IP走的腾讯云。于是被github 的安全机制扫描出来给封禁了。</p>
-<p>于是我质疑他们只看来源不看使用量的策略，毕竟我个人使用的话，这个量还是微乎其微的。<br><img src="https://github.com/derycktse/Note/assets/3389862/52c2cc78-2c10-4e59-a3c5-6fdb1b352e24" alt="img"><br>最终客服成功给我解封了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1297,7 +1286,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">46</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
