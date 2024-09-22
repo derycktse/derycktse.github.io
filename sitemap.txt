@@ -1,3 +1,4 @@
+https://derycktse.github.io/2024/09/22/2024/a-day-trip-to-tanglang-mountain-in-shenzhen/
 https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/
 https://derycktse.github.io/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/
 https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/
@@ -64,3 +65,4 @@ https://derycktse.github.io/tags/vue/
 https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/
 https://derycktse.github.io/tags/aws/
 https://derycktse.github.io/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/
+https://derycktse.github.io/tags/%E7%94%9F%E6%B4%BB%E8%AE%B0%E4%BA%8B/

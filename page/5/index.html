@@ -185,6 +185,80 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2016/04/05/older/vue-source-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/05/older/vue-source-code/" class="post-title-link" itemprop="url">vue源码学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-05 14:48:30" itemprop="dateCreated datePublished" datetime="2016-04-05T14:48:30+08:00">2016-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-08-11 10:48:52" itemprop="dateModified" datetime="2024-08-11T10:48:52+08:00">2024-08-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="83fac017f96f34c92c3578796a7ddb443d4e1f17"><a href="#83fac017f96f34c92c3578796a7ddb443d4e1f17" class="headerlink" title="[83fac017f96f34c92c3578796a7ddb443d4e1f17]"></a>[83fac017f96f34c92c3578796a7ddb443d4e1f17]</h3><p>使用grunt作为构建工具<br>npm + component作为包的管理</p>
+<h3 id="871ed9126639c9128c18bb2f19e6afd42c0c5ad9"><a href="#871ed9126639c9128c18bb2f19e6afd42c0c5ad9" class="headerlink" title="[871ed9126639c9128c18bb2f19e6afd42c0c5ad9]"></a>[871ed9126639c9128c18bb2f19e6afd42c0c5ad9]</h3><p>新增加了一个数据绑定的实例<br>大致思路：</p>
+<ul>
+<li>html结构中新增占位符号</li>
+<li>将有占位符号的DOM保存起来，同时拥有一个对象将DOM关联起来</li>
+<li>使用Object.defineProperty为这个对象的属性进行绑定访问器，如果修改了这个访问器的话，也将更改更新到DOM中</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/vuejs/vue/blob/871ed9126639c9128c18bb2f19e6afd42c0c5ad9/explorations%2Fgetset.html">实例地址</a></p>
+<h3 id="a5e27b1174e9196dcc9dbb0becc487275ea2e84c"><a href="#a5e27b1174e9196dcc9dbb0becc487275ea2e84c" class="headerlink" title="[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]"></a>[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]</h3><p>作者同时使用了compoent的包管理工具<br>看提交时间必须使用<a href="mailto:&#x63;&#111;&#x6d;&#112;&#x6f;&#110;&#x65;&#110;&#116;&#64;&#48;&#x2e;&#49;&#x36;&#x2e;&#51;">&#x63;&#111;&#x6d;&#112;&#x6f;&#110;&#x65;&#110;&#116;&#64;&#48;&#x2e;&#49;&#x36;&#x2e;&#51;</a>这个版本</p>
+<p>修改了main.js，主要思想即是通过解析拥有指定属性的DOM，然后将它们存入到对象之中，为这个对象绑定访问选择器（set,get）从而将更新修改到DOM中</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2016/03/16/older/webpack-code-splitting/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -700,14 +774,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
