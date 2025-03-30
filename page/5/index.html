@@ -185,6 +185,81 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2016/04/14/older/three-array-tips/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/14/older/three-array-tips/" class="post-title-link" itemprop="url">三个关于数组的小技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-14 10:36:07" itemprop="dateCreated datePublished" datetime="2016-04-14T10:36:07+08:00">2016-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2024-08-17 11:38:42" itemprop="dateModified" datetime="2024-08-17T11:38:42+08:00">2024-08-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="1-可迭代的空数组"><a href="#1-可迭代的空数组" class="headerlink" title="1.可迭代的空数组###"></a>1.可迭代的空数组###</h3><p>我们知道，Javacript的所创建的数组如果未被初始化值的话，它是一个稀疏数组(sparse array)，这是什么意思的？我们先看下面的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> arr = <span class="keyword">new</span> <span class="title class_">Array</span>(<span class="number">4</span>); <span class="comment">//[undefined, undefined, undefined, undefined]</span></span><br></pre></td></tr></table></figure>
+<p>假设我们要去迭代一个数组，我们会发现，未被初始化值的数组，index实际上访问不到的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arr.<span class="title function_">map</span>(<span class="function">(<span class="params">elem, index</span>) =&gt;</span> index); <span class="comment">//  输出:[undefined, undefined, undefined, undefined]</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2016/04/14/older/three-array-tips/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2016/04/05/older/vue-source-code/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -238,7 +313,7 @@
 <li>使用Object.defineProperty为这个对象的属性进行绑定访问器，如果修改了这个访问器的话，也将更改更新到DOM中</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://github.com/vuejs/vue/blob/871ed9126639c9128c18bb2f19e6afd42c0c5ad9/explorations%2Fgetset.html">实例地址</a></p>
-<h3 id="a5e27b1174e9196dcc9dbb0becc487275ea2e84c"><a href="#a5e27b1174e9196dcc9dbb0becc487275ea2e84c" class="headerlink" title="[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]"></a>[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]</h3><p>作者同时使用了compoent的包管理工具<br>看提交时间必须使用<a href="mailto:&#99;&#x6f;&#x6d;&#x70;&#111;&#x6e;&#x65;&#110;&#x74;&#x40;&#x30;&#x2e;&#x31;&#54;&#46;&#51;">&#99;&#x6f;&#x6d;&#x70;&#111;&#x6e;&#x65;&#110;&#x74;&#x40;&#x30;&#x2e;&#x31;&#54;&#46;&#51;</a>这个版本</p>
+<h3 id="a5e27b1174e9196dcc9dbb0becc487275ea2e84c"><a href="#a5e27b1174e9196dcc9dbb0becc487275ea2e84c" class="headerlink" title="[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]"></a>[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]</h3><p>作者同时使用了compoent的包管理工具<br>看提交时间必须使用<a href="mailto:&#x63;&#x6f;&#109;&#x70;&#x6f;&#110;&#x65;&#110;&#116;&#64;&#x30;&#46;&#x31;&#x36;&#46;&#x33;">&#x63;&#x6f;&#109;&#x70;&#x6f;&#110;&#x65;&#110;&#116;&#64;&#x30;&#46;&#x31;&#x36;&#46;&#x33;</a>这个版本</p>
 <p>修改了main.js，主要思想即是通过解析拥有指定属性的DOM，然后将它们存入到对象之中，为这个对象绑定访问选择器（set,get）从而将更新修改到DOM中</p>
 
       
@@ -774,14 +849,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">47</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
