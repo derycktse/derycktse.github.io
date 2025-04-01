@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://derycktse.github.io/2025/04/01/2025/cross-domain-cookie-transmission/</loc>
+    
+    <lastmod>2025-04-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://derycktse.github.io/2025/03/30/2025/jwt-authentication-with-logout-capability/</loc>
     
     <lastmod>2025-03-30</lastmod>
@@ -83,7 +92,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2016/04/05/older/vue-source-code/</loc>
+    <loc>https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -101,7 +110,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2017/08/13/older/use-sqlite-in-electron/</loc>
+    <loc>https://derycktse.github.io/2016/04/05/older/vue-source-code/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -111,15 +120,6 @@
   
   <url>
     <loc>https://derycktse.github.io/2016/12/15/older/react-component-lifecycle/</loc>
-    
-    <lastmod>2024-08-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/2020/10/07/older/reading-note-The-Psychology-of-Procrastination/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -138,6 +138,15 @@
   
   <url>
     <loc>https://derycktse.github.io/2016/04/14/older/three-array-tips/</loc>
+    
+    <lastmod>2024-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/2020/10/07/older/reading-note-The-Psychology-of-Procrastination/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -191,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2016/03/10/older/Getting-started-with-webpack/</loc>
+    <loc>https://derycktse.github.io/2017/04/27/older/Implementing-drag-effect/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -200,7 +209,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2017/04/27/older/Implementing-drag-effect/</loc>
+    <loc>https://derycktse.github.io/2016/03/10/older/Getting-started-with-webpack/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -299,15 +308,6 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2024/05/02/2024/my-daily-2024-04/</loc>
-    
-    <lastmod>2024-08-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://derycktse.github.io/2024/01/14/2024/reading-note-The-Road-to-Financial-Freedom/</loc>
     
     <lastmod>2024-08-17</lastmod>
@@ -318,6 +318,15 @@
   
   <url>
     <loc>https://derycktse.github.io/2024/01/13/2024/reading-note-elastic-growth/</loc>
+    
+    <lastmod>2024-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/2024/05/02/2024/my-daily-2024-04/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -380,15 +389,6 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2023/10/04/2023/reading-note-elon-musk/</loc>
-    
-    <lastmod>2024-08-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://derycktse.github.io/2023/10/29/2023/reading-note-Why-greatness-cannot-be-planned/</loc>
     
     <lastmod>2024-08-17</lastmod>
@@ -398,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://derycktse.github.io/2023/08/10/2023/reading-note-The-Cafe-at-the-End-of-the-World/</loc>
+    <loc>https://derycktse.github.io/2023/10/04/2023/reading-note-elon-musk/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -408,6 +408,15 @@
   
   <url>
     <loc>https://derycktse.github.io/2023/01/21/2023/reading-note-Sleep-Revolution/</loc>
+    
+    <lastmod>2024-08-17</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/2023/08/10/2023/reading-note-The-Cafe-at-the-End-of-the-World/</loc>
     
     <lastmod>2024-08-17</lastmod>
     
@@ -454,141 +463,141 @@
 
   <url>
     <loc>https://derycktse.github.io/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/aws/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/serverless/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/%E7%94%9F%E6%B4%BB%E8%AE%B0%E4%BA%8B/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/seo/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/dataanalytics/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://derycktse.github.io/tags/network/</loc>
-    <lastmod>2025-03-30</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://derycktse.github.io/tags/javascript/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/prototype/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/%E6%9E%84%E5%BB%BA/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/react/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/es2015/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/node-js/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/npm/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://derycktse.github.io/tags/vue/</loc>
-    <lastmod>2025-03-30</lastmod>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E7%94%9F%E6%B4%BB%E8%AE%B0%E4%BA%8B/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/aws/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E5%AF%B9%E8%B1%A1%E5%AD%98%E5%82%A8/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/%E6%95%88%E7%8E%87%E6%8F%90%E5%8D%87/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/seo/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/dataanalytics/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/network/</loc>
+    <lastmod>2025-04-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://derycktse.github.io/tags/serverless/</loc>
+    <lastmod>2025-04-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
