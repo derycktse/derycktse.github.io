@@ -37,7 +37,8 @@ fetch('https://api.example.com/data', {
 ```
 
 然而，浏览器仍然显示跨域请求失败。
-![](https://github.com/user-attachments/assets/d53e20e7-5c77-44e9-a03f-01223def2c54)
+![alt text](../../images/cross-domain-cookie-transmission.png)
+<!-- ![](https://github.com/user-attachments/assets/d53e20e7-5c77-44e9-a03f-01223def2c54) -->
 
 但我注意到，第一个请求preflight是200的，而第二个请求才报跨域错误。
 
