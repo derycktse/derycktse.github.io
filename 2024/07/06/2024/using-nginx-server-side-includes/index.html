@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=LXGW WenKai Screen !important:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="什么是Server Side Includes我们来看看维基百科是怎么解释的:  服务器端内嵌（Server Side Includes，亦简称为SSI）是一种大多数仅应用于互联网上的简单解释性服务器端脚本语言。SSI最常见的用法是将一个或多个文件的内容包含在网页服务器的页面上。例如，一张包含每日报价的页面可以通过下面一段代码将报价单包含在页面中：  1&lt;!--#include virtua">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Nginx Server Side Includes">
+<meta property="og:url" content="https://derycktse.github.io/2024/07/06/2024/using-nginx-server-side-includes/">
+<meta property="og:site_name" content="青苔小茶馆">
+<meta property="og:description" content="什么是Server Side Includes我们来看看维基百科是怎么解释的:  服务器端内嵌（Server Side Includes，亦简称为SSI）是一种大多数仅应用于互联网上的简单解释性服务器端脚本语言。SSI最常见的用法是将一个或多个文件的内容包含在网页服务器的页面上。例如，一张包含每日报价的页面可以通过下面一段代码将报价单包含在页面中：  1&lt;!--#include virtua">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/community/community/assets/3389862/934e4705-e5fb-49ae-9b2e-ea0d7960b515">
+<meta property="og:image" content="https://github.com/community/community/assets/3389862/57ca58ad-40a8-4832-a7a6-df6547c7e60d">
+<meta property="og:image" content="https://github.com/community/community/assets/3389862/3510e89b-e734-4195-a225-82e1b557b46b">
+<meta property="article:published_time" content="2024-07-06T08:43:30.000Z">
+<meta property="article:modified_time" content="2025-03-30T03:23:45.238Z">
+<meta property="article:author" content="deryck.xie">
+<meta property="article:tag" content="blog, 博客, 编程, 技术, 生活, 学习, 架构设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/community/community/assets/3389862/934e4705-e5fb-49ae-9b2e-ea0d7960b515">
+
+<link rel="canonical" href="https://derycktse.github.io/2024/07/06/2024/using-nginx-server-side-includes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>使用Nginx Server Side Includes | 青苔小茶馆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="青苔小茶馆" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">青苔小茶馆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/07/06/2024/using-nginx-server-side-includes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Nginx Server Side Includes
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-07-06 16:43:30" itemprop="dateCreated datePublished" datetime="2024-07-06T16:43:30+08:00">2024-07-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="什么是Server-Side-Includes"><a href="#什么是Server-Side-Includes" class="headerlink" title="什么是Server Side Includes"></a>什么是Server Side Includes</h1><p>我们来看看维基百科是怎么解释的:</p>
+<blockquote>
+<p><strong>服务器端内嵌</strong>（<strong>Server Side Includes，亦简称为SSI</strong>）是一种大多数仅应用于<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E4%BA%92%E8%81%94%E7%BD%91" title="互联网">互联网</a>上的简单解释性<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E8%84%9A%E6%9C%AC" title="服务器端脚本">服务器端脚本</a>语言。<br>SSI最常见的用法是将一个或多个文件的内容包含在<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BD%91%E9%A1%B5%E6%9C%8D%E5%8A%A1%E5%99%A8" title="网页服务器">网页服务器</a>的页面上。例如，一张包含每日报价的页面可以通过下面一段代码将报价单包含在页面中：</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--#include virtual=&quot;../quote.txt&quot; --&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>SSI 简称代码片段，通过特殊的语法糖，服务器在响应的时候遇到相关指令，会发起另外的请求（subrequest）去请求对应的代码片段之后嵌入到父页面中，从而实现页面在服务端拼接</strong></p>
+<h3 id="SSI-的运作机制"><a href="#SSI-的运作机制" class="headerlink" title="SSI 的运作机制"></a>SSI 的运作机制</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">  [Client]</span><br><span class="line">     |</span><br><span class="line">     | HTTP Request</span><br><span class="line">     v</span><br><span class="line">[NGINX Server]</span><br><span class="line">     |</span><br><span class="line">     |--- [SSI Parser]</span><br><span class="line">     |        |</span><br><span class="line">     |        |----- [Include Header.html] // SSI 片段</span><br><span class="line">     |        |</span><br><span class="line">     |        |----- [Include Menu.html] // SSI 片段</span><br><span class="line">     |        |</span><br><span class="line">     |        |----- [Include Footer.html] // SSI 片段</span><br><span class="line">     |</span><br><span class="line">     v</span><br><span class="line">[HTML Page]</span><br><span class="line">     |</span><br><span class="line">     | HTTP Response</span><br><span class="line">     v</span><br><span class="line">  [Client]</span><br></pre></td></tr></table></figure>
+
+<h1 id="如何使用Server-Side-Includes"><a href="#如何使用Server-Side-Includes" class="headerlink" title="如何使用Server Side Includes"></a>如何使用Server Side Includes</h1><p>使用nginx ssi指令即可开启服务</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">	<span class="attribute">ssi</span> <span class="literal">on</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p> 我们以nginx为例实现一个ssi 服务, 使用nginx 代理到 nodejs(这里我们称为upstream服务), 然后在nginx上面开启ssi 服务。</p>
+<p> 链路如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[Client]</span><br><span class="line">    |</span><br><span class="line">    | HTTP Request</span><br><span class="line">    v</span><br><span class="line">[NGINX Proxy]</span><br><span class="line">    |</span><br><span class="line">    | HTTP Request</span><br><span class="line">    v</span><br><span class="line">[Upstream Server (Node.js)]</span><br><span class="line">    |</span><br><span class="line">    | HTTP Response</span><br><span class="line">    v</span><br><span class="line">[NGINX Proxy]</span><br><span class="line">    |</span><br><span class="line">    | HTTP Response</span><br><span class="line">    v</span><br><span class="line">[Client]</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="nginx设置代理"><a href="#nginx设置代理" class="headerlink" title="nginx设置代理"></a>nginx设置代理</h2><p>nginx 设置代理并开启ssi</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">error_log</span> logs/<span class="literal">error</span>.log <span class="literal">debug</span>;</span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span> <span class="number">10</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">ssi</span> <span class="literal">on</span>; <span class="comment"># 这个指令表示开启ssi</span></span><br><span class="line"></span><br><span class="line">    <span class="section">upstream</span> to_node &#123;</span><br><span class="line">        <span class="attribute">server</span> localhost:<span class="number">3000</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">8080</span>;</span><br><span class="line">        <span class="attribute">server_name</span> localhost;</span><br><span class="line"></span><br><span class="line">        <span class="comment"># proxy all request to node server</span></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span> http://to_node;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>upstream 服务直接响应html内容</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- index-static.html 内容 --&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./header-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- header-block.html 内容 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">header</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>footer block from ssi<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">header</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- footer-block.html 内容 --&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">footer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>footer block from ssi<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">footer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后打开页面<br><img src="https://github.com/community/community/assets/3389862/934e4705-e5fb-49ae-9b2e-ea0d7960b515"></p>
+<p>是不是很简单？</p>
+<h2 id="异常的出现"><a href="#异常的出现" class="headerlink" title="异常的出现"></a>异常的出现</h2><p>那么，对于SSI的使用数量，是否有上限呢？让我们往页面里面再添加SSI</p>
+<p>修改如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./header-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./footer-block.html&quot; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问结果</p>
+<p><img src="https://github.com/community/community/assets/3389862/57ca58ad-40a8-4832-a7a6-df6547c7e60d"></p>
+<h3 id="oops-发生了什么事？"><a href="#oops-发生了什么事？" class="headerlink" title="oops 发生了什么事？"></a>oops 发生了什么事？</h3><p>在nginx 的 error log里，我们发现问题所在</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">2024/06/24 19:41:34 [warn] 67237<span class="comment">#15146903: 10 worker_connections are not enough, reusing connections</span></span><br><span class="line">2024/06/24 19:41:34 [alert] 67237<span class="comment">#15146903: *82 10 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: &quot;GET /html/index-static.html HTTP/1.1&quot;, subrequest: &quot;/html/./footer-block.html&quot;, upstream: &quot;http://127.0.0.1:3000/html/./footer-block.html&quot;, host: &quot;localhost:8080&quot;</span></span><br><span class="line">2024/06/24 19:41:34 [alert] 67237<span class="comment">#15146903: *82 10 worker_connections are not enough while connecting to upstream, client: 127.0.0.1, server: localhost, request: &quot;GET /html/index-static.html HTTP/1.1&quot;, subrequest: &quot;/html/./footer-block.html&quot;, upstream: &quot;http://[::1]:3000/html/./footer-block.html&quot;, host: &quot;localhost:8080&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>worker_connections are not enough while connecting to upstream</code> </p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>这里体现了ssi 的第一个特性: <strong>subrequest 同样也会消耗worker的数量</strong><br>所以，ssi同样也会跟我们的父请求抢占worker资源，每个页面的SSI数量也需要严格进行限制。</p>
+<h1 id="对upstream的挑战"><a href="#对upstream的挑战" class="headerlink" title="对upstream的挑战"></a>对upstream的挑战</h1><p>既然父请求与SSI都会占用worker数量的话，我们很容易想到，使用SSI的技术，对后端的流量会造成放大</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>假设我们在页面里面请求m个SSI，而upstream server的最大支撑请求数为n, 且<code>m &gt; n</code>, 这个时候会发生什么事？</p>
+<p>我们按照下面的表格对服务进行改造</p>
+<table>
+<thead>
+<tr>
+<th>请求数</th>
+<th>server-side include file</th>
+<th>upstream max connection</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>10</td>
+<td>3</td>
+</tr>
+</tbody></table>
+<p>如上面的请求，我们在一个父文件里面设置10个ssi，而upstream服务我们设置限流3个请求，请求父文件之后看看会发生什么：</p>
+<p>在html文件上设置多个SSI片段</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;./block.html&quot; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>对upstream server增加限流逻辑，使得SSI请求触发限流</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 我们在node服务里面进行一个限流</span></span><br><span class="line"><span class="keyword">const</span> ratelimit = <span class="built_in">require</span>(<span class="string">&#x27;koa-ratelimit&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> db = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line"><span class="keyword">const</span> app = <span class="keyword">new</span> <span class="title class_">Koa</span>();</span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">logger</span>())</span><br><span class="line"></span><br><span class="line">app.<span class="title function_">use</span>(<span class="title function_">ratelimit</span>(&#123;</span><br><span class="line">    <span class="attr">driver</span>: <span class="string">&#x27;memory&#x27;</span>,</span><br><span class="line">    <span class="attr">db</span>: db,</span><br><span class="line">    <span class="attr">duration</span>: <span class="number">10000</span>,</span><br><span class="line">    <span class="attr">errorMessage</span>: <span class="string">&#x27;Oops! 你被限流了!&#x27;</span>,</span><br><span class="line">    <span class="attr">id</span>: <span class="function">(<span class="params">ctx</span>) =&gt;</span> ctx.<span class="property">ip</span>,</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="attr">remaining</span>: <span class="string">&#x27;Rate-Limit-Remaining&#x27;</span>,</span><br><span class="line">      <span class="attr">reset</span>: <span class="string">&#x27;Rate-Limit-Reset&#x27;</span>,</span><br><span class="line">      <span class="attr">total</span>: <span class="string">&#x27;Rate-Limit-Total&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">max</span>: <span class="number">3</span>,</span><br><span class="line">  &#125;));</span><br></pre></td></tr></table></figure>
+
+<p>响应结果</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">HTTP/1.1</span> <span class="number">200</span> OK</span><br><span class="line"><span class="attribute">Server</span><span class="punctuation">: </span>openresty/1.21.4.1</span><br><span class="line"><span class="attribute">Date</span><span class="punctuation">: </span>Mon, 24 Jun 2024 12:07:27 GMT</span><br><span class="line"><span class="attribute">Content-Type</span><span class="punctuation">: </span>text/html; charset=utf-8</span><br><span class="line"><span class="attribute">Transfer-Encoding</span><span class="punctuation">: </span>chunked</span><br><span class="line"><span class="attribute">Connection</span><span class="punctuation">: </span>keep-alive</span><br><span class="line"><span class="attribute">Rate-Limit-Remaining</span><span class="punctuation">: </span>2</span><br><span class="line"><span class="attribute">Rate-Limit-Reset</span><span class="punctuation">: </span>1719230857.668981</span><br><span class="line"><span class="attribute">Rate-Limit-Total</span><span class="punctuation">: </span>3</span><br><span class="line"><span class="attribute">Cache-Control</span><span class="punctuation">: </span>max-age=0</span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>ssi from block content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>ssi from block content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>ssi from block content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>ssi from block content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>ssi from block content<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    Oops! 你被限流了!</span></span><br><span class="line"><span class="language-xml">    Oops! 你被限流了!</span></span><br><span class="line"><span class="language-xml">    Oops! 你被限流了!</span></span><br><span class="line"><span class="language-xml">    Oops! 你被限流了!</span></span><br><span class="line"><span class="language-xml">    Oops! 你被限流了!</span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">html</span>&gt;</span>%</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p><strong>使用SSI 会对源站请求的数量放大，对源站产生更大的压力挑战</strong></p>
+<h1 id="同一个请求-SSI-subrequest是并行还是串行的"><a href="#同一个请求-SSI-subrequest是并行还是串行的" class="headerlink" title="同一个请求, SSI subrequest是并行还是串行的"></a>同一个请求, SSI subrequest是并行还是串行的</h1><p>有没有发现，上述的SSI subrequest ，前面的请求都是好的，而被限流的ssi subrequest ，都是排在后面。</p>
+<p>这里我们有个疑问：SSI的请求是串行的吗？</p>
+<p>其实从前文worker connection限制来看，这个行为应该是倾向于并行请求。如果是串行请求的话，那么worker connection应该没有那么容易就消耗完。我们推测：</p>
+<ol>
+<li>先请求完父请求</li>
+<li>解析html之后，收集所有的子请求</li>
+<li>并行所有的子请求。</li>
+</ol>
+<p>上面仅仅只是猜测，真实情况下，到底是并行请求，还是串行请求，还是要实验了才知道。</p>
+<h2 id="设计实验"><a href="#设计实验" class="headerlink" title="设计实验"></a>设计实验</h2><p>对于我们的node server，我们进行如下改造，设置动态路由</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">sleep</span> = (<span class="params">ms</span>) =&gt; <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve, ms));</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/dynamic/sleep/:time&#x27;</span>, <span class="title function_">async</span> (ctx) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; time &#125; = ctx.<span class="property">params</span>;</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">sleep</span>(time);</span><br><span class="line">    ctx.<span class="property">type</span> = <span class="string">&#x27;text/html&#x27;</span>;</span><br><span class="line">    ctx.<span class="property">body</span> = <span class="string">`Hello, world! your path is /dynamic/sleep/<span class="subst">$&#123;time&#125;</span>`</span>;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>如果请求upstream 服务，<code>/dynamic/sleep/1000</code> 则会等待1s才响应，<code>/dynamic/sleep/2000</code> 则是2s才响应</p>
+<p>接着设置我们的主html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;/dynamic/sleep/10000&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;/dynamic/sleep/8000&quot; --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--#include virtual=&quot;/dynamic/sleep/5000&quot; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>如果请求index.html文件，则会解析到3个server-side include file, 3个子请求加载时间分别为10s, 8s, 5s.</p>
+<p>如果是串行，那么时间应超过 10 + 8 + 5 &#x3D; 23s;<br>如果是并行，时间应该接近10s</p>
+<p>请求页面，我们看看会发生什么<br>在浏览器请求的timelime上我们可以很清楚的看到，请求的时间约为10s<br><img src="https://github.com/community/community/assets/3389862/3510e89b-e734-4195-a225-82e1b557b46b"></p>
+<p>在node server的日志</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;-- <span class="attribute">GET</span> /html/index.html</span><br><span class="line">--&gt; GET /html/index.html <span class="number">200</span> 15ms 271b</span><br><span class="line">&lt;-- GET /dynamic/sleep/<span class="number">10000</span></span><br><span class="line">&lt;-- GET /dynamic/sleep/<span class="number">8000</span></span><br><span class="line">&lt;-- GET /dynamic/sleep/<span class="number">5000</span></span><br><span class="line">--&gt; GET /dynamic/sleep/<span class="number">5000</span> <span class="number">200</span> <span class="number">5</span>,002ms 46b</span><br><span class="line">--&gt; GET /dynamic/sleep/<span class="number">8000</span> <span class="number">200</span> <span class="number">8</span>,003ms 46b</span><br><span class="line">--&gt; GET /dynamic/sleep/<span class="number">10000</span> <span class="number">200</span> <span class="number">10s</span> 47b</span><br></pre></td></tr></table></figure>
+<p>我们可以看到：</p>
+<ol>
+<li>服务端接受到了父请求, 并成功响应</li>
+<li>同时接受到了3个子请求，并按照响应时间先后返回</li>
+</ol>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p>所以，我们可以得出以下结论</p>
+<ol>
+<li>subrequest 是并发请求的</li>
+<li>即使是并发请求，子请求也会按照引入的顺序从先到后进行请求。</li>
+</ol>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>SSI在实际应用中可以帮我们解决一些页面内容共用的问题，但是</p>
+<ol>
+<li>SSI技术会让用户得到请求的时间更长（父请求时间 + 页面解析时间 + SSI 请求时间 ）</li>
+<li>SSI subrequest会占用worker connection数量，需要我们对代理服务器的worker数量进行合理评估</li>
+<li>采用SSI 技术，也会对upstream server带来成倍以上的压力挑战</li>
+</ol>
+<p>总而言之, <strong>SSI是一把双刃剑，在带给我们便利的同时，也要谨慎使用！</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/02/2024/my-daily-2024-04/" rel="prev" title="日常记事:2024-04">
+      <i class="fa fa-chevron-left"></i> 日常记事:2024-04
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/07/18/2024/reading-note-mini-habits/" rel="next" title="读书笔记《微习惯》">
+      读书笔记《微习惯》 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFServer-Side-Includes"><span class="nav-number">1.</span> <span class="nav-text">什么是Server Side Includes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSI-%E7%9A%84%E8%BF%90%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="nav-number">1.0.1.</span> <span class="nav-text">SSI 的运作机制</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Server-Side-Includes"><span class="nav-number">2.</span> <span class="nav-text">如何使用Server Side Includes</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx%E8%AE%BE%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">nginx设置代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E5%87%BA%E7%8E%B0"><span class="nav-number">2.2.</span> <span class="nav-text">异常的出现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#oops-%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%E4%BA%8B%EF%BC%9F"><span class="nav-number">2.2.1.</span> <span class="nav-text">oops 发生了什么事？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">2.2.2.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9upstream%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-number">3.</span> <span class="nav-text">对upstream的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">3.1.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-number">3.1.1.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8C%E4%B8%80%E4%B8%AA%E8%AF%B7%E6%B1%82-SSI-subrequest%E6%98%AF%E5%B9%B6%E8%A1%8C%E8%BF%98%E6%98%AF%E4%B8%B2%E8%A1%8C%E7%9A%84"><span class="nav-number">4.</span> <span class="nav-text">同一个请求, SSI subrequest是并行还是串行的</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.1.</span> <span class="nav-text">设计实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-2"><span class="nav-number">4.1.1.</span> <span class="nav-text">小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">deryck.xie</p>
+  <div class="site-description" itemprop="description">一个前端工程师的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">deryck.xie</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=LXGW WenKai Screen !important:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文记录了在网站多区域部署的情况下，中国区的静态资源回源到海外区失败以及解决方式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记网站静态资源国内区域回源海外被墙及解决方式">
+<meta property="og:url" content="https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/">
+<meta property="og:site_name" content="青苔小茶馆">
+<meta property="og:description" content="本文记录了在网站多区域部署的情况下，中国区的静态资源回源到海外区失败以及解决方式">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/user-attachments/assets/9a79fce3-5976-4d9b-a334-b95649ce4cb9">
+<meta property="og:image" content="https://github.com/user-attachments/assets/1d6da487-b167-448c-84b0-93acd284036a">
+<meta property="og:image" content="https://github.com/user-attachments/assets/cf9ed303-7e40-47b0-af01-d0fd182a3a54">
+<meta property="og:image" content="https://github.com/user-attachments/assets/2f4d7ca2-4459-4923-b528-31e5d09a783e">
+<meta property="og:image" content="https://github.com/user-attachments/assets/7cdf801d-f286-4d45-b2f9-722eda3902af">
+<meta property="og:image" content="https://github.com/user-attachments/assets/cc70d18f-3600-4995-acdf-7b2302947e20">
+<meta property="og:image" content="https://github.com/user-attachments/assets/9dee2979-ddbb-4d2f-8d64-fcf0de62851d">
+<meta property="article:published_time" content="2024-09-08T06:59:26.000Z">
+<meta property="article:modified_time" content="2025-03-30T03:23:45.237Z">
+<meta property="article:author" content="deryck.xie">
+<meta property="article:tag" content="架构设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/9a79fce3-5976-4d9b-a334-b95649ce4cb9">
+
+<link rel="canonical" href="https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>记网站静态资源国内区域回源海外被墙及解决方式 | 青苔小茶馆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="青苔小茶馆" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">青苔小茶馆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/09/08/2024/china-website-static-resources-blocked-solutions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          记网站静态资源国内区域回源海外被墙及解决方式
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-09-08 14:59:26" itemprop="dateCreated datePublished" datetime="2024-09-08T14:59:26+08:00">2024-09-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
+              </span>
+
+          
+            <div class="post-description">本文记录了在网站多区域部署的情况下，中国区的静态资源回源到海外区失败以及解决方式</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>目前管理的一个网站，主要用户群体是北美，欧洲，与中国地区。早之前选用的云服务商的亚马逊。静态资源原链路大概如下（从左往右）：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>CDN</th>
+<th>源站</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>全球用户</td>
+<td>AWS CloudFront</td>
+<td>S3</td>
+</tr>
+</tbody></table>
+<p>但是通过监控来看中国区用户访问速度并不太理想。关于CDN的节点，我们看看</p>
+<h1 id="CloudFront各州节点情况"><a href="#CloudFront各州节点情况" class="headerlink" title="CloudFront各州节点情况"></a>CloudFront各州节点情况</h1><h2 id="北美区"><a href="#北美区" class="headerlink" title="北美区"></a>北美区</h2><p><img src="https://github.com/user-attachments/assets/9a79fce3-5976-4d9b-a334-b95649ce4cb9" alt="cloudfront 北美节点数"></p>
+<h2 id="欧洲区"><a href="#欧洲区" class="headerlink" title="欧洲区"></a>欧洲区</h2><p><img src="https://github.com/user-attachments/assets/1d6da487-b167-448c-84b0-93acd284036a" alt="CloudFront 欧洲区节点"></p>
+<h2 id="亚太区"><a href="#亚太区" class="headerlink" title="亚太区"></a>亚太区</h2><p><img src="https://github.com/user-attachments/assets/cf9ed303-7e40-47b0-af01-d0fd182a3a54" alt="CloudFront 亚洲区节点"></p>
+<p>AWS主营业务在海外，中国区只有深圳、香港、北京、台北桃园、中卫几个节点。所以中国区的用户，静态资源下载的速度并不十分理想</p>
+<h1 id="优化链路-增加中国区云服务商"><a href="#优化链路-增加中国区云服务商" class="headerlink" title="优化链路 - 增加中国区云服务商"></a>优化链路 - 增加中国区云服务商</h1><p>在国内的CDN，增加了阿里云云服务托管，并且选用了阿里云的对象存储，于是访问链路变成（从左往右）</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th>CDN</th>
+<th>源站</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>中国用户</td>
+<td>阿里云CDN</td>
+<td>阿里云对象存储（OSS）</td>
+</tr>
+<tr>
+<td>全球用户</td>
+<td>AWS CloudFront</td>
+<td>AWS S3</td>
+</tr>
+</tbody></table>
+<p>由于阿里云在中国区的节点数量多，于是国内用户访问的速度就快了一个档次。</p>
+<h1 id="新问题-中国区访问资源偶尔失败"><a href="#新问题-中国区访问资源偶尔失败" class="headerlink" title="新问题 - 中国区访问资源偶尔失败"></a>新问题 - 中国区访问资源偶尔失败</h1><p>近期出现新上传的资源, 中国地区的用户访问失败</p>
+<p><img src="https://github.com/user-attachments/assets/2f4d7ca2-4459-4923-b528-31e5d09a783e" alt="resource error"></p>
+<p>通过上面的信息初步可以推断出来是国内回源出现了问题。实际上，我们的静态资源链路拓扑图是这样的：</p>
+<p><img src="https://github.com/user-attachments/assets/7cdf801d-f286-4d45-b2f9-722eda3902af" alt="站点拓扑图"></p>
+<p>中国区的架构是后面才新增的，原本的运营后台传输资源只是会上传在海外服务。<br>所以对于中国区的服务，配置的策略是：如果国内OSS没有资源，则会回源到海外去获取资源再缓存。</p>
+<h2 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h2><p>本次出问题就出在红色的线路，海外回源的策略上。<br>阿里云OSS使用aws cloudfront的提供的默认CDN域名作为回源(xxx.cloudfront.com), 由于 *.cloudfront.com 相关域名会被一些中国区认定灰产的内容所引用，所以xxx.cloudfront相关的域名容易被墙。</p>
+<h1 id="解决方式"><a href="#解决方式" class="headerlink" title="解决方式"></a>解决方式</h1><p>知道问题之后就好办了，有两种方式可以解决</p>
+<h2 id="方式一：中国区回源海外域名备案"><a href="#方式一：中国区回源海外域名备案" class="headerlink" title="方式一：中国区回源海外域名备案"></a>方式一：中国区回源海外域名备案</h2><p>更换一个中国区备案的域名，用来做回源使用。<br>次解决方案，而且可以通过OSS资源预热的形式，让资源主动进入OSS里面缓存，如果网络抖动也可以通过增加重试的形式，基本能成功。</p>
+<p><img src="https://github.com/user-attachments/assets/cc70d18f-3600-4995-acdf-7b2302947e20" alt="image"></p>
+<h2 id="方式二-主动写入中国区"><a href="#方式二-主动写入中国区" class="headerlink" title="方式二: 主动写入中国区"></a>方式二: 主动写入中国区</h2><p>用回源的方式一个问题为，国内的资源是采取被动的形式才生成的。那么可以采取主动写入的形式。即：同时往中国区写入内容。这个要求我们写入的服务访问中国以及海外的网络都稳定。所以，一个比较理想的部署方式是，运营后台迁移到香港地区。如此网站的拓扑变成：</p>
+<p><img src="https://github.com/user-attachments/assets/9dee2979-ddbb-4d2f-8d64-fcf0de62851d" alt="image"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>稳定性方面，方案二要比方案一稳定得多。因为方案一采取被动加重试来进行稳定保障，而方案二是主动掌握稳定性。<br>但是结合成本上来说，方案一只需要简单变更，而且不涉及链路调整，仅仅是修改回源别名。简单有效，所以本次解决被墙的问题采用了方案一，最终墙的问题顺利解决。</p>
+<h1 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://aws.amazon.com/cloudfront/features/?nc1=h_ls&whats-new-cloudfront.sort-by=item.additionalFields.postDateTime&whats-new-cloudfront.sort-order=desc">Amazon CloudFront Key Features</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" rel="tag"># 架构设计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/" rel="prev" title="使用AWS SDK操作阿里云OSS">
+      <i class="fa fa-chevron-left"></i> 使用AWS SDK操作阿里云OSS
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/22/2024/a-day-trip-to-tanglang-mountain-in-shenzhen/" rel="next" title="记2024-09-21日游深圳塘朗山">
+      记2024-09-21日游深圳塘朗山 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CloudFront%E5%90%84%E5%B7%9E%E8%8A%82%E7%82%B9%E6%83%85%E5%86%B5"><span class="nav-number">2.</span> <span class="nav-text">CloudFront各州节点情况</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%97%E7%BE%8E%E5%8C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">北美区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E6%B4%B2%E5%8C%BA"><span class="nav-number">2.2.</span> <span class="nav-text">欧洲区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%9A%E5%A4%AA%E5%8C%BA"><span class="nav-number">2.3.</span> <span class="nav-text">亚太区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E9%93%BE%E8%B7%AF-%E5%A2%9E%E5%8A%A0%E4%B8%AD%E5%9B%BD%E5%8C%BA%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%95%86"><span class="nav-number">3.</span> <span class="nav-text">优化链路 - 增加中国区云服务商</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%B0%E9%97%AE%E9%A2%98-%E4%B8%AD%E5%9B%BD%E5%8C%BA%E8%AE%BF%E9%97%AE%E8%B5%84%E6%BA%90%E5%81%B6%E5%B0%94%E5%A4%B1%E8%B4%A5"><span class="nav-number">4.</span> <span class="nav-text">新问题 - 中国区访问资源偶尔失败</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.1.</span> <span class="nav-text">问题原因</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">解决方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80%EF%BC%9A%E4%B8%AD%E5%9B%BD%E5%8C%BA%E5%9B%9E%E6%BA%90%E6%B5%B7%E5%A4%96%E5%9F%9F%E5%90%8D%E5%A4%87%E6%A1%88"><span class="nav-number">5.1.</span> <span class="nav-text">方式一：中国区回源海外域名备案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8C-%E4%B8%BB%E5%8A%A8%E5%86%99%E5%85%A5%E4%B8%AD%E5%9B%BD%E5%8C%BA"><span class="nav-number">5.2.</span> <span class="nav-text">方式二: 主动写入中国区</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#reference"><span class="nav-number">7.</span> <span class="nav-text">reference</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">deryck.xie</p>
+  <div class="site-description" itemprop="description">一个前端工程师的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">deryck.xie</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

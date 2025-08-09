@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=LXGW WenKai Screen !important:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="obsidian是最近正在上手的笔记软件，目前时程度还不是很熟悉， 也有点类似结合了许多的插件隔开 用了半个月，有种相见恨晚的感觉，这离我心目中的笔记软件已经不太远了给我的感觉就是响应很快(应该是因为启动的时候做了索引的原因), 结合一些插件之后真是好用到起飞！ 让我的工作效率有了非常大的提升！ Obsidian 在基于纯文本的基础上，设计了基础的数据查询功能，这一下遍历了很多数据透视这个功能，很">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用obsidian">
+<meta property="og:url" content="https://derycktse.github.io/2023/01/02/2023/using-obsidian/">
+<meta property="og:site_name" content="青苔小茶馆">
+<meta property="og:description" content="obsidian是最近正在上手的笔记软件，目前时程度还不是很熟悉， 也有点类似结合了许多的插件隔开 用了半个月，有种相见恨晚的感觉，这离我心目中的笔记软件已经不太远了给我的感觉就是响应很快(应该是因为启动的时候做了索引的原因), 结合一些插件之后真是好用到起飞！ 让我的工作效率有了非常大的提升！ Obsidian 在基于纯文本的基础上，设计了基础的数据查询功能，这一下遍历了很多数据透视这个功能，很">
+<meta property="og:locale">
+<meta property="article:published_time" content="2023-01-02T03:26:00.000Z">
+<meta property="article:modified_time" content="2025-03-30T03:23:45.236Z">
+<meta property="article:author" content="deryck.xie">
+<meta property="article:tag" content="blog, 博客, 编程, 技术, 生活, 学习, 架构设计">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://derycktse.github.io/2023/01/02/2023/using-obsidian/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>使用obsidian | 青苔小茶馆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="青苔小茶馆" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">青苔小茶馆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2023/01/02/2023/using-obsidian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用obsidian
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2023-01-02 11:26:00" itemprop="dateCreated datePublished" datetime="2023-01-02T11:26:00+08:00">2023-01-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="obsidian"><a href="#obsidian" class="headerlink" title="obsidian"></a>obsidian</h1><p>是最近正在上手的笔记软件，目前时程度还不是很熟悉， 也有点类似<br>结合了许多的插件隔开</p>
+<p>用了半个月，有种相见恨晚的感觉，这离我心目中的笔记软件已经不太远了<br>给我的感觉就是响应很快(应该是因为启动的时候做了索引的原因), 结合一些插件之后真是好用到起飞！ 让我的工作效率有了非常大的提升！</p>
+<p>Obsidian 在基于纯文本的基础上，设计了基础的数据查询功能，这一下遍历了很多<br>数据透视这个功能，很大程度上节省了我们在文件操作上的消耗<br>我觉得一个好的笔记软件，生态一定要丰富，同时，对于懒得折腾的人，上手要足够的容易<br>优点：</p>
+<ol>
+<li>支持插件</li>
+<li>跨端支持</li>
+<li>同步功能</li>
+</ol>
+<p>obsidian有个特殊的模式，原本我们使用markdown会有一个问题，就是如果想预览的时候，需要双开，但是obsidian支持一种模式就是，只在光标出现的那一行变成源码模式，看了不算很多的软件， 好像只有他支持？</p>
+<h2 id="自带功能"><a href="#自带功能" class="headerlink" title="自带功能"></a>自带功能</h2><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>可以使用<code>[[文章]]</code>的形式快速添一篇关联的文章，而且它有个记忆最近编辑的文章的设定，所以一般推荐的关联文件就在最定几篇上面<br>文章多了之后，我们很容易忘了平时我们的文章放在哪里，导致久了之后文件仓库就非常的紊乱</p>
+<ul>
+<li>双向链接：<code>[[Note Name]]</code></li>
+<li>话题引用：<code>[[Note Name #header]]</code></li>
+<li>别名引用：<code>[[Note Name |Alias]]</code></li>
+<li>嵌入引用：<code>！[[Note Name]]</code></li>
+<li>块引用：<code>[[Note Name ^]]</code><br>引至于 <a target="_blank" rel="noopener" href="https://sspai.com/post/63481">玩转 Obsidian 02：基础设置篇</a><br>另外在之前，很多时候我怕文件丢失，所以就把不同拓展的文件放在当前的目录里（jpg, xlsx, draw.io等）</li>
+</ul>
+<h3 id="标签的使用"><a href="#标签的使用" class="headerlink" title="标签的使用"></a>标签的使用</h3><p>规范</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">tags:</span><br><span class="line">	- 读书笔记</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>引出一个拓展，我们的文章，是不是可以使用这样的归类还是咋滴？<br>后续将对搜索很有帮助</p>
+<h3 id="模板功能"><a href="#模板功能" class="headerlink" title="模板功能"></a>模板功能</h3><p>在使用日记的时候，会非常有用，通过我们自定义好的模板，现在我用来记录我的工作日志，结合后面会说到的任务管理，可以很快地制定和review 我每一天的工作情况</p>
+<h3 id="vim编辑模式"><a href="#vim编辑模式" class="headerlink" title="vim编辑模式"></a>vim编辑模式</h3><p>![[20230114110135-obsidian-vim-mode.png]]<br>obsidian自带了vim编辑模式，作为一个vim忠实拥趸，果断开启，，但整体使用下来的体验，自我感觉支持度并不是特别友好<br>对于我来说，我侧重处理文本编辑，自我感觉vim不太适合用来写文章<br>主要是体验确实不是很好，特别是需要切换输入法的时候，vim推动模式光标在obsidian起来不是很明显，也许可以去调整，但是目前懒得去研究，暂时关闭了vim模式</p>
+<p>提个题外话，在文本编辑方面，会使用vim兼职真的效率可以上天，在小白眼中更是神一般的存在<br>我曾经就靠着这个装逼圈了几个小迷弟迷妹，大概就是一些文本编辑的场景，随便敲几条命令就让把他们想破脑袋不能解决的事情搞定</p>
+<h2 id="推荐一些好用的插件"><a href="#推荐一些好用的插件" class="headerlink" title="推荐一些好用的插件"></a>推荐一些好用的插件</h2><p>一些场景还是不能支持，比如涉及表格运算（excel没的说），还有一些一图胜千言的场景<br>不过怎么说，还是术业有专攻，毕竟这个是利用markdown主打的，</p>
+<p>建议使用英文模式，毕竟许多命令需要通过英文来敲，但是话说回来，这个软件居然做到命令调用也本地化，是不是应该更先进，不过使用中文的情况下，应该让英文支持才好<br>作为一名工程师，准备学习一下怎么去开发插件</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="日历插件，-按week管理"><a href="#日历插件，-按week管理" class="headerlink" title="日历插件， 按week管理"></a>日历插件， 按week管理</h3><h3 id="advance-table"><a href="#advance-table" class="headerlink" title="advance table"></a>advance table</h3><p>表格化的管理很多时候的效果都是很不错的，在之前有时候为什么我不喜欢用markdow，就是因为表格足够的直观跟简约，很多的时候方便对比，我也开始尝试使用吗markdown的形式来管理的我的读书笔记<br>不知道有没有一些场景，就试表格合并，这个markddown建议的是使用html形式，<br>还有一个问题就是，如果遇到换行很多的的场景，那么源码编辑的时候就很不友好</p>
+<h3 id="task管理"><a href="#task管理" class="headerlink" title="task管理"></a>task管理</h3><p>这个插件简直好用到哭，<br>使用文件名做为默认scheduledate<br> 关于todo的应用：</p>
+<ul>
+<li>日报每日工作一览</li>
+<li>可以查看明日的</li>
+<li>sort &amp; group</li>
+</ul>
+<h3 id="关于同步功能"><a href="#关于同步功能" class="headerlink" title="关于同步功能"></a>关于同步功能</h3><p>obsidian支持多端设备，如果在设备之间的<br>反正本身就是markdown，苹果用户推荐使用通过icloud，不过随着我们的<br>其实可以通过github，我们就有了一个免费的空间，不过手机上能不能支持？</p>
+<h3 id="其他小功能"><a href="#其他小功能" class="headerlink" title="其他小功能"></a>其他小功能</h3><ul>
+<li>指定附件支持</li>
+<li>快速定位到软件</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/07/older/reading-note-The-Psychology-of-Procrastination/" rel="prev" title="读书笔记 - 拖延心理学">
+      <i class="fa fa-chevron-left"></i> 读书笔记 - 拖延心理学
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/21/2023/reading-note-Sleep-Revolution/" rel="next" title="读书笔记 - 睡眠革命">
+      读书笔记 - 睡眠革命 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#obsidian"><span class="nav-number">1.</span> <span class="nav-text">obsidian</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%B8%A6%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">自带功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5"><span class="nav-number">1.1.1.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.1.2.</span> <span class="nav-text">标签的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.3.</span> <span class="nav-text">模板功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.4.</span> <span class="nav-text">vim编辑模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A8%E8%8D%90%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%94%A8%E7%9A%84%E6%8F%92%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">推荐一些好用的插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%8E%86%E6%8F%92%E4%BB%B6%EF%BC%8C-%E6%8C%89week%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.1.</span> <span class="nav-text">日历插件， 按week管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#advance-table"><span class="nav-number">1.3.2.</span> <span class="nav-text">advance table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#task%E7%AE%A1%E7%90%86"><span class="nav-number">1.3.3.</span> <span class="nav-text">task管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%90%8C%E6%AD%A5%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.4.</span> <span class="nav-text">关于同步功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%B0%8F%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.5.</span> <span class="nav-text">其他小功能</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">deryck.xie</p>
+  <div class="site-description" itemprop="description">一个前端工程师的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">deryck.xie</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

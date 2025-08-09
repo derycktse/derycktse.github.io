@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=LXGW WenKai Screen !important:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文介绍为了满足安全合规与个性化需求，提升用户访问速度和可靠性，网站采取多个区域部署的DNS解析方案">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网站多区域部署的解析方案">
+<meta property="og:url" content="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/">
+<meta property="og:site_name" content="青苔小茶馆">
+<meta property="og:description" content="本文介绍为了满足安全合规与个性化需求，提升用户访问速度和可靠性，网站采取多个区域部署的DNS解析方案">
+<meta property="og:locale">
+<meta property="og:image" content="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c">
+<meta property="og:image" content="https://github.com/user-attachments/assets/9e278bad-669f-437f-addd-2afee3eb1b5e">
+<meta property="og:image" content="https://github.com/user-attachments/assets/b63f7e47-35e0-44b3-849e-a9dd8298f497">
+<meta property="article:published_time" content="2024-08-10T09:04:08.000Z">
+<meta property="article:modified_time" content="2025-03-30T03:23:45.238Z">
+<meta property="article:author" content="deryck.xie">
+<meta property="article:tag" content="架构设计">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c">
+
+<link rel="canonical" href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>网站多区域部署的解析方案 | 青苔小茶馆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="青苔小茶馆" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">青苔小茶馆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2024/08/10/2024/website-multi-region-deploy-resolve-solution/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网站多区域部署的解析方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2024-08-10 17:04:08" itemprop="dateCreated datePublished" datetime="2024-08-10T17:04:08+08:00">2024-08-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
+              </span>
+
+          
+            <div class="post-description">本文介绍为了满足安全合规与个性化需求，提升用户访问速度和可靠性，网站采取多个区域部署的DNS解析方案</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景与目的"><a href="#背景与目的" class="headerlink" title="背景与目的"></a>背景与目的</h1><p>作为网站管理员，如果管理的网站发展到了一定的规模，多区域部署是会面临的一个问题。常见部署方式为中国区域部署一套，海外部署一套。</p>
+<p>为什么网站需要多个部署？</p>
+<ol>
+<li>安全合规：不同国家和地区可能有不同的数据保护法规和隐私政策。多区域部署可以帮助企业遵守当地法律法规，例如，某些法规要</li>
+<li>个性化：多区域部署可以帮助企业更好地满足不同地区用户的需求，提供定制化的内容和服务。</li>
+<li>灾备：如果一个区域出现故障，可以快速切换到另外一个区域的服务</li>
+<li>提升访问速度：将用户流量导入到较近的区域有助于提升响应的速度。</li>
+</ol>
+<p>如果服务部署了多个地区，那么如何让用户能够访问到我们希望他们去访问的区域呢？</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="多个域名解决方案"><a href="#多个域名解决方案" class="headerlink" title="多个域名解决方案"></a>多个域名解决方案</h2><p>这种情况比较常见，且比较直观，通过浏览器的URL就能区分。拿三星官网来举例。<br>输入 <code>https://www.samsung.com</code>。<br><img src="https://github.com/user-attachments/assets/dc65dd1c-e1c6-42d1-aea9-df53e161692c" alt="image"><br>最终三星的服务器将我的页面跳到香港繁体中文的首页。地址栏显示: <code>https://www.samsung.com/hk/</code>, 可以看到服务器的ip位于香港🇭🇰（因为我在深圳，所以可能海外最近的节点是在香港）。</p>
+<p>这个时候如果切换到中文：<br><img src="https://github.com/user-attachments/assets/9e278bad-669f-437f-addd-2afee3eb1b5e" alt="image"></p>
+<p>可以看到最终响应域名的是 <code>https://www.samsung.com.cn/</code>, 而且左下角可以看到服务器是来自于中国🇨🇳。</p>
+<p>这就是一种典型的多域名部署方案。</p>
+<h2 id="同域名解决方案"><a href="#同域名解决方案" class="headerlink" title="同域名解决方案"></a>同域名解决方案</h2><p>多个域名的情况下，管理员需要去投入更多维护成本。有的网站会采用同个域名但是对于不同地区的用户，访问到不同部署服务。</p>
+<p>以前有一个很经典的面试题：<strong>浏览器输入URL之后回车，会发生什么</strong>， 其中最重要的一个环节就是DNS解析。</p>
+<h3 id="DNS是什么"><a href="#DNS是什么" class="headerlink" title="DNS是什么"></a>DNS是什么</h3><blockquote>
+<p>DNS（域名系统，Domain Name System）是互联网的一项核心服务，它负责将人类可读的域名（如 <code>www.example.com</code>）转换为机器可读的IP地址（如 <code>192.0.2.1</code>）。DNS使用分布式数据库和层次化的设计，允许用户通过域名访问网站，而不需要记住复杂的数字IP地址。<br>当用户在浏览器中输入一个网址时，浏览器会向DNS服务器发送查询请求。DNS服务器会查找与该域名对应的IP地址，并将其返回给浏览器，然后浏览器使用这个IP地址与目标服务器建立连接，从而加载用户请求的网页。</p>
+</blockquote>
+<h3 id="基于地理位置的DNS解析"><a href="#基于地理位置的DNS解析" class="headerlink" title="基于地理位置的DNS解析"></a>基于地理位置的DNS解析</h3><p>对于同个域名，在中国地区的用户，我们可以让DNS解析到中国服务，而海外的用户，我们可以解析到海外服务。假设我们的管理域名如下</p>
+<table>
+<thead>
+<tr>
+<th>域名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a target="_blank" rel="noopener" href="http://www.example.com/">www.example.com</a></td>
+<td>希望用户统一访问的域名</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.cn-example.com/">www.cn-example.com</a></td>
+<td>希望中国地区用户访问到的服务</td>
+</tr>
+<tr>
+<td><a target="_blank" rel="noopener" href="http://www.global-example.com/">www.global-example.com</a></td>
+<td>希望非中国地区用户访问到的服务</td>
+</tr>
+</tbody></table>
+<p>现在云厂商很多都提供了基于地理位置的DNS解析，我们拿<a target="_blank" rel="noopener" href="https://aws.amazon.com/route53/">AWS route53</a>服务来举例。</p>
+<p><img src="https://github.com/user-attachments/assets/b63f7e47-35e0-44b3-849e-a9dd8298f497" alt="image"></p>
+<p>可以看到，对于 <code>www.example.com</code> 这个域名，我们新建两条了DNS解析记录。注意，这里我们选择的<strong>route policy为基于地理位置的解析</strong>： 记CN的用户，解析到<code>www.cn-example.com</code>, 而其他用户则解析到<code>www.global-example.com</code>。<br>注：上面我们使用了<code>cname record type</code>，如果服务没有域名，我们可以用DNS <code>A record type</code>。</p>
+<p>如此，对于用户来说，只需要知道一个域名即可，而对于网站管理员来说，不同地域的用户，则会访问到不同的部署服务。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" rel="tag"># 架构设计</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/07/31/2024/use-cubox-as-my-read-it-later-tool/" rel="prev" title="使用cubox作为我的主力阅读软件">
+      <i class="fa fa-chevron-left"></i> 使用cubox作为我的主力阅读软件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/08/17/2024/use-aws-sdk-to-operate-aliyun-oss/" rel="next" title="使用AWS SDK操作阿里云OSS">
+      使用AWS SDK操作阿里云OSS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E4%B8%8E%E7%9B%AE%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">背景与目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E5%9F%9F%E5%90%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.1.</span> <span class="nav-text">多个域名解决方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E5%9F%9F%E5%90%8D%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">2.2.</span> <span class="nav-text">同域名解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.2.1.</span> <span class="nav-text">DNS是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%9C%B0%E7%90%86%E4%BD%8D%E7%BD%AE%E7%9A%84DNS%E8%A7%A3%E6%9E%90"><span class="nav-number">2.2.2.</span> <span class="nav-text">基于地理位置的DNS解析</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">deryck.xie</p>
+  <div class="site-description" itemprop="description">一个前端工程师的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">49</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">deryck.xie</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
