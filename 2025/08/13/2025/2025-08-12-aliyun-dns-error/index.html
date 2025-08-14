@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="青苔小茶馆">
 <meta property="og:description" content="记2025年8月12日作者网站遇到的华北地区联通DNS解析异常">
 <meta property="og:locale">
-<meta property="og:image" content="https://derycktse.github.io/source/images/image-2025-08-12-aliyun-dns-error-20250814234428.png">
-<meta property="og:image" content="https://derycktse.github.io/source/images/image-2025-08-12-aliyun-dns-error-20250814234259.png">
-<meta property="og:image" content="https://derycktse.github.io/source/images/image-2025-08-11-aliyun-dns-error-20250814233108.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-2025-08-12-aliyun-dns-error-20250814234428.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-2025-08-12-aliyun-dns-error-20250814234259.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-2025-08-11-aliyun-dns-error-20250814233108.png">
 <meta property="article:published_time" content="2025-08-13T04:13:00.000Z">
-<meta property="article:modified_time" content="2025-08-14T15:57:28.536Z">
+<meta property="article:modified_time" content="2025-08-14T15:58:42.984Z">
 <meta property="article:author" content="deryck.xie">
 <meta property="article:tag" content="network">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://derycktse.github.io/source/images/image-2025-08-12-aliyun-dns-error-20250814234428.png">
+<meta name="twitter:image" content="https://derycktse.github.io/images/image-2025-08-12-aliyun-dns-error-20250814234428.png">
 
 <link rel="canonical" href="https://derycktse.github.io/2025/08/13/2025/2025-08-12-aliyun-dns-error/">
 
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-08-14 23:57:28" itemprop="dateModified" datetime="2025-08-14T23:57:28+08:00">2025-08-14</time>
+                <time title="Modified: 2025-08-14 23:58:42" itemprop="dateModified" datetime="2025-08-14T23:58:42+08:00">2025-08-14</time>
               </span>
 
           
@@ -221,11 +221,11 @@
 <p>作者位于深圳，发现网站访问正常，且服务各指标都是正常的。</p>
 <p>于是就推测要么是探针有问题，要么就是网站链路的上游出问题了。值得一提的是，作者的服务托管于阿里云上。</p>
 <p>为了区分到底是zabbix 应用有问题，还是北京区域阿里云出了问题，于是我打开了全国拨测</p>
-<p>20:00 使用阿里云的拨测工具，发现除了北京，还有全国其他节点出现问题，节点失败数 4&#x2F;150<br><img src="/source/images/image-2025-08-12-aliyun-dns-error-20250814234428.png"></p>
+<p>20:00 使用阿里云的拨测工具，发现除了北京，还有全国其他节点出现问题，节点失败数 4&#x2F;150<br><img src="/images/image-2025-08-12-aliyun-dns-error-20250814234428.png"></p>
 <p>既然从拨测结果上能看到异常，那么就排除了探针的问题，加上网站本上服务是正常的，基本就定位是阿里云节点或者是运营商DNS解析出问题了，DNS解析值 <code>127.0.0.2</code> 明显有问题。</p>
-<p>大约在20:24的时候再拨测，范围更大了，看起来整个华北区域都受影响。<br><img src="/source/images/image-2025-08-12-aliyun-dns-error-20250814234259.png"></p>
+<p>大约在20:24的时候再拨测，范围更大了，看起来整个华北区域都受影响。<br><img src="/images/image-2025-08-12-aliyun-dns-error-20250814234259.png"></p>
 <p>期间也等到阿里云公告，声明联通DNS异常</p>
-<p><img src="/source/images/image-2025-08-11-aliyun-dns-error-20250814233108.png"><br>最后大约在21:00 左右，拨测结果全面恢复。</p>
+<p><img src="/images/image-2025-08-11-aliyun-dns-error-20250814233108.png"><br>最后大约在21:00 左右，拨测结果全面恢复。</p>
 
     </div>
 
