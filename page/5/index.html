@@ -164,6 +164,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2017/04/23/older/treer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/04/23/older/treer/" class="post-title-link" itemprop="url">treer:命令行生成目录结构的实用小工具</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-04-23 11:12:58" itemprop="dateCreated datePublished" datetime="2017-04-23T11:12:58+08:00">2017-04-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有时候在写说明文档的时，需要列出文件的一个目录结构,几次手动拼接之后，写了一个cli小工具来自动生成。</p>
+<h3 id="安装方法："><a href="#安装方法：" class="headerlink" title="安装方法："></a>安装方法：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install treer -g</span><br></pre></td></tr></table></figure>
+
+<p>如此我们便可以快速的生成目录结构啦！</p>
+<h3 id="生成结果"><a href="#生成结果" class="headerlink" title="生成结果"></a>生成结果</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ treer</span><br><span class="line"></span><br><span class="line">Desktop</span><br><span class="line">├─.DS_Store</span><br><span class="line">├─.localized</span><br><span class="line">├─dir2</span><br><span class="line">|  ├─file3</span><br><span class="line">|  └file4</span><br><span class="line">├─dir1</span><br><span class="line">|  ├─dile2</span><br><span class="line">|  └file1</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="指定目录"><a href="#指定目录" class="headerlink" title="指定目录"></a>指定目录</h4><p>默认的目录为当前的路径，可以通过<code>-d</code> 传入指定的路径</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ treer -d &lt;指定路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="导出结果"><a href="#导出结果" class="headerlink" title="导出结果"></a>导出结果</h4><p>可将结果导出到文件中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ treer -e &lt;导出路径&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="忽略指定的目录"><a href="#忽略指定的目录" class="headerlink" title="忽略指定的目录"></a>忽略指定的目录</h4><p>有时候我们需要忽略一些文件名，比如我们的<code>node_modules</code>文件夹</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ treer -i &lt;&quot;文件名，支持正则表达式/regex/哦&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果觉得实用，不妨<a target="_blank" rel="noopener" href="https://github.com/derycktse/treer">Star</a>一下吧，<a target="_blank" rel="noopener" href="https://github.com/derycktse/treer">github地址</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
     <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2016/12/15/older/react-component-lifecycle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -449,7 +530,7 @@
 <li>使用Object.defineProperty为这个对象的属性进行绑定访问器，如果修改了这个访问器的话，也将更改更新到DOM中</li>
 </ul>
 <p><a target="_blank" rel="noopener" href="https://github.com/vuejs/vue/blob/871ed9126639c9128c18bb2f19e6afd42c0c5ad9/explorations%2Fgetset.html">实例地址</a></p>
-<h3 id="a5e27b1174e9196dcc9dbb0becc487275ea2e84c"><a href="#a5e27b1174e9196dcc9dbb0becc487275ea2e84c" class="headerlink" title="[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]"></a>[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]</h3><p>作者同时使用了compoent的包管理工具<br>看提交时间必须使用<a href="mailto:&#x63;&#x6f;&#109;&#112;&#111;&#110;&#x65;&#x6e;&#x74;&#x40;&#x30;&#46;&#49;&#54;&#x2e;&#51;">&#x63;&#x6f;&#109;&#112;&#111;&#110;&#x65;&#x6e;&#x74;&#x40;&#x30;&#46;&#49;&#54;&#x2e;&#51;</a>这个版本</p>
+<h3 id="a5e27b1174e9196dcc9dbb0becc487275ea2e84c"><a href="#a5e27b1174e9196dcc9dbb0becc487275ea2e84c" class="headerlink" title="[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]"></a>[a5e27b1174e9196dcc9dbb0becc487275ea2e84c]</h3><p>作者同时使用了compoent的包管理工具<br>看提交时间必须使用<a href="mailto:&#99;&#x6f;&#x6d;&#x70;&#111;&#110;&#x65;&#x6e;&#116;&#64;&#x30;&#x2e;&#x31;&#54;&#46;&#51;">&#99;&#x6f;&#x6d;&#x70;&#111;&#110;&#x65;&#x6e;&#116;&#64;&#x30;&#x2e;&#x31;&#54;&#46;&#51;</a>这个版本</p>
 <p>修改了main.js，主要思想即是通过解析拥有指定属性的DOM，然后将它们存入到对象之中，为这个对象绑定访问选择器（set,get）从而将更新修改到DOM中</p>
 
       
@@ -838,88 +919,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
-    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2015/12/24/older/Comparison-of-build-tools/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="deryck.xie">
-      <meta itemprop="description" content="一个前端工程师的个人博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="青苔小茶馆">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2015/12/24/older/Comparison-of-build-tools/" class="post-title-link" itemprop="url">构建工具的对比</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2015-12-24 14:36:18" itemprop="dateCreated datePublished" datetime="2015-12-24T14:36:18+08:00">2015-12-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2025-03-30 11:23:45" itemprop="dateModified" datetime="2025-03-30T11:23:45+08:00">2025-03-30</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>grunt与gulp同为构建工具，而webpack本身则为打包工具，定位不同，所以，下面比价的是grunt跟gulp</p>
-<h3 id="Gulp和Grunt的比较"><a href="#Gulp和Grunt的比较" class="headerlink" title="Gulp和Grunt的比较"></a>Gulp和Grunt的比较</h3><ul>
-<li>Gulp相比Grunt更简洁，而且遵循代码优于配置策略，维护Gulp更像是写代码。</li>
-<li>Gulp相比Grunt更有设计感，核心设计基于Unix流的概念，通过管道连接，不需要写<strong>中间文件</strong>。</li>
-<li>Gulp的核心API只有5个，掌握了5个API就学会了Gulp，之后便可以通过管道流组合自己想要的任务。</li>
-</ul>
-<p>所以相对grunt来说， gulp的性能更加高效，所以grunt我们直接无视</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2015/12/24/older/Comparison-of-build-tools/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -985,7 +988,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-count">51</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

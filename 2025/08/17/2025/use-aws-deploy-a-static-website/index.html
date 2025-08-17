@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=LXGW WenKai Screen !important:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"derycktse.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文介绍了如何使用AWS S3和CloudFront结合lambda@edge 部署一个静态网站。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用AWS部署一个静态网站">
+<meta property="og:url" content="https://derycktse.github.io/2025/08/17/2025/use-aws-deploy-a-static-website/">
+<meta property="og:site_name" content="青苔小茶馆">
+<meta property="og:description" content="本文介绍了如何使用AWS S3和CloudFront结合lambda@edge 部署一个静态网站。">
+<meta property="og:locale">
+<meta property="og:image" content="https://derycktse.github.io/images/lambda@edge-role-1.png">
+<meta property="og:image" content="https://derycktse.github.io/images/lambda@edge-role-2.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817204641.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817204804.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817204424.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817205635.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817205651.png">
+<meta property="og:image" content="https://derycktse.github.io/images/image-use-aws-deploy-a-static-website-20250817210043.png">
+<meta property="article:published_time" content="2025-08-17T13:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-17T13:14:25.816Z">
+<meta property="article:author" content="deryck.xie">
+<meta property="article:tag" content="AWS">
+<meta property="article:tag" content="Serverless">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://derycktse.github.io/images/lambda@edge-role-1.png">
+
+<link rel="canonical" href="https://derycktse.github.io/2025/08/17/2025/use-aws-deploy-a-static-website/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'cn'
+  };
+</script>
+
+  <title>使用AWS部署一个静态网站 | 青苔小茶馆</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="青苔小茶馆" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">青苔小茶馆</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="cn">
+    <link itemprop="mainEntityOfPage" href="https://derycktse.github.io/2025/08/17/2025/use-aws-deploy-a-static-website/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="deryck.xie">
+      <meta itemprop="description" content="一个前端工程师的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="青苔小茶馆">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用AWS部署一个静态网站
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2025-08-17 21:00:00 / Modified: 21:14:25" itemprop="dateCreated datePublished" datetime="2025-08-17T21:00:00+08:00">2025-08-17</time>
+            </span>
+
+          
+            <div class="post-description">本文介绍了如何使用AWS S3和CloudFront结合lambda@edge 部署一个静态网站。</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近准备部署一个纯静态的网站。考虑到一些业务合规上的要求，需要将站点部署在美国，于是选用了AWS服务。</p>
+<p>之前也使用过AWS的静态托管服务<code>amplify</code>, 不过出于一些分工上的管理，最终决定直接使用<code>S3</code>加<code>CloudFront</code>来部署静态网站。</p>
+<p>整个站点的链路非常之简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户访问 -&gt; CloudFront -&gt; S3</span><br></pre></td></tr></table></figure>
+
+<p>这是一个非常简单的静态页面访问链路：</p>
+<ol>
+<li>使用AWS对象存储服务S3来存储静态页面</li>
+<li>使用CloudFront 用于边缘节点的加速访问和缓存。</li>
+</ol>
+<h1 id="s3"><a href="#s3" class="headerlink" title="s3"></a>s3</h1><h2 id="权限设置"><a href="#权限设置" class="headerlink" title="权限设置"></a>权限设置</h2><p>S3文件由于有条件开放，所以设置私有桶</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查询桶权限</span></span><br><span class="line">aws s3api get-public-access-block --bucket [bucket-name]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 结果</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;PublicAccessBlockConfiguration&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;BlockPublicAcls&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;IgnorePublicAcls&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;BlockPublicPolicy&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="string">&quot;RestrictPublicBuckets&quot;</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置成私有桶可以有效做一些文件防护，防止外部直接通过 s3的endpoint访问到我们的源文件。</p>
+<p>这样下来, 链路上的策略需要做一些调整</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户访问 -&gt; CloudFront -&gt; S3(私有桶)</span><br></pre></td></tr></table></figure>
+
+<p>由于目标S3已经设置成私有桶，那么对于目标cloudfront的访问，需要对其授权，我们通过对桶策略增加cloudfront的访问允许，保证cloudfront能够回源</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2008-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;PolicyForCloudFrontPrivateContent&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Sid&quot;</span><span class="punctuation">:</span> <span class="string">&quot;AllowCloudFrontServicePrincipal&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Principal&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;Service&quot;</span><span class="punctuation">:</span> <span class="string">&quot;cloudfront.amazonaws.com&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;s3:GetObject&quot;</span><span class="punctuation">,</span> <span class="comment">// 对s3的只读权限</span></span><br><span class="line">      <span class="attr">&quot;Resource&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:s3:::[bucket-name]/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Condition&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;ArnLike&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;AWS:SourceArn&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="comment">// 针对特定的cloudfront访问</span></span><br><span class="line">            <span class="string">&quot;arn:aws:cloudfront::[account-id]:distribution/[Cloudfrontid]&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="文件目录设计"><a href="#文件目录设计" class="headerlink" title="文件目录设计"></a>文件目录设计</h2><p>出于管理的需要，实际上对应的s3目录，会有一些路径前缀，这样一个好处是以后可以继续拓展站点版本或者是多个业务放置在同一个s3目录里。比如前缀 <code>/test/v1/</code></p>
+<table>
+<thead>
+<tr>
+<th>用户路径</th>
+<th>实际s3路径</th>
+<th>http 状态码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&#x2F;</td>
+<td>&#x2F;test&#x2F;v1&#x2F;index</td>
+<td>200</td>
+<td>特殊，用户路径与S3文件不一样</td>
+</tr>
+<tr>
+<td>&#x2F;page-1</td>
+<td>&#x2F;test&#x2F;v1&#x2F;page-1</td>
+<td>200</td>
+<td></td>
+</tr>
+<tr>
+<td>&#x2F;page-2</td>
+<td>&#x2F;test&#x2F;v1&#x2F;page-2</td>
+<td>200</td>
+<td></td>
+</tr>
+<tr>
+<td>&#x2F;blog&#x2F;blog1</td>
+<td>&#x2F;test&#x2F;v1&#x2F;blog&#x2F;blog1</td>
+<td>200</td>
+<td></td>
+</tr>
+<tr>
+<td>&#x2F;blog&#x2F;blog2</td>
+<td>&#x2F;test&#x2F;v1&#x2F;blog&#x2F;blog2</td>
+<td>200</td>
+<td></td>
+</tr>
+<tr>
+<td>&#x2F;404</td>
+<td>&#x2F;test&#x2F;v1&#x2F;404</td>
+<td>404</td>
+<td>特殊，404页面，http 状态码特殊</td>
+</tr>
+<tr>
+<td>如果以后网站需要做备份或者是内容升级，可以从使用 v2, v3 等进行，保证能快速迭代以及回滚</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>但是，CloudFront 并不支持路径重写，这个时候我们就必须引入云函数了。</p>
+<h1 id="lambda"><a href="#lambda" class="headerlink" title="lambda"></a>lambda</h1><p>lambda是AWS提供的无服务器计算服务，在这里我们主要讨论的是lambda@edge</p>
+<p>引入云函数，主要是希望云函数来实现这样的功能：</p>
+<ol>
+<li>希望基于用户请求的路径重写</li>
+<li>一些特殊的状态码</li>
+<li>可能后续鉴权拓展工作</li>
+</ol>
+<p>注意：lambda关联在CloudFront上，lambda需要使用美国弗吉尼亚的us-east-1区域部署，才能生效</p>
+<h2 id="权限配置"><a href="#权限配置" class="headerlink" title="权限配置"></a>权限配置</h2><p>这里比较麻烦的地方是配置权限。这里有一个经验：有多个函数的情况下，同一业务的多个函数可以分配统一的IAM role执行角色。</p>
+<h3 id="创建统一的role"><a href="#创建统一的role" class="headerlink" title="创建统一的role"></a>创建统一的role</h3><p>譬如一个给博客网站所使用的lambda role : blog-lambda-role</p>
+<p><img src="/images/lambda@edge-role-1.png" alt="role-1"><br><img src="/images/lambda@edge-role-2.png" alt="role-2"></p>
+<p>注意：默认创建的lambda函数，创建的role角色里，不会认为是要关联给 CloudFront的，所以要手动添加信任域</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;Version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2012-10-17&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;Statement&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Effect&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Allow&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Principal&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;Service&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                    <span class="string">&quot;lambda.amazonaws.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="string">&quot;edgelambda.amazonaws.com&quot;</span></span><br><span class="line">                <span class="punctuation">]</span></span><br><span class="line">            <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Action&quot;</span><span class="punctuation">:</span> <span class="string">&quot;sts:AssumeRole&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="创建和发布lambda-edge"><a href="#创建和发布lambda-edge" class="headerlink" title="创建和发布lambda@edge"></a>创建和发布lambda@edge</h2><p><img src="/images/image-use-aws-deploy-a-static-website-20250817204641.png"><br><img src="/images/image-use-aws-deploy-a-static-website-20250817204804.png"></p>
+<h1 id="CloudFront"><a href="#CloudFront" class="headerlink" title="CloudFront"></a>CloudFront</h1><h3 id="关联lambda"><a href="#关联lambda" class="headerlink" title="关联lambda"></a>关联lambda</h3><p>复制发布成功后的lambda 版本的arn，在CloudFront控制台行为关联即可<br><img src="/images/image-use-aws-deploy-a-static-website-20250817204424.png"></p>
+<h2 id="设置默认的首页"><a href="#设置默认的首页" class="headerlink" title="设置默认的首页"></a>设置默认的首页</h2><p>一般网站默认首页根路径为 <code>/</code>，而源站如果S3里放置 <code>/</code> 文件，有时候会被忽略管理，在这里我们设为 <code>/index</code>, CloudFront提供自定义根文件的映射能力。即将 <code>/</code> 映射到源站的 <code>/index</code>文件。<br><img src="/images/image-use-aws-deploy-a-static-website-20250817205635.png"><br><img src="/images/image-use-aws-deploy-a-static-website-20250817205651.png"></p>
+<h2 id="自定义错误页面"><a href="#自定义错误页面" class="headerlink" title="自定义错误页面"></a>自定义错误页面</h2><p>此外，如果源站s3文件不存在，则可能响应 http status code <code>403</code> 或 <code>404</code>, 为了保证用户访问的友好， CloudFront提供自定义错误页面的能力，对此配置异常状态码时，响应我们配置好的错误页面 <code>/404</code><br><img src="/images/image-use-aws-deploy-a-static-website-20250817210043.png"></p>
+<h2 id="JSON-示例"><a href="#JSON-示例" class="headerlink" title="JSON 示例"></a>JSON 示例</h2><p>可通过aws cli获取 CloudFront配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aws cloudfront get-distribution-config --<span class="built_in">id</span> [CloudFront ID] --output json</span><br></pre></td></tr></table></figure>
+
+<p>结果示例</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;DistributionConfig&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;Aliases&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Quantity&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="string">&quot;www.example&quot;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;DefaultRootObject&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/index&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;Origins&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Quantity&quot;</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;Id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxx&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;DomainName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;your-bucket.s3.amazonaws.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;OriginPath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;CustomHeaders&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;Quantity&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">                    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;S3OriginConfig&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;OriginAccessIdentity&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br><span class="line">                    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ConnectionAttempts&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ConnectionTimeout&quot;</span><span class="punctuation">:</span> <span class="number">10</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;OriginShield&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;Enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">                    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;OriginAccessControlId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;xxx&quot;</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;DefaultCacheBehavior&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;LambdaFunctionAssociations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;Quantity&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;Items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                    <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;LambdaFunctionARN&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:lambda:us-east-1:account-id:function:lambda-edge-origin-request-test:1&quot;</span><span class="punctuation">,</span></span><br><span class="line">                        <span class="attr">&quot;EventType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;origin-request&quot;</span><span class="punctuation">,</span></span><br><span class="line">                        <span class="attr">&quot;IncludeBody&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">                    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="punctuation">&#123;</span></span><br><span class="line">                        <span class="attr">&quot;LambdaFunctionARN&quot;</span><span class="punctuation">:</span> <span class="string">&quot;arn:aws:lambda:us-east-1:account-id:function:lambda-edge-origin-response-test:1&quot;</span><span class="punctuation">,</span></span><br><span class="line">                        <span class="attr">&quot;EventType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;origin-response&quot;</span><span class="punctuation">,</span></span><br><span class="line">                        <span class="attr">&quot;IncludeBody&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">                    <span class="punctuation">&#125;</span></span><br><span class="line">                <span class="punctuation">]</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;CustomErrorResponses&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;Quantity&quot;</span><span class="punctuation">:</span> <span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;Items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;ErrorCode&quot;</span><span class="punctuation">:</span> <span class="number">404</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ResponseCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;404&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ResponsePagePath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/404&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ErrorCachingMinTTL&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">                <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;ErrorCode&quot;</span><span class="punctuation">:</span> <span class="number">403</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ResponseCode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;404&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ResponsePagePath&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/404&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;ErrorCachingMinTTL&quot;</span><span class="punctuation">:</span> <span class="number">0</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="后续lambda函数更新流程"><a href="#后续lambda函数更新流程" class="headerlink" title="后续lambda函数更新流程"></a>后续lambda函数更新流程</h2><ol>
+<li>更新函数</li>
+<li>发布新版本函数</li>
+<li>重新在CloudFront关联新函数</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/aws/" rel="tag"># AWS</a>
+              <a href="/tags/serverless/" rel="tag"># Serverless</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/08/13/2025/2025-08-12-aliyun-dns-error/" rel="prev" title="记2025年8月12日网站运营商DNS解析异常">
+      <i class="fa fa-chevron-left"></i> 记2025年8月12日网站运营商DNS解析异常
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#s3"><span class="nav-number">2.</span> <span class="nav-text">s3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">权限设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">文件目录设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lambda"><span class="nav-number">3.</span> <span class="nav-text">lambda</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">权限配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%BB%9F%E4%B8%80%E7%9A%84role"><span class="nav-number">3.1.1.</span> <span class="nav-text">创建统一的role</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E5%8F%91%E5%B8%83lambda-edge"><span class="nav-number">3.2.</span> <span class="nav-text">创建和发布lambda@edge</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CloudFront"><span class="nav-number">4.</span> <span class="nav-text">CloudFront</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E8%81%94lambda"><span class="nav-number">4.0.1.</span> <span class="nav-text">关联lambda</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E7%9A%84%E9%A6%96%E9%A1%B5"><span class="nav-number">4.1.</span> <span class="nav-text">设置默认的首页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF%E9%A1%B5%E9%9D%A2"><span class="nav-number">4.2.</span> <span class="nav-text">自定义错误页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON-%E7%A4%BA%E4%BE%8B"><span class="nav-number">4.3.</span> <span class="nav-text">JSON 示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%BB%ADlambda%E5%87%BD%E6%95%B0%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B"><span class="nav-number">4.4.</span> <span class="nav-text">后续lambda函数更新流程</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">deryck.xie</p>
+  <div class="site-description" itemprop="description">一个前端工程师的个人博客</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">51</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">deryck.xie</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
